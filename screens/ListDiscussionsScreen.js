@@ -1,0 +1,72 @@
+import React, { useEffect, useState } from "react";
+import { View, Text, FlatList, StyleSheet } from "react-native";
+import API from "../api/API";
+import DiscussionPreview from "../components/DiscussionPreview";
+import AppLayout from "../components/AppLayout";
+
+const ListDiscussionsScreen = () => {
+    const [discussions, setDiscussions] = useState([]);
+
+    useEffect(() => {
+        const fetchDiscussions = async () => {
+            try {
+                const fetchedDiscussions = await API.call(
+                    "get",
+                    "discussions",
+                    {},
+                    true
+                );
+
+                const list = Array.isArray(fetchedDiscussions)
+                    ? fetchedDiscussions
+                    : [];
+
+                const sorted = list.sort(
+                    (a, b) =>
+                        new Date(b.last_message_at) -
+                        new Date(a.last_message_at)
+                );
+
+                setDiscussions(sorted);
+            } catch (error) {
+                console.error(
+                    "Erreur lors du chargement des discussions :",
+                    error
+                );
+                setDiscussions([]); // sécurité même en cas d'échec
+            }
+        };
+
+        fetchDiscussions();
+    }, []);
+
+    return (
+        <AppLayout>
+            <View style={styles.container}>
+                <Text>Discussions</Text>
+                <FlatList
+                    data={discussions}
+                    keyExtractor={(item) => item.id.toString()}
+                    renderItem={({ item }) => (
+                        <DiscussionPreview discussion={item} />
+                    )}
+                    contentContainerStyle={{ paddingBottom: 16 }}
+                />
+            </View>
+        </AppLayout>
+    );
+};
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "#f4f4f4",
+    },
+    title: {
+        fontSize: 22,
+        fontWeight: "bold",
+        padding: 16,
+    },
+});
+
+export default ListDiscussionsScreen;

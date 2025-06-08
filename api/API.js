@@ -1,70 +1,41 @@
-import { API_URL } from "@env";
+import { HOME_API_URL } from "@env";
 import axios from "axios";
+import * as SecureStore from "expo-secure-store";
 
 class API {
-    static BASE_URL = "http://192.168.1.96:8000/api";
+    static BASE_URL = HOME_API_URL;
 
     static defaultHeaders = {
         "Content-Type": "application/json",
         Accept: "application/json",
     };
 
-    static async get(endpoint, params = {}) {
+    static async call(method, endpoint, data = {}, withAuth = false) {
         try {
-            const response = await axios.get(`${this.BASE_URL}/${endpoint}`, {
-                headers: this.defaultHeaders,
-                params,
-            });
-            return response.data;
-        } catch (error) {
-            console.error("GET error:", error);
-            throw error;
-        }
-    }
-
-    static async post(endpoint, data = {}) {
-        try {
-            const response = await axios.post(
-                `${this.BASE_URL}/${endpoint}`,
-                data,
-                {
-                    headers: this.defaultHeaders,
+            const headers = this.defaultHeaders;
+            if (withAuth) {
+                const token = await SecureStore.getItemAsync("token");
+                if (token) {
+                    headers["Authorization"] = `Bearer ${token}`;
                 }
-            );
-            return response.data;
-        } catch (error) {
-            console.error("POST error:", error);
-            throw error;
-        }
-    }
+            }
 
-    static async put(endpoint, data = {}) {
-        try {
-            const response = await axios.put(
-                `${this.BASE_URL}/${endpoint}`,
-                data,
-                {
-                    headers: this.defaultHeaders,
-                }
-            );
-            return response.data;
-        } catch (error) {
-            console.error("PUT error:", error);
-            throw error;
-        }
-    }
+            const config = {
+                method: method.toLowerCase(),
+                url: `${this.BASE_URL}/${endpoint}`,
+                headers,
+            };
 
-    static async delete(endpoint) {
-        try {
-            const response = await axios.delete(
-                `${this.BASE_URL}/${endpoint}`,
-                {
-                    headers: this.defaultHeaders,
-                }
-            );
+            if (method.toLowerCase() === "get") {
+                config.params = data;
+            } else {
+                config.data = data;
+            }
+
+            const response = await axios(config);
             return response.data;
         } catch (error) {
-            console.error("DELETE error:", error);
+            console.error(method + " ERROR : ", error);
             throw error;
         }
     }
