@@ -40,8 +40,15 @@ const ReviewTimelineScreen = () => {
     };
 
     const goToReviewDetail = (reviewId) => {
-        navigation.navigate("ReviewScreen", { reviewId });
+        navigation.navigate("Review", { reviewId });
     };
+    if (reviews.length == 0) {
+        return (
+            <AppLayout>
+                <Text>No reviews found...</Text>
+            </AppLayout>
+        );
+    }
 
     return (
         <AppLayout>

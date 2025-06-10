@@ -6,7 +6,7 @@ export default function DiscussionPreview({ discussion }) {
     const navigation = useNavigation();
 
     const handlePress = () => {
-        navigation.navigate("DiscussionScreen", {
+        navigation.navigate("Discussion", {
             discussionId: discussion.id,
         });
     };

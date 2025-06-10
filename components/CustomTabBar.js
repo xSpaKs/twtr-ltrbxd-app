@@ -49,7 +49,7 @@ export default function CustomTabBar() {
                             style={styles.popupButton}
                             onPress={() => {
                                 setModalVisible(false);
-                                navigate("AddMovie");
+                                navigate("SearchReviewFilm");
                             }}
                         >
                             <Text>➕ Ajouter un film</Text>

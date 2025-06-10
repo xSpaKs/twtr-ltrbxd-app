@@ -13,7 +13,7 @@ export default function PostScreen() {
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const data = await API.call("get", `posts/${postId}`);
+                const data = await API.call("get", `posts/${postId}`, {}, true);
                 setPost(data);
             } catch (err) {
                 console.error("Erreur fetch post :", err);

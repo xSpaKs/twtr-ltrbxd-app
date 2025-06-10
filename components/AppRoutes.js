@@ -45,10 +45,7 @@ export default function AppRoutes() {
                     </>
                 ) : (
                     <>
-                        <Stack.Screen
-                            name="Timeline"
-                            component={ScreensWithTabs}
-                        />
+                        <Stack.Screen name="Auth" component={ScreensWithTabs} />
                     </>
                 )}
             </Stack.Navigator>

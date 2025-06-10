@@ -4,7 +4,6 @@ import PostItem from "../components/PostItem";
 import API from "../api/API";
 import { useNavigation } from "@react-navigation/native";
 import AppLayout from "../components/AppLayout";
-import { useRoute } from "@react-navigation/native";
 
 const PostTimelineScreen = () => {
     const [posts, setPosts] = useState([]);
@@ -40,17 +39,13 @@ const PostTimelineScreen = () => {
         }
     };
 
-    const goToPostDetail = (postId) => {
-        navigation.navigate("PostScreen", { postId });
-    };
-
     return (
         <AppLayout>
             <FlatList
                 data={posts}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
-                    <PostItem post={item} onPress={goToPostDetail} />
+                    <PostItem post={item} navigation={navigation} />
                 )}
                 onEndReached={fetchPosts}
                 onEndReachedThreshold={0.4}

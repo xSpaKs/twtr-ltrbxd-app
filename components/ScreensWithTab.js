@@ -4,7 +4,11 @@ import TimelineTabs from "./TimelineTabs";
 import ProfileScreen from "../screens/ProfileScreen";
 import AddPostScreen from "../screens/AddPostScreen";
 import ListDiscussionsScreen from "../screens/ListDiscussionsScreen";
+import ReviewScreen from "../screens/ReviewScreen";
 import { View } from "react-native";
+import PostScreen from "../screens/PostScreen";
+import AddReviewScreen from "../screens/AddReviewScreen";
+import SearchReviewFilmScreen from "../screens/SearchReviewFilmScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -15,9 +19,16 @@ export default function ScreensWithTabs() {
                 <Stack.Screen name="Timeline" component={TimelineTabs} />
                 <Stack.Screen name="Profile" component={ProfileScreen} />
                 <Stack.Screen name="AddPost" component={AddPostScreen} />
+                <Stack.Screen name="AddReview" component={AddReviewScreen} />
                 <Stack.Screen
                     name="Discussion"
                     component={ListDiscussionsScreen}
+                />
+                <Stack.Screen name="Post" component={PostScreen} />
+                <Stack.Screen name="Review" component={ReviewScreen} />
+                <Stack.Screen
+                    name="SearchReviewFilm"
+                    component={SearchReviewFilmScreen}
                 />
             </Stack.Navigator>
             <CustomTabBar />

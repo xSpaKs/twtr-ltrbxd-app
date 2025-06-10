@@ -13,7 +13,12 @@ export default function ReviewScreen() {
     useEffect(() => {
         const fetchReview = async () => {
             try {
-                const data = await API.call("get", `reviews/${reviewId}`);
+                const data = await API.call(
+                    "get",
+                    `reviews/${reviewId}`,
+                    {},
+                    true
+                );
                 setReview(data);
             } catch (err) {
                 console.error("Erreur fetch review :", err);

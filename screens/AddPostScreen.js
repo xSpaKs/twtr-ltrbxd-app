@@ -11,32 +11,11 @@ import {
 } from "react-native";
 import API from "../api/API";
 import AppLayout from "../components/AppLayout";
+import { useNavigation } from "@react-navigation/native";
 
-export default function AddPostScreen({ navigation }) {
+export default function AddPostScreen({}) {
     const [postText, setPostText] = useState("");
-    const [searchQuery, setSearchQuery] = useState("");
-    const [selectedMovie, setSelectedMovie] = useState(null);
-    const [allMovies, setAllMovies] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchMovies = async () => {
-            try {
-                const response = await API.call("get", "movies");
-                setAllMovies(response);
-            } catch (err) {
-                console.error("Erreur récupération films :", err);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchMovies();
-    }, []);
-
-    const filteredMovies = allMovies.filter((film) =>
-        film.title.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const navigation = useNavigation();
 
     const handleSubmit = async () => {
         if (!postText.trim()) {
@@ -44,18 +23,7 @@ export default function AddPostScreen({ navigation }) {
             return;
         }
 
-        console.log("Texte :", postText);
-        console.log("Film :", selectedMovie);
-
-        await API.call(
-            "post",
-            "posts",
-            {
-                content: postText,
-                ...(selectedMovie && { movie_id: selectedMovie.id }),
-            },
-            true
-        );
+        await API.call("post", "posts", { content: postText }, true);
 
         alert("Post publié !");
         navigation.navigate("Timeline", { refresh: true });
@@ -73,44 +41,6 @@ export default function AddPostScreen({ navigation }) {
                     value={postText}
                     onChangeText={setPostText}
                 />
-
-                <Text style={styles.label}>Choisis un film :</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Rechercher un film"
-                    value={searchQuery}
-                    onChangeText={setSearchQuery}
-                />
-
-                {loading ? (
-                    <ActivityIndicator size="small" />
-                ) : (
-                    searchQuery.length > 0 && (
-                        <FlatList
-                            data={filteredMovies}
-                            keyExtractor={(item) => item.id.toString()}
-                            renderItem={({ item }) => (
-                                <TouchableOpacity
-                                    style={[
-                                        styles.movieItem,
-                                        selectedMovie?.id === item.id &&
-                                            styles.selectedMovie,
-                                    ]}
-                                    onPress={() => setSelectedMovie(item)}
-                                >
-                                    <Text>{item.title}</Text>
-                                </TouchableOpacity>
-                            )}
-                        />
-                    )
-                )}
-
-                {selectedMovie && (
-                    <Text style={styles.selectedLabel}>
-                        🎬 Film sélectionné :{" "}
-                        {selectedMovie ? selectedMovie.title : "Aucun"}
-                    </Text>
-                )}
 
                 <Button title="Publier" onPress={handleSubmit} />
             </View>
