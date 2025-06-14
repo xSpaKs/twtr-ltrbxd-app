@@ -79,7 +79,7 @@ const PostItem = ({ post, navigation }) => {
     };
 
     const goToProfile = () => {
-        navigation.navigate("Profile", { profileId });
+        navigation.navigate("Profile", { id: profileId });
     };
 
     const goToPostDetail = () => {

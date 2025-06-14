@@ -11,8 +11,8 @@ import API from "../api/API";
 import { useAuth } from "../context/AuthContext";
 
 export default function LoginScreen({ navigation }) {
-    const [login, setLogin] = useState("");
-    const [password, setPassword] = useState("");
+    const [login, setLogin] = useState("xSpaKs");
+    const [password, setPassword] = useState("aaaaaaaa1");
     const { loginContext } = useAuth();
 
     const handleLogin = async () => {

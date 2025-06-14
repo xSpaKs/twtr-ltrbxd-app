@@ -4,13 +4,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useAuth } from "../context/AuthContext";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
-import AddPostScreen from "../screens/AddPostScreen";
-import PostScreen from "../screens/PostScreen";
-import ReviewScreen from "../screens/ReviewScreen";
-import ProfileScreen from "../screens/ProfileScreen";
-import ListDiscussionsScreen from "../screens/ListDiscussionsScreen";
-import TimelineTabs from "../components/TimelineTabs";
-import CustomTabBar from "./CustomTabBar";
 import ScreensWithTabs from "./ScreensWithTab";
 
 const Stack = createNativeStackNavigator();

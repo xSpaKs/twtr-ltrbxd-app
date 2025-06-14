@@ -5,12 +5,13 @@ import API from "../api/API";
 import { useNavigation } from "@react-navigation/native";
 import AppLayout from "../components/AppLayout";
 
-const ReviewTimelineScreen = () => {
+const ReviewTimelineScreen = ({ route }) => {
     const [reviews, setReviews] = useState([]);
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const navigation = useNavigation();
+    const { source = "timeline" } = route.params || {};
 
     useEffect(() => {
         fetchReviews();
@@ -21,12 +22,13 @@ const ReviewTimelineScreen = () => {
 
         setLoading(true);
         try {
-            const res = await API.call(
-                "get",
-                `timeline/reviews?page=${page}`,
-                {},
-                true
-            );
+            let endpoint = "";
+            if (source === "timeline") {
+                endpoint = `timeline/reviews?page=${page}`;
+            } else if (source === "user_reviews") {
+                endpoint = `timeline/reviews/me?page=${page}`;
+            }
+            const res = await API.call("get", endpoint, {}, true);
 
             const newReviews = res;
             setReviews((prev) => [...prev, ...newReviews.data]);

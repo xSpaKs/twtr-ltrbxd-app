@@ -20,16 +20,13 @@ export default function AddReviewScreen() {
     const { movies } = useMovies();
     const navigation = useNavigation();
 
-    const [title, setTitle] = useState("");
-    const [reviewText, setReviewText] = useState("");
-    const [rating, setRating] = useState("");
-    const [watchDate, setWatchDate] = useState("");
+    const [reviewText, setReviewText] = useState("C'était un super film");
+    const [rating, setRating] = useState("8.5");
+    const [watchDate, setWatchDate] = useState("2025-06-10");
 
     const movie = movies.find((m) => m.id == movieId);
 
     const handleSubmit = async () => {
-        if (!title.trim()) return alert("Veuillez écrire un titre.");
-        if (!reviewText.trim()) return alert("Veuillez écrire une review.");
         if (!rating || isNaN(rating)) return alert("Note invalide.");
         if (!watchDate.trim()) return alert("Date de visionnage requise.");
 
@@ -38,7 +35,6 @@ export default function AddReviewScreen() {
             "reviews",
             {
                 movieId: movieId,
-                title: title,
                 content: reviewText,
                 rating: parseFloat(rating),
                 watchDate: watchDate,
@@ -91,14 +87,6 @@ export default function AddReviewScreen() {
                         keyboardType="numeric"
                         value={rating}
                         onChangeText={setRating}
-                    />
-
-                    <Text style={styles.label}>Titre de la review :</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Ex : Une claque visuelle"
-                        value={title}
-                        onChangeText={setTitle}
                     />
 
                     <Text style={styles.label}>Contenu de la review :</Text>

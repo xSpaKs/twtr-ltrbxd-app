@@ -5,12 +5,13 @@ import API from "../api/API";
 import { useNavigation } from "@react-navigation/native";
 import AppLayout from "../components/AppLayout";
 
-const PostTimelineScreen = () => {
+const PostTimelineScreen = ({ route }) => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const navigation = useNavigation();
+    const { source = "timeline" } = route.params || {};
 
     useEffect(() => {
         fetchPosts();
@@ -21,12 +22,14 @@ const PostTimelineScreen = () => {
 
         setLoading(true);
         try {
-            const res = await API.call(
-                "get",
-                `timeline/posts?page=${page}`,
-                {},
-                true
-            );
+            let endpoint = "";
+            if (source === "timeline") {
+                endpoint = `timeline/posts?page=${page}`;
+            } else if (source === "user_posts") {
+                endpoint = `timeline/posts/me?page=${page}`;
+            }
+
+            const res = await API.call("get", endpoint, {}, true);
 
             const newPosts = res;
             setPosts((prev) => [...prev, ...newPosts.data]);

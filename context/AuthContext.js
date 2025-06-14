@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        // logoutContext();
         const loadToken = async () => {
             try {
                 const storedToken = await SecureStore.getItemAsync("token");

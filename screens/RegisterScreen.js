@@ -11,10 +11,10 @@ import API from "../api/API";
 import { useAuth } from "../context/AuthContext";
 
 export default function RegisterScreen({ navigation }) {
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [passwordConfirm, setPasswordConfirm] = useState("");
+    const [username, setUsername] = useState("xSpaKs");
+    const [email, setEmail] = useState("aranhiblot20@gmail.com");
+    const [password, setPassword] = useState("Bm1vx3;I");
+    const [passwordConfirm, setPasswordConfirm] = useState("Bm1vx3;I");
     const { loginContext } = useAuth();
 
     const handleRegister = async () => {
