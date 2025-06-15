@@ -9,6 +9,7 @@ import { View } from "react-native";
 import PostScreen from "../screens/PostScreen";
 import AddReviewScreen from "../screens/AddReviewScreen";
 import SearchReviewFilmScreen from "../screens/SearchReviewFilmScreen";
+import DiscussionScreen from "../screens/DiscussionScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,9 +22,10 @@ export default function ScreensWithTabs() {
                 <Stack.Screen name="AddPost" component={AddPostScreen} />
                 <Stack.Screen name="AddReview" component={AddReviewScreen} />
                 <Stack.Screen
-                    name="Discussion"
+                    name="ListDiscussions"
                     component={ListDiscussionsScreen}
                 />
+                <Stack.Screen name="Discussion" component={DiscussionScreen} />
                 <Stack.Screen name="Post" component={PostScreen} />
                 <Stack.Screen name="Review" component={ReviewScreen} />
                 <Stack.Screen

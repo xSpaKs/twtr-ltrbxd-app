@@ -1,26 +1,37 @@
 import React from "react";
-import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
+import { TouchableOpacity, View, Text, StyleSheet, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import formatDate from "../helpers/formatDateHelper";
 
 export default function DiscussionPreview({ discussion }) {
     const navigation = useNavigation();
 
-    const handlePress = () => {
+    const goToDiscussion = () => {
         navigation.navigate("Discussion", {
             discussionId: discussion.id,
         });
     };
 
     return (
-        <TouchableOpacity style={styles.container} onPress={handlePress}>
+        <TouchableOpacity style={styles.container} onPress={goToDiscussion}>
             <View style={styles.row}>
-                <Text style={styles.name}>{discussion.other_user_name}</Text>
+                <View style={styles.leftRow}>
+                    <Image
+                        source={{
+                            uri: discussion.other_user.profile_picture_url,
+                        }}
+                        style={styles.avatar}
+                    />
+                    <Text style={styles.name}>
+                        @{discussion.other_user.username}
+                    </Text>
+                </View>
                 <Text style={styles.date}>
-                    {new Date(discussion.last_message_at).toLocaleDateString()}
+                    {formatDate(discussion.last_message_at)}
                 </Text>
             </View>
-            <Text numberOfLines={1} style={styles.preview}>
-                {discussion.last_message_content || "Aucun message"}
+            <Text numberOfLines={3} style={styles.preview}>
+                {discussion.last_message?.content || "Aucun message"}
             </Text>
         </TouchableOpacity>
     );
@@ -36,13 +47,31 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: "row",
         justifyContent: "space-between",
+        alignItems: "center",
         marginBottom: 4,
+    },
+    leftRow: {
+        flexDirection: "row",
+        alignItems: "center",
     },
     name: {
         fontWeight: "bold",
         fontSize: 16,
+        marginLeft: 8,
     },
     date: {
         color: "#888",
+        fontSize: 12,
+    },
+    avatar: {
+        width: 40,
+        height: 40,
+        borderRadius: 30,
+        backgroundColor: "#ddd",
+    },
+    preview: {
+        color: "#333",
+        marginTop: 4,
+        fontSize: 14,
     },
 });

@@ -32,7 +32,7 @@ export default function CustomTabBar() {
                     <Ionicons name="person-outline" size={24} color="black" />
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => navigate("Discussion")}>
+                <TouchableOpacity onPress={() => navigate("ListDiscussions")}>
                     <Ionicons name="mail-outline" size={24} color="black" />
                 </TouchableOpacity>
             </View>

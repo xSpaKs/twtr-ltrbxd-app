@@ -10,24 +10,14 @@ const ListDiscussionsScreen = () => {
     useEffect(() => {
         const fetchDiscussions = async () => {
             try {
-                const fetchedDiscussions = await API.call(
+                const data = await API.call(
                     "get",
-                    "discussions",
+                    "users/discussions",
                     {},
                     true
                 );
 
-                const list = Array.isArray(fetchedDiscussions)
-                    ? fetchedDiscussions
-                    : [];
-
-                const sorted = list.sort(
-                    (a, b) =>
-                        new Date(b.last_message_at) -
-                        new Date(a.last_message_at)
-                );
-
-                setDiscussions(sorted);
+                setDiscussions(data.discussions);
             } catch (error) {
                 console.error(
                     "Erreur lors du chargement des discussions :",

@@ -114,7 +114,6 @@ export default function ProfileScreen({ route }) {
                 true
             );
             setIsBlocked(data.isBlocked);
-            navigation.replace("Profile", { id });
         } catch (e) {
             console.error("Erreur lors du blocage/déblocage", e);
         }
@@ -127,8 +126,6 @@ export default function ProfileScreen({ route }) {
             </View>
         );
     }
-
-    console.log(isBlocked);
 
     return (
         <AppLayout>
@@ -188,15 +185,6 @@ export default function ProfileScreen({ route }) {
                 <ProfileTabs />
             )}
 
-            {isOwnUser && (
-                <TouchableOpacity
-                    onPress={handleLogout}
-                    style={styles.logoutButton}
-                >
-                    <Text style={styles.logoutText}>Se déconnecter</Text>
-                </TouchableOpacity>
-            )}
-
             <Modal
                 visible={menuVisible}
                 transparent
@@ -208,24 +196,38 @@ export default function ProfileScreen({ route }) {
                     onPress={() => setMenuVisible(false)}
                 >
                     <View style={styles.modalContainer}>
-                        <TouchableOpacity
-                            onPress={() => {}}
-                            style={styles.menuItem}
-                        >
-                            <Text>Partager le profil</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={toggleBlock}
-                            style={styles.menuItem}
-                        >
-                            <Text>Bloquer</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => {}}
-                            style={styles.menuItem}
-                        >
-                            <Text>Signaler</Text>
-                        </TouchableOpacity>
+                        {!isOwnUser && (
+                            <>
+                                <TouchableOpacity
+                                    onPress={toggleBlock}
+                                    style={styles.menuItem}
+                                >
+                                    <Text>Block</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={() => {}}
+                                    style={styles.menuItem}
+                                >
+                                    <Text>Report</Text>
+                                </TouchableOpacity>
+                            </>
+                        )}
+                        {isOwnUser && (
+                            <>
+                                <TouchableOpacity
+                                    onPress={() => {}}
+                                    style={styles.menuItem}
+                                >
+                                    <Text>Edit profile</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={() => {}}
+                                    style={styles.menuItem}
+                                >
+                                    <Text>Logout</Text>
+                                </TouchableOpacity>
+                            </>
+                        )}
                     </View>
                 </Pressable>
             </Modal>

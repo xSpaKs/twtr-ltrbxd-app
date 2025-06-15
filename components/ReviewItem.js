@@ -1,23 +1,11 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { useMovies } from "../context/MovieContext";
+import formatDate from "../helpers/formatDateHelper";
 
 const ReviewItem = ({ review, onPress }) => {
     const { movies } = useMovies();
     const movie = movies.find((m) => m.id == review.movie_id);
-
-    const formatPostDate = (dateStr) => {
-        const date = new Date(dateStr);
-        const now = new Date();
-        const diff = Math.max(0, now - date);
-        const minutes = Math.floor(diff / (1000 * 60));
-        const hours = Math.floor(diff / (1000 * 60 * 60));
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        if (minutes < 60) return `il y a ${minutes}m`;
-        if (hours < 24) return `il y a ${hours}h`;
-        if (days < 7) return `il y a ${days}j`;
-        return date.toLocaleDateString();
-    };
 
     return (
         <TouchableOpacity
@@ -33,7 +21,7 @@ const ReviewItem = ({ review, onPress }) => {
                                 @{review.user.username}
                             </Text>
                             <Text style={styles.date}>
-                                {formatPostDate(review.created_at)}
+                                {formatDate(review.created_at)}
                             </Text>
                         </View>
                     </View>
