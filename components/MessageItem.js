@@ -1,24 +1,52 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import API from "../api/API";
 
-export default function MessageItem({ message, currentUserId }) {
+export default function MessageItem({ message, currentUserId, onDelete }) {
     const isSentByCurrentUser = message.sender_id === currentUserId;
 
+    const handleLongPress = () => {
+        Alert.alert(
+            "Supprimer le message",
+            "Es-tu sûr de vouloir supprimer ce message ?",
+            [
+                { text: "Annuler", style: "cancel" },
+                {
+                    text: "Supprimer",
+                    style: "destructive",
+                    onPress: async () => {
+                        try {
+                            await API.call("delete", `messages/${message.id}`);
+                            if (onDelete) {
+                                onDelete(message.id);
+                            }
+                        } catch (error) {
+                            console.error("Erreur suppression :", error);
+                        }
+                    },
+                },
+            ],
+            { cancelable: true }
+        );
+    };
+
     return (
-        <View
-            style={[
-                styles.messageContainer,
-                isSentByCurrentUser ? styles.sent : styles.received,
-            ]}
-        >
-            <Text style={styles.messageText}>{message.content}</Text>
-            <Text style={styles.messageDate}>
-                {new Date(message.created_at).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                })}
-            </Text>
-        </View>
+        <TouchableOpacity onLongPress={handleLongPress}>
+            <View
+                style={[
+                    styles.messageContainer,
+                    isSentByCurrentUser ? styles.sent : styles.received,
+                ]}
+            >
+                <Text style={styles.messageText}>{message.content}</Text>
+                <Text style={styles.messageDate}>
+                    {new Date(message.created_at).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                    })}
+                </Text>
+            </View>
+        </TouchableOpacity>
     );
 }
 

@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, FlatList, ActivityIndicator } from "react-native";
+import {
+    Text,
+    View,
+    FlatList,
+    ActivityIndicator,
+    StyleSheet,
+} from "react-native";
 import PostItem from "../components/PostItem";
 import API from "../api/API";
 import { useNavigation } from "@react-navigation/native";
@@ -42,6 +48,16 @@ const PostTimelineScreen = ({ route }) => {
         }
     };
 
+    if (posts.length === 0) {
+        return (
+            <AppLayout>
+                <View style={styles.emptyContainer}>
+                    <Text style={styles.emptyText}>No posts found...</Text>
+                </View>
+            </AppLayout>
+        );
+    }
+
     return (
         <AppLayout>
             <FlatList
@@ -64,5 +80,19 @@ const PostTimelineScreen = ({ route }) => {
         </AppLayout>
     );
 };
+
+const styles = StyleSheet.create({
+    emptyContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        paddingHorizontal: 24,
+    },
+    emptyText: {
+        fontSize: 18,
+        color: "#888",
+        textAlign: "center",
+    },
+});
 
 export default PostTimelineScreen;

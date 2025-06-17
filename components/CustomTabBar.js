@@ -11,8 +11,12 @@ export default function CustomTabBar() {
     return (
         <>
             <View style={styles.tab}>
-                <TouchableOpacity onPress={() => navigate("Timeline")}>
-                    <Ionicons name="skull-outline" size={24} color="black" />
+                <TouchableOpacity
+                    onPress={() =>
+                        navigate("SearchMovie", { nextUrl: "Movie" })
+                    }
+                >
+                    <Ionicons name="search-outline" size={24} color="black" />
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => navigate("Timeline")}>
@@ -53,7 +57,9 @@ export default function CustomTabBar() {
                             style={styles.popupButton}
                             onPress={() => {
                                 setModalVisible(false);
-                                navigate("SearchReviewFilm");
+                                navigate("SearchMovie", {
+                                    nextUrl: "AddReview",
+                                });
                             }}
                         >
                             <Text>➕ Ajouter un film</Text>

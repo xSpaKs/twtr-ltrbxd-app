@@ -4,15 +4,15 @@ import {
     Text,
     TextInput,
     StyleSheet,
-    Button,
     Image,
     ScrollView,
+    TouchableOpacity,
 } from "react-native";
 import API from "../api/API";
 import AppLayout from "../components/AppLayout";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useMovies } from "../context/MovieContext";
-import { useRoute } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function AddReviewScreen() {
     const route = useRoute();
@@ -20,23 +20,20 @@ export default function AddReviewScreen() {
     const { movies } = useMovies();
     const navigation = useNavigation();
 
-    const [reviewText, setReviewText] = useState("C'était un super film");
-    const [rating, setRating] = useState("8.5");
-    const [watchDate, setWatchDate] = useState("2025-06-10");
+    const [reviewText, setReviewText] = useState("");
+    const [rating, setRating] = useState(3);
+    const [watchDate, setWatchDate] = useState("2025-06-11");
 
     const movie = movies.find((m) => m.id == movieId);
 
-    const handleSubmit = async () => {
-        if (!rating || isNaN(rating)) return alert("Note invalide.");
-        if (!watchDate.trim()) return alert("Date de visionnage requise.");
-
+    const postReview = async () => {
         await API.call(
             "post",
             "reviews",
             {
                 movieId: movieId,
                 content: reviewText,
-                rating: parseFloat(rating),
+                rating: rating,
                 watchDate: watchDate,
             },
             true
@@ -44,6 +41,27 @@ export default function AddReviewScreen() {
 
         alert("Review publiée !");
         navigation.navigate("Timeline", { refresh: true });
+    };
+
+    const goToMovieDetail = () => {
+        navigation.navigate("Movie", { movieId: movieId });
+    };
+
+    const renderStars = () => {
+        return (
+            <View style={styles.starsRow}>
+                {[1, 2, 3, 4, 5].map((i) => (
+                    <TouchableOpacity key={i} onPress={() => setRating(i)}>
+                        <Ionicons
+                            name={i <= rating ? "star" : "star-outline"}
+                            size={22}
+                            color="black"
+                            style={{ marginHorizontal: 2 }}
+                        />
+                    </TouchableOpacity>
+                ))}
+            </View>
+        );
     };
 
     if (!movie) {
@@ -56,52 +74,75 @@ export default function AddReviewScreen() {
         );
     }
 
+    const formattedDate = watchDate;
+
     return (
         <AppLayout>
-            <ScrollView>
+            <View style={{ flex: 1 }}>
                 <View style={styles.container}>
-                    <Text style={styles.movieTitle}>{movie.title}</Text>
-                    {movie.poster_url && (
-                        <Image
-                            source={{
-                                uri: `https://image.tmdb.org/t/p/w185${movie.poster_url}`,
-                            }}
-                            style={styles.poster}
+                    <TouchableOpacity onPress={goToMovieDetail}>
+                        <View style={styles.movieHeader}>
+                            <Image
+                                source={{
+                                    uri: `https://image.tmdb.org/t/p/w185${movie.poster_url}`,
+                                }}
+                                style={styles.poster}
+                            />
+                            <View style={styles.movieInfo}>
+                                <Text style={styles.movieTitle}>
+                                    {movie.title}
+                                    <Text style={styles.movieYear}>
+                                        {" "}
+                                        (
+                                        {new Date(
+                                            movie.release_date
+                                        ).getFullYear()}
+                                        )
+                                    </Text>
+                                </Text>
+                                <Text
+                                    style={styles.movieDescription}
+                                    numberOfLines={4}
+                                >
+                                    {movie.description}
+                                </Text>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+
+                    <View style={styles.separator} />
+
+                    <View style={styles.row}>
+                        <Text style={styles.label}>Watch date</Text>
+                        <Text>{formattedDate}</Text>
+                    </View>
+
+                    <View style={styles.separator} />
+
+                    <View style={styles.row}>
+                        <Text style={styles.label}>Note</Text>
+                        {renderStars()}
+                    </View>
+
+                    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                        <TextInput
+                            style={styles.textArea}
+                            multiline
+                            numberOfLines={10}
+                            placeholder="Write a review..."
+                            value={reviewText}
+                            onChangeText={setReviewText}
                         />
-                    )}
+                    </ScrollView>
 
-                    <Text style={styles.label}>
-                        Date de visionnage (YYYY-MM-DD) :
-                    </Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="2025-06-10"
-                        value={watchDate}
-                        onChangeText={setWatchDate}
-                    />
-
-                    <Text style={styles.label}>Note (sur 10) :</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="8.5"
-                        keyboardType="numeric"
-                        value={rating}
-                        onChangeText={setRating}
-                    />
-
-                    <Text style={styles.label}>Contenu de la review :</Text>
-                    <TextInput
-                        style={styles.textAreaLarge}
-                        multiline
-                        numberOfLines={10}
-                        placeholder="Exprime-toi longuement sur ce film..."
-                        value={reviewText}
-                        onChangeText={setReviewText}
-                    />
-
-                    <Button title="Publier" onPress={handleSubmit} />
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={postReview}
+                    >
+                        <Text style={styles.buttonText}>Publier</Text>
+                    </TouchableOpacity>
                 </View>
-            </ScrollView>
+            </View>
         </AppLayout>
     );
 }
@@ -109,45 +150,72 @@ export default function AddReviewScreen() {
 const styles = StyleSheet.create({
     container: {
         padding: 16,
-        flex: 1,
         backgroundColor: "#fff",
+        flexGrow: 1,
+    },
+    movieHeader: {
+        flexDirection: "row",
+        marginBottom: 12,
+        alignItems: "center",
+    },
+    poster: {
+        width: 85,
+        height: 120,
+        borderRadius: 4,
+        backgroundColor: "#933",
+    },
+    movieInfo: {
+        flex: 1,
+        marginLeft: 12,
     },
     movieTitle: {
         fontWeight: "bold",
-        fontSize: 18,
-        marginBottom: 8,
+        fontSize: 15,
     },
-    poster: {
-        width: 120,
-        height: 180,
-        resizeMode: "cover",
-        marginBottom: 16,
+    movieYear: {
+        color: "#888",
+        fontWeight: "normal",
+    },
+    movieDescription: {
+        marginTop: 4,
+        fontSize: 13,
+        color: "#444",
+    },
+    separator: {
+        borderBottomColor: "#ccc",
+        borderBottomWidth: 1,
+        marginVertical: 12,
+    },
+    row: {
+        flexDirection: "row",
+        justifyContent: "space-between",
     },
     label: {
         fontWeight: "bold",
-        marginBottom: 4,
-        marginTop: 12,
+        marginBottom: 6,
     },
-    input: {
-        borderColor: "#ccc",
-        borderWidth: 1,
-        borderRadius: 6,
-        padding: 10,
+    starsRow: {
+        flexDirection: "row",
+        marginBottom: 16,
     },
     textArea: {
-        borderColor: "#ccc",
+        flex: 1,
         borderWidth: 1,
-        borderRadius: 6,
+        borderColor: "#ccc",
+        borderRadius: 8,
         padding: 10,
         textAlignVertical: "top",
+        fontSize: 15,
+        marginBottom: 16,
     },
-    textAreaLarge: {
-        borderColor: "#ccc",
-        borderWidth: 1,
-        borderRadius: 6,
-        padding: 10,
-        textAlignVertical: "top",
-        height: 180, // ou + si tu veux encore plus haut
-        fontSize: 16, // texte plus lisible
+    button: {
+        backgroundColor: "#555",
+        padding: 14,
+        borderRadius: 8,
+        alignItems: "center",
+    },
+    buttonText: {
+        color: "#fff",
+        fontWeight: "bold",
     },
 });

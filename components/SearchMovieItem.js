@@ -2,15 +2,24 @@ import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const SearchMovieItem = ({ id, title, posterUrl, releaseDate }) => {
+const SearchMovieItem = ({
+    id,
+    title,
+    posterUrl,
+    releaseDate,
+    description = "",
+    nextUrl,
+}) => {
     const navigation = useNavigation();
 
-    const goToAddReview = () => {
-        navigation.navigate("AddReview", { movieId: id });
+    if (!nextUrl) nextUrl = "Movie";
+
+    const goToNextUrl = () => {
+        navigation.navigate(nextUrl, { movieId: id });
     };
 
     return (
-        <TouchableOpacity onPress={goToAddReview} style={styles.container}>
+        <TouchableOpacity onPress={goToNextUrl} style={styles.container}>
             {posterUrl && (
                 <Image
                     source={{
@@ -19,9 +28,20 @@ const SearchMovieItem = ({ id, title, posterUrl, releaseDate }) => {
                     style={styles.poster}
                 />
             )}
-            <View style={styles.info}>
-                <Text style={styles.title}>{title}</Text>
-                <Text>Sortie : {releaseDate}</Text>
+            <View style={styles.textContainer}>
+                <View style={styles.titleRow}>
+                    <Text style={styles.title} numberOfLines={1}>
+                        {title}
+                    </Text>
+                    {releaseDate && (
+                        <Text style={styles.date} numberOfLines={1}>
+                            ({releaseDate?.substring(0, 4)})
+                        </Text>
+                    )}
+                </View>
+                <Text style={styles.description} numberOfLines={3}>
+                    {description || "No description available."}
+                </Text>
             </View>
         </TouchableOpacity>
     );
@@ -30,22 +50,45 @@ const SearchMovieItem = ({ id, title, posterUrl, releaseDate }) => {
 const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
-        paddingVertical: 10,
+        paddingVertical: 12,
         borderBottomWidth: 1,
         borderBottomColor: "#eee",
     },
     poster: {
         width: 60,
         height: 90,
-        marginRight: 10,
+        borderRadius: 4,
+        marginRight: 12,
     },
-    info: {
+    textContainer: {
         flex: 1,
         justifyContent: "center",
     },
+    titleRow: {
+        flexDirection: "row",
+        alignItems: "center",
+        flexWrap: "nowrap",
+        marginBottom: 4,
+    },
+
     title: {
-        fontWeight: "bold",
         fontSize: 16,
+        fontWeight: "bold",
+        color: "#111",
+        marginRight: 6,
+        flexShrink: 1,
+    },
+
+    date: {
+        fontSize: 13,
+        color: "#888",
+        flexShrink: 0,
+    },
+
+    description: {
+        fontSize: 14,
+        color: "#555",
+        marginBottom: 4,
     },
 });
 

@@ -15,6 +15,7 @@ import API from "../api/API";
 import { useAuth } from "../context/AuthContext";
 import AppLayout from "../components/AppLayout";
 import { Ionicons } from "@expo/vector-icons";
+import MessageItem from "../components/MessageItem";
 
 export default function DiscussionScreen() {
     const route = useRoute();
@@ -146,17 +147,25 @@ export default function DiscussionScreen() {
                     />
                 </TouchableOpacity>
             </View>
-            <View style={styles.container}>
-                <FlatList
-                    data={messages}
-                    renderItem={renderItem}
-                    keyExtractor={(item) => item.id.toString()}
-                    contentContainerStyle={{ paddingVertical: 12 }}
-                    inverted={true}
-                    onEndReached={handleLoadMore}
-                    onEndReachedThreshold={0.3}
-                />
-            </View>
+            <FlatList
+                data={messages}
+                renderItem={({ item }) => (
+                    <MessageItem
+                        message={item}
+                        currentUserId={user.id}
+                        onDelete={(id) =>
+                            setMessages((prev) =>
+                                prev.filter((m) => m.id !== id)
+                            )
+                        }
+                    />
+                )}
+                keyExtractor={(item) => item.id.toString()}
+                contentContainerStyle={{ paddingVertical: 12 }}
+                inverted={true}
+                onEndReached={handleLoadMore}
+                onEndReachedThreshold={0.3}
+            />
             <View style={styles.inputContainer}>
                 <TextInput
                     style={styles.input}
@@ -262,6 +271,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         borderBottomWidth: 1,
         borderBottomColor: "#eee",
+        marginTop: 3,
     },
 
     headerLeft: {

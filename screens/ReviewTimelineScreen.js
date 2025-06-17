@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, FlatList, ActivityIndicator } from "react-native";
+import {
+    Text,
+    View,
+    FlatList,
+    ActivityIndicator,
+    StyleSheet,
+} from "react-native";
 import ReviewItem from "../components/ReviewItem";
 import API from "../api/API";
 import { useNavigation } from "@react-navigation/native";
@@ -44,10 +50,13 @@ const ReviewTimelineScreen = ({ route }) => {
     const goToReviewDetail = (reviewId) => {
         navigation.navigate("Review", { reviewId });
     };
-    if (reviews.length == 0) {
+
+    if (reviews.length === 0) {
         return (
             <AppLayout>
-                <Text>No reviews found...</Text>
+                <View style={styles.emptyContainer}>
+                    <Text style={styles.emptyText}>No reviews found...</Text>
+                </View>
             </AppLayout>
         );
     }
@@ -74,5 +83,19 @@ const ReviewTimelineScreen = ({ route }) => {
         </AppLayout>
     );
 };
+
+const styles = StyleSheet.create({
+    emptyContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        paddingHorizontal: 24,
+    },
+    emptyText: {
+        fontSize: 18,
+        color: "#888",
+        textAlign: "center",
+    },
+});
 
 export default ReviewTimelineScreen;
