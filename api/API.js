@@ -5,19 +5,31 @@ import * as SecureStore from "expo-secure-store";
 class API {
     static BASE_URL = HOME_API_URL;
 
-    static defaultHeaders = {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-    };
-
-    static async call(method, endpoint, data = {}, withAuth = false) {
+    static async call(
+        method,
+        endpoint,
+        data = {},
+        withAuth = false,
+        isFormData = false
+    ) {
         try {
-            const headers = this.defaultHeaders;
+            const headers = {
+                Accept: "application/json",
+            };
+
             if (withAuth) {
                 const token = await SecureStore.getItemAsync("token");
                 if (token) {
                     headers["Authorization"] = `Bearer ${token}`;
                 }
+            }
+
+            if (!isFormData) {
+                headers["Accept"] = "application/json";
+                headers["Content-Type"] = "application/json";
+            } else {
+                // ⚠️ On supprime carrément le Content-Type, Axios le gère tout seul
+                delete headers["Content-Type"];
             }
 
             const config = {
@@ -35,7 +47,23 @@ class API {
             const response = await axios(config);
             return response.data;
         } catch (error) {
-            console.error(method + " ERROR : ", error);
+            if (error.response) {
+                console.error(
+                    `${method} ${endpoint} ERROR (${error.response.status}):`,
+                    error.response.data
+                );
+            } else if (error.request) {
+                console.error(
+                    `${method} ${endpoint} ERROR (no response):`,
+                    error.request
+                );
+            } else {
+                console.error(
+                    `${method} ${endpoint} ERROR (config):`,
+                    error.message
+                );
+            }
+
             throw error;
         }
     }

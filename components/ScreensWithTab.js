@@ -11,6 +11,7 @@ import AddReviewScreen from "../screens/AddReviewScreen";
 import SearchMovieScreen from "../screens/SearchMovieScreen";
 import DiscussionScreen from "../screens/DiscussionScreen";
 import MovieScreen from "../screens/MovieScreen";
+import EditProfileScreen from "../screens/EditProfileScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -34,6 +35,10 @@ export default function ScreensWithTabs() {
                     component={SearchMovieScreen}
                 />
                 <Stack.Screen name="Movie" component={MovieScreen} />
+                <Stack.Screen
+                    name="EditProfile"
+                    component={EditProfileScreen}
+                />
             </Stack.Navigator>
             <CustomTabBar />
         </View>

@@ -32,7 +32,12 @@ export default function ProfileScreen({ route }) {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const data = await API.call("get", `users/${id}`, {}, true);
+                let data;
+                if (isOwnUser) {
+                    data = await API.call("get", `users/me`, {}, true);
+                } else {
+                    data = await API.call("get", `users/${id}`, {}, true);
+                }
                 setUserProfile(data.user);
             } catch (e) {
                 console.error("Erreur de chargement du profil :", e);
@@ -117,6 +122,10 @@ export default function ProfileScreen({ route }) {
         } catch (e) {
             console.error("Erreur lors du blocage/déblocage", e);
         }
+    };
+
+    const goToEditProfile = () => {
+        navigation.navigate("EditProfile", { user: userProfile });
     };
 
     if (!userProfile) {
@@ -215,7 +224,7 @@ export default function ProfileScreen({ route }) {
                         {isOwnUser && (
                             <>
                                 <TouchableOpacity
-                                    onPress={() => {}}
+                                    onPress={goToEditProfile}
                                     style={styles.menuItem}
                                 >
                                     <Text>Edit profile</Text>
