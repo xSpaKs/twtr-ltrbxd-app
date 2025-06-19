@@ -16,7 +16,12 @@ export default function MessageItem({ message, currentUserId, onDelete }) {
                     style: "destructive",
                     onPress: async () => {
                         try {
-                            await API.call("delete", `messages/${message.id}`);
+                            await API.call(
+                                "delete",
+                                `messages/${message.id}`,
+                                {},
+                                true
+                            );
                             if (onDelete) {
                                 onDelete(message.id);
                             }
@@ -31,7 +36,9 @@ export default function MessageItem({ message, currentUserId, onDelete }) {
     };
 
     return (
-        <TouchableOpacity onLongPress={handleLongPress}>
+        <TouchableOpacity
+            onLongPress={isSentByCurrentUser ? handleLongPress : undefined}
+        >
             <View
                 style={[
                     styles.messageContainer,
@@ -60,10 +67,12 @@ const styles = StyleSheet.create({
     sent: {
         backgroundColor: "#DCF8C6",
         alignSelf: "flex-end",
+        marginRight: 8,
     },
     received: {
         backgroundColor: "#FFFFFF",
         alignSelf: "flex-start",
+        marginLeft: 8,
     },
     messageText: {
         fontSize: 16,

@@ -1,39 +1,39 @@
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const PostMovieItem = ({ movie }) => {
     const year = new Date(movie.release_date).getFullYear();
+    const navigation = useNavigation();
+
+    const goToMovieDetail = () => {
+        navigation.navigate("Movie", { movieId: movie.id });
+    };
 
     return (
-        <View style={styles.container}>
-            <Image source={{ uri: movie.poster_url }} style={styles.poster} />
-            <View style={styles.info}>
-                <View style={styles.header}>
-                    <Text style={styles.title}>
-                        {title} <Text style={styles.year}>({year})</Text>
-                    </Text>
-                    <View style={styles.rating}>
-                        <Text style={styles.ratingText}>
-                            {movie.rating.toFixed(1)}
+        <TouchableOpacity onPress={goToMovieDetail}>
+            <View style={styles.container}>
+                <Image
+                    source={{ uri: movie.poster_url }}
+                    style={styles.poster}
+                />
+                <View style={styles.info}>
+                    <View style={styles.header}>
+                        <Text style={styles.title}>
+                            {movie.title}{" "}
+                            <Text style={styles.year}>({year})</Text>
                         </Text>
-                        <Ionicons
-                            name="star"
-                            size={14}
-                            color="black"
-                            style={{ marginLeft: 2 }}
-                        />
                     </View>
+                    <Text
+                        style={styles.description}
+                        numberOfLines={6}
+                        ellipsizeMode="tail"
+                    >
+                        {movie.description}
+                    </Text>
                 </View>
-                <Text
-                    style={styles.description}
-                    numberOfLines={4}
-                    ellipsizeMode="tail"
-                >
-                    {movie.description}
-                </Text>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 };
 
@@ -44,10 +44,11 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 10,
         alignItems: "flex-start",
+        marginTop: 10,
     },
     poster: {
-        width: 50,
-        height: 70,
+        width: 85,
+        height: 120,
         borderRadius: 4,
         backgroundColor: "#933",
     },
@@ -68,14 +69,6 @@ const styles = StyleSheet.create({
         fontWeight: "normal",
         color: "#666",
         fontSize: 12,
-    },
-    rating: {
-        flexDirection: "row",
-        alignItems: "center",
-    },
-    ratingText: {
-        fontSize: 13,
-        fontWeight: "600",
     },
     description: {
         marginTop: 4,

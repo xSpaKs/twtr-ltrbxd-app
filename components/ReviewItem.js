@@ -2,47 +2,67 @@ import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { useMovies } from "../context/MovieContext";
 import formatDate from "../helpers/formatDateHelper";
+import { useNavigation } from "@react-navigation/native";
 
-const ReviewItem = ({ review, onPress }) => {
+const ReviewItem = ({ review, linesLimit = 999 }) => {
     const { movies } = useMovies();
     const movie = movies.find((m) => m.id == review.movie_id);
+    const navigation = useNavigation();
+
+    const goToReviewDetail = () => {
+        navigation.navigate("Review", {
+            reviewId: review.id,
+            linesLimit: linesLimit,
+        });
+    };
+
+    const goToMovieDetail = () => {
+        navigation.navigate("Movie", { movieId: review.movie_id });
+    };
+
+    const goToProfile = () => {
+        navigation.navigate("Profile", { id: review.user_id });
+    };
 
     return (
-        <TouchableOpacity
-            style={styles.container}
-            onPress={() => onPress(review.id)}
-        >
+        <TouchableOpacity style={styles.container} onPress={goToReviewDetail}>
             <View style={styles.topSection}>
                 <View style={styles.leftColumn}>
-                    <View style={styles.userInfoRow}>
-                        <View style={styles.avatar} />
-                        <View style={styles.userText}>
-                            <Text style={styles.username}>
-                                @{review.user.username}
-                            </Text>
-                            <Text style={styles.date}>
-                                {formatDate(review.created_at)}
-                            </Text>
+                    <TouchableOpacity onPress={goToProfile}>
+                        <View style={styles.userInfoRow}>
+                            <View style={styles.avatar} />
+                            <View style={styles.userText}>
+                                <Text style={styles.username}>
+                                    @{review.user.username}
+                                </Text>
+                                <Text style={styles.date}>
+                                    {formatDate(review.created_at)}
+                                </Text>
+                            </View>
                         </View>
-                    </View>
+                    </TouchableOpacity>
 
                     <View style={styles.reviewInfo}>
-                        <Text style={styles.movieTitle}>
-                            {movie?.title}{" "}
-                            <Text style={styles.year}>
-                                ({movie?.release_date?.slice(0, 4)})
+                        <TouchableOpacity onPress={goToMovieDetail}>
+                            <Text style={styles.movieTitle}>
+                                {movie?.title}{" "}
+                                <Text style={styles.year}>
+                                    ({movie?.release_date?.slice(0, 4)})
+                                </Text>
                             </Text>
-                        </Text>
+                        </TouchableOpacity>
+
                         <Text style={styles.stars}>★★★</Text>
                     </View>
                 </View>
-
-                <Image
-                    source={{
-                        uri: `https://image.tmdb.org/t/p/w154${movie.poster_url}`,
-                    }}
-                    style={styles.poster}
-                />
+                <TouchableOpacity onPress={goToMovieDetail}>
+                    <Image
+                        source={{
+                            uri: `https://image.tmdb.org/t/p/w154${movie.poster_url}`,
+                        }}
+                        style={styles.poster}
+                    />
+                </TouchableOpacity>
             </View>
 
             <View style={styles.reviewBox}>

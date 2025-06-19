@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { useState } from "react";
 import formatDate from "../helpers/formatDateHelper";
 import PostMovieItem from "./PostMovieItem";
@@ -8,13 +8,13 @@ import { useMovies } from "../context/MovieContext";
 const PostItem = ({ post, navigation }) => {
     const postId = post.id;
     const profileId = post.user.id;
-    const movie = null;
+    let movie = null;
 
     const [isLiked, setIsLiked] = useState(post.user_has_liked || false);
     const [likesCount, setLikesCount] = useState(post.likes_count || 0);
     const [isLoading, setIsLoading] = useState(false);
 
-    if (post.movie_id) {
+    if (post.movie_id != null) {
         const { movies } = useMovies();
         movie = movies.find((m) => m.id == post.movie_id);
     }
@@ -62,16 +62,28 @@ const PostItem = ({ post, navigation }) => {
 
     return (
         <TouchableOpacity style={styles.container}>
-            <View style={styles.userInfoRow}>
-                <View style={styles.avatar} />
-                <View style={styles.userText}>
-                    <Text style={styles.username}>@{post.user.username}</Text>
-                    <Text style={styles.date}>
-                        {formatDate(post.created_at)}
-                    </Text>
+            <TouchableOpacity onPress={goToProfile}>
+                <View style={styles.userInfoRow}>
+                    <Image
+                        source={{ uri: post.user.profile_picture_url }}
+                        style={styles.avatar}
+                    />
+                    <View style={styles.userText}>
+                        <Text style={styles.username}>
+                            @{post.user.username}
+                        </Text>
+                        <Text style={styles.date}>
+                            {formatDate(post.created_at)}
+                        </Text>
+                    </View>
                 </View>
-            </View>
-            <Text onPress={goToPostDetail} style={styles.content}>
+            </TouchableOpacity>
+
+            <Text
+                onPress={goToPostDetail}
+                style={styles.content}
+                numberOfLines={6}
+            >
                 {post.content}
             </Text>
             {movie && <PostMovieItem movie={movie}></PostMovieItem>}

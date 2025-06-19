@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
-import { useRoute } from "@react-navigation/native";
 import API from "../api/API";
+import ReviewItem from "../components/ReviewItem";
 
-export default function ReviewScreen() {
-    const route = useRoute();
+export default function ReviewScreen({ route }) {
     const { reviewId } = route.params;
 
     const [review, setReview] = useState(null);
@@ -48,15 +47,12 @@ export default function ReviewScreen() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Review#{review.id}</Text>
-            <Text style={styles.content}>{review.title}</Text>
-            <Text style={styles.content}>{review.body}</Text>
+            <ReviewItem review={review} />
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: { padding: 20 },
     title: { fontSize: 20, fontWeight: "bold" },
     content: { marginTop: 10, fontSize: 16 },
     centered: { flex: 1, justifyContent: "center", alignItems: "center" },

@@ -47,10 +47,6 @@ const ReviewTimelineScreen = ({ route }) => {
         }
     };
 
-    const goToReviewDetail = (reviewId) => {
-        navigation.navigate("Review", { reviewId });
-    };
-
     if (reviews.length === 0) {
         return (
             <AppLayout>
@@ -64,10 +60,11 @@ const ReviewTimelineScreen = ({ route }) => {
     return (
         <AppLayout>
             <FlatList
+                showsVerticalScrollIndicator={false}
                 data={reviews}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
-                    <ReviewItem review={item} onPress={goToReviewDetail} />
+                    <ReviewItem review={item} linesLimit={3} />
                 )}
                 onEndReached={fetchReviews}
                 onEndReachedThreshold={0.4}

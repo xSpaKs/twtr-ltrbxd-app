@@ -53,6 +53,7 @@ export default function CustomTabBar() {
                     onPressOut={() => setModalVisible(false)}
                 >
                     <View style={styles.popup}>
+                        <Text style={styles.title}>Que veux-tu faire ?</Text>
                         <TouchableOpacity
                             style={styles.popupButton}
                             onPress={() => {
@@ -62,8 +63,21 @@ export default function CustomTabBar() {
                                 });
                             }}
                         >
-                            <Text>➕ Ajouter un film</Text>
+                            <Ionicons
+                                name="film-outline"
+                                size={32}
+                                color="black"
+                            />
+                            <View style={styles.text}>
+                                <Text style={styles.mainText}>
+                                    Ajouter un film
+                                </Text>
+                                <Text style={styles.secondaryText}>
+                                    Rédiger une critique
+                                </Text>
+                            </View>
                         </TouchableOpacity>
+                        <View style={styles.separator} />
                         <TouchableOpacity
                             style={styles.popupButton}
                             onPress={() => {
@@ -71,7 +85,19 @@ export default function CustomTabBar() {
                                 navigate("AddPost");
                             }}
                         >
-                            <Text>✍️ Ajouter un post</Text>
+                            <Ionicons
+                                name="chatbox-outline"
+                                size={32}
+                                color="black"
+                            />
+                            <View style={styles.text}>
+                                <Text style={styles.mainText}>
+                                    Ajouter un post
+                                </Text>
+                                <Text style={styles.secondaryText}>
+                                    Partager une pensée
+                                </Text>
+                            </View>
                         </TouchableOpacity>
                     </View>
                 </TouchableOpacity>
@@ -108,7 +134,8 @@ const styles = StyleSheet.create({
     },
     popup: {
         backgroundColor: "white",
-        padding: 20,
+        paddingHorizontal: 40,
+        paddingVertical: 30,
         borderRadius: 10,
         elevation: 5,
         minWidth: 200,
@@ -116,5 +143,27 @@ const styles = StyleSheet.create({
     popupButton: {
         paddingVertical: 10,
         alignItems: "center",
+        display: "flex",
+        flexDirection: "row",
+        gap: 10,
+    },
+    title: {
+        textAlign: "center",
+        fontSize: 18,
+        fontWeight: "bold",
+        marginBottom: 10,
+    },
+    text: {},
+    mainText: {
+        fontSize: 16,
+    },
+    secondaryText: {
+        fontSize: 13,
+        color: "#666",
+    },
+    separator: {
+        borderBottomColor: "#ccc",
+        borderBottomWidth: 1,
+        marginVertical: 6,
     },
 });

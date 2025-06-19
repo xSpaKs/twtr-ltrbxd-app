@@ -18,21 +18,35 @@ const Stack = createNativeStackNavigator();
 export default function ScreensWithTabs() {
     return (
         <View style={{ flex: 1 }}>
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="Timeline" component={TimelineTabs} />
-                <Stack.Screen name="Profile" component={ProfileScreen} />
+            <Stack.Navigator screenOptions={{ headerShown: true }}>
+                <Stack.Screen
+                    name="Timeline"
+                    component={TimelineTabs}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="Profile"
+                    component={ProfileScreen}
+                    options={{ headerShown: false }}
+                />
                 <Stack.Screen name="AddPost" component={AddPostScreen} />
                 <Stack.Screen name="AddReview" component={AddReviewScreen} />
                 <Stack.Screen
                     name="ListDiscussions"
                     component={ListDiscussionsScreen}
+                    options={{ headerShown: false }}
                 />
-                <Stack.Screen name="Discussion" component={DiscussionScreen} />
+                <Stack.Screen
+                    name="Discussion"
+                    component={DiscussionScreen}
+                    options={{ headerShown: false }}
+                />
                 <Stack.Screen name="Post" component={PostScreen} />
                 <Stack.Screen name="Review" component={ReviewScreen} />
                 <Stack.Screen
                     name="SearchMovie"
                     component={SearchMovieScreen}
+                    options={{ headerShown: false }}
                 />
                 <Stack.Screen name="Movie" component={MovieScreen} />
                 <Stack.Screen

@@ -1,17 +1,11 @@
-import { HOME_API_URL } from "@env";
+import { HOME_API_URL, SCHOOL_API_URL, SHARE_API_URL } from "@env";
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 
 class API {
     static BASE_URL = HOME_API_URL;
 
-    static async call(
-        method,
-        endpoint,
-        data = {},
-        withAuth = false,
-        isFormData = false
-    ) {
+    static async call(method, endpoint, data = {}, withAuth = false) {
         try {
             const headers = {
                 Accept: "application/json",
@@ -22,14 +16,6 @@ class API {
                 if (token) {
                     headers["Authorization"] = `Bearer ${token}`;
                 }
-            }
-
-            if (!isFormData) {
-                headers["Accept"] = "application/json";
-                headers["Content-Type"] = "application/json";
-            } else {
-                // ⚠️ On supprime carrément le Content-Type, Axios le gère tout seul
-                delete headers["Content-Type"];
             }
 
             const config = {

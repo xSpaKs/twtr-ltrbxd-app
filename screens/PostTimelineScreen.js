@@ -29,7 +29,7 @@ const PostTimelineScreen = ({ route }) => {
         setLoading(true);
         try {
             let endpoint = "";
-            if (source === "timeline") {
+            if (source == "timeline") {
                 endpoint = `timeline/posts?page=${page}`;
             } else if (source === "user_posts") {
                 endpoint = `timeline/posts/me?page=${page}`;
@@ -61,6 +61,7 @@ const PostTimelineScreen = ({ route }) => {
     return (
         <AppLayout>
             <FlatList
+                showsVerticalScrollIndicator={false}
                 data={posts}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (

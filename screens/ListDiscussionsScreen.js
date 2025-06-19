@@ -35,6 +35,7 @@ const ListDiscussionsScreen = () => {
             <View style={styles.container}>
                 <Text>Discussions</Text>
                 <FlatList
+                    showsVerticalScrollIndicator={false}
                     data={discussions}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (

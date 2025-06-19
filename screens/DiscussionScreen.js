@@ -10,15 +10,14 @@ import {
     Modal,
     Pressable,
 } from "react-native";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import API from "../api/API";
 import { useAuth } from "../context/AuthContext";
 import AppLayout from "../components/AppLayout";
 import { Ionicons } from "@expo/vector-icons";
 import MessageItem from "../components/MessageItem";
 
-export default function DiscussionScreen() {
-    const route = useRoute();
+export default function DiscussionScreen({ route }) {
     const { discussionId } = route.params;
     const { user } = useAuth();
 
@@ -30,6 +29,7 @@ export default function DiscussionScreen() {
     const [newMessage, setNewMessage] = useState("");
     const [showOptions, setShowOptions] = useState(false);
     const [isBlocked, setIsBlocked] = useState(false);
+    const navigation = useNavigation();
 
     const fetchMessages = async (pageToLoad = 1) => {
         if (loading || !hasMore) return;
@@ -94,6 +94,10 @@ export default function DiscussionScreen() {
         }
     };
 
+    const goToProfile = () => {
+        navigation.navigate("Profile", { id: otherUser.id });
+    };
+
     useEffect(() => {
         if (discussionId) fetchMessages(1);
     }, [discussionId]);
@@ -102,42 +106,36 @@ export default function DiscussionScreen() {
         fetchMessages(page);
     };
 
-    const renderItem = ({ item }) => {
-        const isSentByCurrentUser = item.sender_id === user.id;
-        return (
-            <View
-                style={[
-                    styles.messageContainer,
-                    isSentByCurrentUser ? styles.sent : styles.received,
-                ]}
-            >
-                <Text style={styles.messageText}>{item.content}</Text>
-                <Text style={styles.messageDate}>
-                    {new Date(item.created_at).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                    })}
-                </Text>
-            </View>
-        );
-    };
-
     return (
         <AppLayout>
             <View style={styles.header}>
-                <View style={styles.headerLeft}>
-                    {otherUser && (
-                        <>
-                            <Image
-                                source={{ uri: otherUser.profile_picture_url }}
-                                style={styles.avatar}
-                            />
-                            <Text style={styles.headerUsername}>
-                                @{otherUser.username}
-                            </Text>
-                        </>
-                    )}
-                </View>
+                <TouchableOpacity onPress={goToProfile}>
+                    <View style={styles.headerLeft}>
+                        {otherUser && (
+                            <>
+                                <TouchableOpacity
+                                    onPress={() => navigation.goBack()}
+                                    style={styles.backIcon}
+                                >
+                                    <Ionicons
+                                        name="arrow-back"
+                                        size={24}
+                                        color="#555"
+                                    />
+                                </TouchableOpacity>
+                                <Image
+                                    source={{
+                                        uri: otherUser.profile_picture_url,
+                                    }}
+                                    style={styles.avatar}
+                                />
+                                <Text style={styles.headerUsername}>
+                                    @{otherUser.username}
+                                </Text>
+                            </>
+                        )}
+                    </View>
+                </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => setShowOptions(true)}>
                     <Ionicons
@@ -148,6 +146,7 @@ export default function DiscussionScreen() {
                 </TouchableOpacity>
             </View>
             <FlatList
+                showsVerticalScrollIndicator={false}
                 data={messages}
                 renderItem={({ item }) => (
                     <MessageItem
@@ -271,7 +270,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         borderBottomWidth: 1,
         borderBottomColor: "#eee",
-        marginTop: 3,
     },
 
     headerLeft: {
@@ -316,5 +314,9 @@ const styles = StyleSheet.create({
         color: "#333",
         textAlign: "center",
         marginTop: 40,
+    },
+    backIcon: {
+        padding: 4,
+        marginRight: 6,
     },
 });

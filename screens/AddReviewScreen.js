@@ -13,6 +13,7 @@ import AppLayout from "../components/AppLayout";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useMovies } from "../context/MovieContext";
 import { Ionicons } from "@expo/vector-icons";
+import StarRatingInput from "../components/StarRatingInput";
 
 export default function AddReviewScreen() {
     const route = useRoute();
@@ -45,23 +46,6 @@ export default function AddReviewScreen() {
 
     const goToMovieDetail = () => {
         navigation.navigate("Movie", { movieId: movieId });
-    };
-
-    const renderStars = () => {
-        return (
-            <View style={styles.starsRow}>
-                {[1, 2, 3, 4, 5].map((i) => (
-                    <TouchableOpacity key={i} onPress={() => setRating(i)}>
-                        <Ionicons
-                            name={i <= rating ? "star" : "star-outline"}
-                            size={22}
-                            color="black"
-                            style={{ marginHorizontal: 2 }}
-                        />
-                    </TouchableOpacity>
-                ))}
-            </View>
-        );
     };
 
     if (!movie) {
@@ -112,16 +96,23 @@ export default function AddReviewScreen() {
 
                     <View style={styles.separator} />
 
-                    <View style={styles.row}>
+                    <View style={styles.dateRow}>
                         <Text style={styles.label}>Watch date</Text>
                         <Text>{formattedDate}</Text>
                     </View>
 
                     <View style={styles.separator} />
 
-                    <View style={styles.row}>
-                        <Text style={styles.label}>Note</Text>
-                        {renderStars()}
+                    <View style={styles.noteRow}>
+                        <View style={styles.labelWrapper}>
+                            <Text style={styles.label}>Note</Text>
+                        </View>
+                        <View style={styles.starsWrapper}>
+                            <StarRatingInput
+                                rating={rating}
+                                setRating={setRating}
+                            />
+                        </View>
                     </View>
 
                     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -153,6 +144,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         flexGrow: 1,
     },
+
+    // Section en-tête film
     movieHeader: {
         flexDirection: "row",
         marginBottom: 12,
@@ -180,23 +173,27 @@ const styles = StyleSheet.create({
         marginTop: 4,
         fontSize: 13,
         color: "#444",
+        lineHeight: 16,
     },
     separator: {
         borderBottomColor: "#ccc",
         borderBottomWidth: 1,
         marginVertical: 12,
     },
-    row: {
+    dateRow: {
         flexDirection: "row",
         justifyContent: "space-between",
+        alignItems: "center",
+    },
+    noteRow: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: 14,
     },
     label: {
         fontWeight: "bold",
-        marginBottom: 6,
-    },
-    starsRow: {
-        flexDirection: "row",
-        marginBottom: 16,
+        fontSize: 14,
     },
     textArea: {
         flex: 1,
@@ -207,6 +204,10 @@ const styles = StyleSheet.create({
         textAlignVertical: "top",
         fontSize: 15,
         marginBottom: 16,
+    },
+
+    starsWrapper: {
+        justifyContent: "center",
     },
     button: {
         backgroundColor: "#555",
