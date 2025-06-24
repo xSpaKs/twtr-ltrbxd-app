@@ -6,18 +6,16 @@ import {
     ActivityIndicator,
     StyleSheet,
 } from "react-native";
-import PostItem from "../components/PostItem";
-import API from "../api/API";
-import { useNavigation } from "@react-navigation/native";
-import AppLayout from "../components/AppLayout";
+import PostItem from "../../PostItem";
+import API from "../../../api/API";
+import AppLayout from "../../AppLayout";
 
-const PostTimelineScreen = ({ route }) => {
+const MoviePostTimeline = ({ route }) => {
+    const { movieId } = route.params;
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
-    const navigation = useNavigation();
-    const { source = "timeline" } = route.params || {};
 
     useEffect(() => {
         fetchPosts();
@@ -28,14 +26,12 @@ const PostTimelineScreen = ({ route }) => {
 
         setLoading(true);
         try {
-            let endpoint = "";
-            if (source == "timeline") {
-                endpoint = `timeline/posts?page=${page}`;
-            } else if (source === "user_posts") {
-                endpoint = `timeline/posts/me?page=${page}`;
-            }
-
-            const res = await API.call("get", endpoint, {}, true);
+            const res = await API.call(
+                "get",
+                `movies/${movieId}/popular-posts?page=${page}`,
+                {},
+                true
+            );
 
             const newPosts = res;
             setPosts((prev) => [...prev, ...newPosts.data]);
@@ -60,24 +56,26 @@ const PostTimelineScreen = ({ route }) => {
 
     return (
         <AppLayout>
-            <FlatList
-                showsVerticalScrollIndicator={false}
-                data={posts}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => (
-                    <PostItem post={item} navigation={navigation} />
-                )}
-                onEndReached={fetchPosts}
-                onEndReachedThreshold={0.4}
-                ListFooterComponent={
-                    loading ? (
-                        <ActivityIndicator
-                            size="small"
-                            style={{ marginVertical: 10 }}
-                        />
-                    ) : null
-                }
-            />
+            <View style={{ flex: 1 }}>
+                <FlatList
+                    showsVerticalScrollIndicator={false}
+                    data={posts}
+                    keyExtractor={(item) => item.id.toString()}
+                    renderItem={({ item }) => (
+                        <PostItem post={item} linesLimit={6} />
+                    )}
+                    onEndReached={fetchPosts}
+                    onEndReachedThreshold={0.4}
+                    ListFooterComponent={
+                        loading ? (
+                            <ActivityIndicator
+                                size="small"
+                                style={{ marginVertical: 10 }}
+                            />
+                        ) : null
+                    }
+                />
+            </View>
         </AppLayout>
     );
 };
@@ -96,4 +94,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default PostTimelineScreen;
+export default MoviePostTimeline;

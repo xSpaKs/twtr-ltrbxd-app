@@ -1,9 +1,14 @@
-import { HOME_API_URL, SCHOOL_API_URL, SHARE_API_URL } from "@env";
+import {
+    HOME_API_URL,
+    HOME_WIFI_URL,
+    SCHOOL_API_URL,
+    SHARE_API_URL,
+} from "@env";
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 
 class API {
-    static BASE_URL = HOME_API_URL;
+    static BASE_URL = HOME_WIFI_URL;
 
     static async call(method, endpoint, data = {}, withAuth = false) {
         try {

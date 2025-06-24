@@ -24,7 +24,7 @@ export default function LoginScreen({ navigation }) {
             const { user, token } = data;
             await loginContext(user, token);
         } catch (err) {
-            Alert.alert("Erreur", "Email ou mot de passe incorrect");
+            Alert.alert("", err.response.data.message);
         }
     };
 

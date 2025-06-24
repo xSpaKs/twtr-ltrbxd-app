@@ -13,84 +13,41 @@ import { Ionicons } from "@expo/vector-icons";
 import API from "../api/API";
 import { useAuth } from "../context/AuthContext";
 import AppLayout from "../components/AppLayout";
-import ProfileTabs from "../components/ProfileTabs";
+import ProfileTabs from "../components/Tabs/ProfileTabs";
 import { useNavigation } from "@react-navigation/native";
 
 export default function ProfileScreen({ route }) {
     const { id } = route.params;
     const [userProfile, setUserProfile] = useState(null);
-    const { user, logoutContext } = useAuth();
-    const isOwnUser = id == user.id;
+    const { loggedUser, logoutContext } = useAuth();
+    const isOwnUser = id == loggedUser.id;
     const [followers, setFollowers] = useState([]);
     const [followings, setFollowings] = useState([]);
     const [menuVisible, setMenuVisible] = useState(false);
-    const [isFollowing, setIsFollowing] = useState(false);
+    const [isFollowed, setIsFollowed] = useState(false);
     const [isBlocked, setIsBlocked] = useState(false);
     const [hasBlocked, setHasBlocked] = useState(false);
+    const [sharedDiscussion, setSharedDiscussion] = useState([]);
     const navigation = useNavigation();
 
     useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                let data;
-                if (isOwnUser) {
-                    data = await API.call("get", `users/me`, {}, true);
-                } else {
-                    data = await API.call("get", `users/${id}`, {}, true);
-                }
-                setUserProfile(data.user);
-            } catch (e) {
-                console.error("Erreur de chargement du profil :", e);
-            }
-        };
-
-        const fetchFollowers = async () => {
-            try {
-                const data = await API.call(
-                    "get",
-                    `users/${id}/followers`,
-                    {},
-                    true
-                );
-                setFollowers(data.followers);
-                setIsFollowing(data.followers.some((f) => f.id === user.id));
-            } catch (e) {
-                console.error("Erreur de chargement du profil :", e);
-            }
-        };
-
-        const fetchFollowings = async () => {
-            try {
-                const data = await API.call(
-                    "get",
-                    `users/${id}/followings`,
-                    {},
-                    true
-                );
-                setFollowings(data.followings);
-            } catch (e) {
-                console.error("Erreur de chargement du profil :", e);
-            }
-        };
-
-        const fetchBlocks = async () => {
-            const data = await API.call(
-                "get",
-                `users/${id}/followings`,
-                {},
-                true
-            );
-            setIsBlocked(data.isBlocked);
-            setHasBlocked(data.hasBlocked);
-        };
         fetchUser();
-        fetchFollowers();
-        fetchFollowings();
-
-        if (!isOwnUser) {
-            fetchBlocks();
-        }
     }, [id]);
+
+    const fetchUser = async () => {
+        try {
+            let data = await API.call("get", `users/${id}`, {}, true);
+            setUserProfile(data.user);
+            setIsBlocked(data.isBlockedByMe);
+            setHasBlocked(data.hasBlockedMe);
+            setFollowers(data.followers);
+            setIsFollowed(data.followers.some((f) => f.id === loggedUser.id));
+            setFollowings(data.followings);
+            setSharedDiscussion(data.sharedDiscussion);
+        } catch (e) {
+            console.error("Erreur de chargement du profil :", e);
+        }
+    };
 
     const handleLogout = async () => {
         await API.call("post", "logout", {}, true);
@@ -99,12 +56,14 @@ export default function ProfileScreen({ route }) {
 
     const toggleFollow = async () => {
         try {
-            if (isFollowing) {
-                await API.call("post", `users/${id}/unfollow`, {}, true);
-            } else {
-                await API.call("post", `users/${id}/follow`, {}, true);
-            }
-            setIsFollowing(!isFollowing);
+            const data = await API.call(
+                "post",
+                `users/${id}/toggle-follow`,
+                {},
+                true
+            );
+
+            setIsFollowed(data.isFollowed);
         } catch (e) {
             console.error("Erreur lors du follow/unfollow", e);
         }
@@ -112,13 +71,8 @@ export default function ProfileScreen({ route }) {
 
     const toggleBlock = async () => {
         try {
-            const data = await API.call(
-                "post",
-                `users/${id}/toggle-block`,
-                {},
-                true
-            );
-            setIsBlocked(data.isBlocked);
+            await API.call("post", `users/${id}/toggle-block`, {}, true);
+            await fetchUser();
         } catch (e) {
             console.error("Erreur lors du blocage/déblocage", e);
         }
@@ -126,6 +80,22 @@ export default function ProfileScreen({ route }) {
 
     const goToEditProfile = () => {
         navigation.navigate("EditProfile", { user: userProfile });
+    };
+
+    const goToSendMessage = () => {
+        navigation.navigate("SendMessage", {
+            otherUser: userProfile,
+            followings,
+            followers,
+        });
+    };
+
+    const goToDiscussion = () => {
+        if (sharedDiscussion["value"] == true) {
+            navigation.navigate("Discussion", {
+                discussionId: sharedDiscussion["id"],
+            });
+        }
     };
 
     if (!userProfile) {
@@ -151,22 +121,32 @@ export default function ProfileScreen({ route }) {
                     <View style={styles.statsRow}>
                         <Text style={styles.stat}>
                             <Text style={styles.bold}>{followings.length}</Text>{" "}
-                            abonnements
+                            followings
                         </Text>
                         <Text style={styles.stat}>
                             <Text style={styles.bold}>{followers.length}</Text>{" "}
-                            abonnés
+                            followers
                         </Text>
                     </View>
                 </View>
                 <View style={styles.headerRightButtons}>
                     {!isOwnUser && (
                         <TouchableOpacity
-                            style={styles.followButton}
+                            style={
+                                isFollowed
+                                    ? styles.followButton
+                                    : styles.noFollowButton
+                            }
                             onPress={toggleFollow}
                         >
-                            <Text style={styles.followButtonText}>
-                                {isFollowing ? "Suivi" : "Suivre"}
+                            <Text
+                                style={
+                                    isFollowed
+                                        ? styles.followButtonText
+                                        : styles.noFollowButtonText
+                                }
+                            >
+                                {isFollowed ? "Following" : "Follow"}
                             </Text>
                         </TouchableOpacity>
                     )}
@@ -185,13 +165,13 @@ export default function ProfileScreen({ route }) {
             {isBlocked || hasBlocked ? (
                 <View style={styles.centered}>
                     <Text style={styles.blockedText}>
-                        {hasBlocked
-                            ? "Vous avez bloqué cet utilisateur."
-                            : "Cet utilisateur vous a bloqué."}
+                        {isBlocked
+                            ? "You have blocked this user."
+                            : "You have been blocked by this user."}
                     </Text>
                 </View>
             ) : (
-                <ProfileTabs />
+                <ProfileTabs user={userProfile} />
             )}
 
             <Modal
@@ -207,11 +187,27 @@ export default function ProfileScreen({ route }) {
                     <View style={styles.modalContainer}>
                         {!isOwnUser && (
                             <>
+                                {!isBlocked && (
+                                    <TouchableOpacity
+                                        onPress={
+                                            sharedDiscussion["value"] == true
+                                                ? goToDiscussion
+                                                : goToSendMessage
+                                        }
+                                        style={styles.menuItem}
+                                    >
+                                        <Text>Send a message</Text>
+                                    </TouchableOpacity>
+                                )}
                                 <TouchableOpacity
                                     onPress={toggleBlock}
                                     style={styles.menuItem}
                                 >
-                                    <Text>Block</Text>
+                                    {isBlocked ? (
+                                        <Text>Unblock</Text>
+                                    ) : (
+                                        <Text>Block</Text>
+                                    )}
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     onPress={() => {}}
@@ -230,7 +226,7 @@ export default function ProfileScreen({ route }) {
                                     <Text>Edit profile</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
-                                    onPress={() => {}}
+                                    onPress={handleLogout}
                                     style={styles.menuItem}
                                 >
                                     <Text>Logout</Text>
@@ -293,16 +289,33 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     followButton: {
+        borderColor: "#333",
+        borderWidth: 1,
+        paddingVertical: 6,
+        paddingHorizontal: 12,
+        borderRadius: 20,
+        marginRight: 10,
+        minWidth: 70,
+    },
+    followButtonText: {
+        color: "#333",
+        fontSize: 14,
+        fontWeight: "500",
+        textAlign: "center",
+    },
+    noFollowButton: {
         backgroundColor: "#333",
         paddingVertical: 6,
         paddingHorizontal: 12,
         borderRadius: 20,
         marginRight: 10,
+        minWidth: 70,
     },
-    followButtonText: {
+    noFollowButtonText: {
         color: "#fff",
         fontSize: 14,
         fontWeight: "500",
+        textAlign: "center",
     },
     menuButton: {
         padding: 6,

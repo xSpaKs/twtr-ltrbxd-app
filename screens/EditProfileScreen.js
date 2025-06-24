@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { HOME_API_URL, SCHOOL_API_URL, SHARE_API_URL } from "@env";
+import {
+    HOME_API_URL,
+    HOME_WIFI_URL,
+    SCHOOL_API_URL,
+    SHARE_API_URL,
+} from "@env";
 import {
     View,
     Text,
@@ -13,6 +18,8 @@ import * as ImagePicker from "expo-image-picker";
 import API from "../api/API";
 import { useAuth } from "../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
+import BasicTopBar from "../components/Bars/BasicTopBar";
+import AppLayout from "../components/AppLayout";
 
 const EditProfileScreen = ({ route }) => {
     const { user } = route.params;
@@ -63,13 +70,9 @@ const EditProfileScreen = ({ route }) => {
             });
         }
 
-        for (let [key, value] of formData.entries()) {
-            console.log("formData:", key, value);
-        }
-
         try {
             const response = await fetch(
-                `${HOME_API_URL}/users/updatePicture`,
+                `${HOME_WIFI_URL}/users/updatePicture`,
                 {
                     method: "POST",
                     headers: {
@@ -81,59 +84,61 @@ const EditProfileScreen = ({ route }) => {
             );
 
             const result = await response.json();
-            console.log("✅ Upload success:", result);
         } catch (error) {
-            console.log("❌ Upload failed:", error.message);
+            console.error(error);
         }
     };
 
     return (
-        <ScrollView contentContainerStyle={styles.container}>
-            <TouchableOpacity onPress={pickImage}>
-                {avatar ? (
-                    <Image source={{ uri: avatar }} style={styles.avatar} />
-                ) : (
-                    <View style={styles.placeholder}>
-                        <Text style={styles.placeholderText}>
-                            Ajouter une photo
-                        </Text>
-                    </View>
-                )}
-            </TouchableOpacity>
+        <AppLayout>
+            <BasicTopBar title={"Edit profile"} />
+            <ScrollView contentContainerStyle={styles.container}>
+                <TouchableOpacity onPress={pickImage}>
+                    {avatar ? (
+                        <Image source={{ uri: avatar }} style={styles.avatar} />
+                    ) : (
+                        <View style={styles.placeholder}>
+                            <Text style={styles.placeholderText}>
+                                Ajouter une photo
+                            </Text>
+                        </View>
+                    )}
+                </TouchableOpacity>
 
-            <Text style={styles.label}>Nom</Text>
-            <TextInput
-                style={styles.input}
-                value={username}
-                onChangeText={setUsername}
-                placeholder="Votre nom"
-            />
+                <Text style={styles.label}>Nom</Text>
+                <TextInput
+                    style={styles.input}
+                    value={username}
+                    onChangeText={setUsername}
+                    placeholder="Votre nom"
+                />
 
-            <Text style={styles.label}>Email</Text>
-            <TextInput
-                style={styles.input}
-                value={email}
-                onChangeText={setEmail}
-                placeholder="Votre email"
-                keyboardType="email-address"
-            />
+                <Text style={styles.label}>Email</Text>
+                <TextInput
+                    style={styles.input}
+                    value={email}
+                    onChangeText={setEmail}
+                    placeholder="Votre email"
+                    keyboardType="email-address"
+                />
 
-            <Text style={styles.label}>Biographie</Text>
-            <TextInput
-                style={styles.textArea}
-                value={bio}
-                onChangeText={setBio}
-                placeholder="Parlez un peu de vous..."
-                multiline
-            />
+                <Text style={styles.label}>Biographie</Text>
+                <TextInput
+                    style={styles.textArea}
+                    value={bio}
+                    onChangeText={setBio}
+                    placeholder="Parlez un peu de vous..."
+                    multiline
+                />
 
-            <TouchableOpacity
-                style={styles.saveButton}
-                onPress={handleSaveInfos}
-            >
-                <Text style={styles.saveButtonText}>Enregistrer</Text>
-            </TouchableOpacity>
-        </ScrollView>
+                <TouchableOpacity
+                    style={styles.saveButton}
+                    onPress={handleSaveInfos}
+                >
+                    <Text style={styles.saveButtonText}>Enregistrer</Text>
+                </TouchableOpacity>
+            </ScrollView>
+        </AppLayout>
     );
 };
 
@@ -141,6 +146,7 @@ const styles = StyleSheet.create({
     container: {
         padding: 20,
         backgroundColor: "#fff",
+        flex: 1,
     },
     avatar: {
         width: 100,

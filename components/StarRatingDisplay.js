@@ -2,7 +2,13 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-const StarRatingDisplay = ({ rating, max = 5, size = 16, color = "black" }) => {
+const StarRatingDisplay = ({
+    rating,
+    max = 5,
+    size = 16,
+    color = "black",
+    showNumber = true,
+}) => {
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating - fullStars >= 0.25 && rating - fullStars < 0.75;
     const extraFull = rating - fullStars >= 0.75 ? 1 : 0;
@@ -12,7 +18,9 @@ const StarRatingDisplay = ({ rating, max = 5, size = 16, color = "black" }) => {
 
     return (
         <View style={{ flexDirection: "row" }}>
-            <Text style={styles.rate}>{Number(rating).toFixed(1)}</Text>
+            {showNumber && (
+                <Text style={styles.rate}>{Number(rating).toFixed(1)}</Text>
+            )}
             {Array.from({ length: totalFull }).map((_, i) => (
                 <Ionicons
                     key={`full-${i}`}

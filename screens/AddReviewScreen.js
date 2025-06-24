@@ -12,11 +12,11 @@ import API from "../api/API";
 import AppLayout from "../components/AppLayout";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useMovies } from "../context/MovieContext";
-import { Ionicons } from "@expo/vector-icons";
+import BasicTopBar from "../components/Bars/BasicTopBar";
 import StarRatingInput from "../components/StarRatingInput";
+import DateInput from "../components/DateInput";
 
-export default function AddReviewScreen() {
-    const route = useRoute();
+export default function AddReviewScreen({ route }) {
     const { movieId } = route.params;
     const { movies } = useMovies();
     const navigation = useNavigation();
@@ -63,6 +63,7 @@ export default function AddReviewScreen() {
     return (
         <AppLayout>
             <View style={{ flex: 1 }}>
+                <BasicTopBar title={"Publish a review"} />
                 <View style={styles.container}>
                     <TouchableOpacity onPress={goToMovieDetail}>
                         <View style={styles.movieHeader}>
@@ -98,14 +99,17 @@ export default function AddReviewScreen() {
 
                     <View style={styles.dateRow}>
                         <Text style={styles.label}>Watch date</Text>
-                        <Text>{formattedDate}</Text>
+                        <DateInput
+                            initialDate={watchDate}
+                            onDateChange={(isoDate) => setWatchDate(isoDate)}
+                        />
                     </View>
 
                     <View style={styles.separator} />
 
                     <View style={styles.noteRow}>
                         <View style={styles.labelWrapper}>
-                            <Text style={styles.label}>Note</Text>
+                            <Text style={styles.label}>Rating</Text>
                         </View>
                         <View style={styles.starsWrapper}>
                             <StarRatingInput
@@ -130,7 +134,7 @@ export default function AddReviewScreen() {
                         style={styles.button}
                         onPress={postReview}
                     >
-                        <Text style={styles.buttonText}>Publier</Text>
+                        <Text style={styles.buttonText}>Publish</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -144,8 +148,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         flexGrow: 1,
     },
-
-    // Section en-tête film
     movieHeader: {
         flexDirection: "row",
         marginBottom: 12,

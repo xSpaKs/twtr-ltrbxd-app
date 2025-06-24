@@ -50,14 +50,13 @@ const SearchMovieItem = ({
 const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
-        paddingVertical: 12,
+        paddingVertical: 8,
         borderBottomWidth: 1,
         borderBottomColor: "#eee",
     },
     poster: {
         width: 60,
         height: 90,
-        borderRadius: 4,
         marginRight: 12,
     },
     textContainer: {

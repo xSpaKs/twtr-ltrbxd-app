@@ -4,15 +4,26 @@ import { useState } from "react";
 import formatDate from "../helpers/formatDateHelper";
 import PostMovieItem from "./PostMovieItem";
 import { useMovies } from "../context/MovieContext";
+import { useNavigation } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
+import API from "../api/API";
+import { useAuth } from "../context/AuthContext";
 
-const PostItem = ({ post, navigation }) => {
+const PostItem = ({ post, type = "detail", linesLimit = 999 }) => {
     const postId = post.id;
     const profileId = post.user.id;
+    const { loggedUser } = useAuth();
     let movie = null;
 
-    const [isLiked, setIsLiked] = useState(post.user_has_liked || false);
-    const [likesCount, setLikesCount] = useState(post.likes_count || 0);
+    const [isLiked, setIsLiked] = useState(() => {
+        return (
+            post.likes?.some((like) => like.user_id === loggedUser.id) || false
+        );
+    });
+    const [likesCount, setLikesCount] = useState(post.likes?.length || 0);
+    const [repliesCount, setRepliesCount] = useState(post.replies?.length || 0);
     const [isLoading, setIsLoading] = useState(false);
+    const navigation = useNavigation();
 
     if (post.movie_id != null) {
         const { movies } = useMovies();
@@ -25,18 +36,12 @@ const PostItem = ({ post, navigation }) => {
         setIsLoading(true);
 
         try {
-            const response = await API.call(
+            const data = await API.call(
                 "post",
-                `posts/${postId}/toggle-like`,
-                { postId: postId },
+                `posts/${postId}/toggle-post-like`,
+                {},
                 true
             );
-
-            if (!response.ok) {
-                throw new Error("Erreur lors du like");
-            }
-
-            const data = await response.json();
 
             setIsLiked(data.user_has_liked);
             setLikesCount(data.likes_count);
@@ -52,12 +57,20 @@ const PostItem = ({ post, navigation }) => {
         }
     };
 
+    const handleReply = async () => {
+        navigation.navigate("AddReply", { typeParent: "post", parent: post });
+    };
+
     const goToProfile = () => {
         navigation.navigate("Profile", { id: profileId });
     };
 
+    const goToParentProfile = () => {
+        navigation.navigate("Profile", { id: post.parent_post.user.id });
+    };
+
     const goToPostDetail = () => {
-        navigation.navigate("Post", { postId });
+        navigation.push("Post", { postId });
     };
 
     return (
@@ -78,11 +91,21 @@ const PostItem = ({ post, navigation }) => {
                     </View>
                 </View>
             </TouchableOpacity>
+            {(post.parent_post || post.parent_review) && (
+                <TouchableOpacity onPress={goToParentProfile}>
+                    <Text style={styles.answerText}>
+                        Answering to @
+                        {post.parent_post
+                            ? post.parent_post.user.username
+                            : post.parent_review.user.username}
+                    </Text>
+                </TouchableOpacity>
+            )}
 
             <Text
                 onPress={goToPostDetail}
                 style={styles.content}
-                numberOfLines={6}
+                numberOfLines={linesLimit}
             >
                 {post.content}
             </Text>
@@ -93,16 +116,28 @@ const PostItem = ({ post, navigation }) => {
                     onPress={handleLike}
                     disabled={isLoading}
                 >
-                    <Text
+                    <Ionicons
+                        name={isLiked ? "heart" : "heart-outline"}
+                        size={20}
                         style={[styles.likeIcon, isLiked && styles.likedIcon]}
-                    >
-                        {isLiked ? "❤️" : "🤍"}
-                    </Text>
+                    />
                     <Text
                         style={[styles.likeCount, isLiked && styles.likedText]}
                     >
                         {likesCount}
                     </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.likeButton}
+                    onPress={handleReply}
+                    disabled={isLoading}
+                >
+                    <Ionicons
+                        name={"chatbox-outline"}
+                        size={20}
+                        style={styles.likeIcon}
+                    />
+                    <Text style={styles.likedText}>{repliesCount}</Text>
                 </TouchableOpacity>
             </View>
         </TouchableOpacity>
@@ -112,9 +147,8 @@ const PostItem = ({ post, navigation }) => {
 const styles = StyleSheet.create({
     container: {
         padding: 12,
-        borderBottomWidth: 1,
-        borderBottomColor: "#eee",
     },
+
     headerRow: {
         flexDirection: "row",
         justifyContent: "space-between",
@@ -148,6 +182,27 @@ const styles = StyleSheet.create({
         marginTop: 6,
         fontSize: 15,
         color: "#000",
+    },
+    likeButton: {
+        display: "flex",
+        flexDirection: "row",
+    },
+    likeIcon: {
+        marginRight: 6,
+        color: "gray",
+    },
+    likedIcon: {
+        color: "red",
+    },
+    actionsRow: {
+        marginTop: 10,
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+    },
+    answerText: {
+        fontSize: 12,
+        color: "#666",
     },
 });
 

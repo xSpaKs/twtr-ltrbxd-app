@@ -14,7 +14,9 @@ const PostMovieItem = ({ movie }) => {
         <TouchableOpacity onPress={goToMovieDetail}>
             <View style={styles.container}>
                 <Image
-                    source={{ uri: movie.poster_url }}
+                    source={{
+                        uri: `https://image.tmdb.org/t/p/w154${movie.poster_url}`,
+                    }}
                     style={styles.poster}
                 />
                 <View style={styles.info}>
@@ -41,7 +43,6 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
         backgroundColor: "#e5e5e5",
-        borderRadius: 10,
         padding: 10,
         alignItems: "flex-start",
         marginTop: 10,
@@ -49,7 +50,6 @@ const styles = StyleSheet.create({
     poster: {
         width: 85,
         height: 120,
-        borderRadius: 4,
         backgroundColor: "#933",
     },
     info: {
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     description: {
         marginTop: 4,
         fontSize: 13,
-        color: "#333",
+        color: "#666",
     },
 });
 

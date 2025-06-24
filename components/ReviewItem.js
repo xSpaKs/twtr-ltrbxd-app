@@ -3,25 +3,77 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { useMovies } from "../context/MovieContext";
 import formatDate from "../helpers/formatDateHelper";
 import { useNavigation } from "@react-navigation/native";
+import StarRatingDisplay from "./StarRatingDisplay";
+import { reviewFormatDate } from "../helpers/reviewFormatDateHelper";
+import { useState } from "react";
+import { Ionicons } from "@expo/vector-icons";
+import API from "../api/API";
+import { useAuth } from "../context/AuthContext";
 
 const ReviewItem = ({ review, linesLimit = 999 }) => {
+    const reviewId = review.id;
+    const { loggedUser } = useAuth();
     const { movies } = useMovies();
     const movie = movies.find((m) => m.id == review.movie_id);
     const navigation = useNavigation();
+    const [isLiked, setIsLiked] = useState(() => {
+        return (
+            review.likes?.some((like) => like.user_id === loggedUser.id) ||
+            false
+        );
+    });
+    const [likesCount, setLikesCount] = useState(review.likes?.length || 0);
+    const [repliesCount, setRepliesCount] = useState(
+        review.replies?.length || 0
+    );
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleLike = async () => {
+        if (isLoading) return;
+
+        setIsLoading(true);
+
+        try {
+            const data = await API.call(
+                "post",
+                `reviews/${reviewId}/toggle-review-like`,
+                {},
+                true
+            );
+
+            setIsLiked(data.user_has_liked);
+            setLikesCount(data.likes_count);
+        } catch (error) {
+            Alert.alert(
+                "Erreur",
+                "Impossible de liker cette review. Veuillez réessayer.",
+                [{ text: "OK" }]
+            );
+            console.error("Erreur like:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleReply = async () => {
+        navigation.navigate("AddReply", {
+            typeParent: "review",
+            parent: review,
+        });
+    };
+
+    const goToProfile = () => {
+        navigation.navigate("Profile", { id: review.user_id });
+    };
 
     const goToReviewDetail = () => {
-        navigation.navigate("Review", {
+        navigation.push("Review", {
             reviewId: review.id,
-            linesLimit: linesLimit,
         });
     };
 
     const goToMovieDetail = () => {
         navigation.navigate("Movie", { movieId: review.movie_id });
-    };
-
-    const goToProfile = () => {
-        navigation.navigate("Profile", { id: review.user_id });
     };
 
     return (
@@ -30,7 +82,12 @@ const ReviewItem = ({ review, linesLimit = 999 }) => {
                 <View style={styles.leftColumn}>
                     <TouchableOpacity onPress={goToProfile}>
                         <View style={styles.userInfoRow}>
-                            <View style={styles.avatar} />
+                            <Image
+                                source={{
+                                    uri: review.user.profile_picture_url,
+                                }}
+                                style={styles.avatar}
+                            />
                             <View style={styles.userText}>
                                 <Text style={styles.username}>
                                     @{review.user.username}
@@ -52,7 +109,13 @@ const ReviewItem = ({ review, linesLimit = 999 }) => {
                             </Text>
                         </TouchableOpacity>
 
-                        <Text style={styles.stars}>★★★</Text>
+                        <StarRatingDisplay
+                            rating={review.rating}
+                            showNumber={false}
+                        />
+                        <Text style={styles.watchDate}>
+                            Watched {reviewFormatDate(review.watch_date)}
+                        </Text>
                     </View>
                 </View>
                 <TouchableOpacity onPress={goToMovieDetail}>
@@ -66,14 +129,40 @@ const ReviewItem = ({ review, linesLimit = 999 }) => {
             </View>
 
             <View style={styles.reviewBox}>
-                <Text style={styles.reviewText} numberOfLines={3}>
+                <Text style={styles.reviewText} numberOfLines={linesLimit}>
                     {review.content}
                 </Text>
             </View>
 
-            <View style={styles.footer}>
-                <Text style={styles.footerText}>💬 12</Text>
-                <Text style={styles.footerText}>🤍 0</Text>
+            <View style={styles.actionsRow}>
+                <TouchableOpacity
+                    style={styles.likeButton}
+                    onPress={handleLike}
+                    disabled={isLoading}
+                >
+                    <Ionicons
+                        name={isLiked ? "heart" : "heart-outline"}
+                        size={20}
+                        style={[styles.likeIcon, isLiked && styles.likedIcon]}
+                    />
+                    <Text
+                        style={[styles.likeCount, isLiked && styles.likedText]}
+                    >
+                        {likesCount}
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.likeButton}
+                    onPress={handleReply}
+                    disabled={isLoading}
+                >
+                    <Ionicons
+                        name={"chatbox-outline"}
+                        size={20}
+                        style={styles.likeIcon}
+                    />
+                    <Text style={styles.likedText}>{repliesCount}</Text>
+                </TouchableOpacity>
             </View>
         </TouchableOpacity>
     );
@@ -119,6 +208,7 @@ const styles = StyleSheet.create({
     },
     reviewInfo: {
         marginTop: 4,
+        gap: 4,
     },
     movieTitle: {
         paddingTop: 12,
@@ -133,9 +223,12 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginTop: 4,
     },
+    watchDate: {
+        color: "#666",
+    },
     poster: {
-        width: 80,
-        height: 120,
+        width: 75,
+        height: 110,
         backgroundColor: "#ddd",
     },
     reviewBox: {
@@ -147,14 +240,23 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: "#333",
     },
-    footer: {
+
+    likeButton: {
+        display: "flex",
+        flexDirection: "row",
+    },
+    likeIcon: {
+        marginRight: 6,
+        color: "gray",
+    },
+    likedIcon: {
+        color: "red",
+    },
+    actionsRow: {
+        marginTop: 10,
+        display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
-        marginTop: 10,
-    },
-    footerText: {
-        fontSize: 14,
-        color: "#555",
     },
 });
 

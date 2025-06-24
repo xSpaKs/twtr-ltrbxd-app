@@ -23,7 +23,7 @@ const ListDiscussionsScreen = () => {
                     "Erreur lors du chargement des discussions :",
                     error
                 );
-                setDiscussions([]); // sécurité même en cas d'échec
+                setDiscussions([]);
             }
         };
 

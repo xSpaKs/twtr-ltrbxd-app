@@ -34,10 +34,7 @@ export default function RegisterScreen({ navigation }) {
             const { user, token } = data;
             await loginContext(user, token);
         } catch (err) {
-            Alert.alert(
-                "Erreur",
-                "Une erreur est survenue lors de l'inscription."
-            );
+            Alert.alert("", err.response.data.message);
         }
     };
 

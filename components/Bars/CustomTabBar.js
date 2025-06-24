@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { View, TouchableOpacity, Text, StyleSheet, Modal } from "react-native";
-import { navigate } from "../navigation/RootNavigation";
+import { navigate, push } from "../../navigation/RootNavigation";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
 export default function CustomTabBar() {
-    const { user } = useAuth();
+    const { loggedUser } = useAuth();
     const [modalVisible, setModalVisible] = useState(false);
 
     return (
@@ -31,7 +31,7 @@ export default function CustomTabBar() {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    onPress={() => navigate("Profile", { id: user.id })}
+                    onPress={() => push("Profile", { id: loggedUser.id })}
                 >
                     <Ionicons name="person-outline" size={24} color="black" />
                 </TouchableOpacity>
@@ -82,7 +82,9 @@ export default function CustomTabBar() {
                             style={styles.popupButton}
                             onPress={() => {
                                 setModalVisible(false);
-                                navigate("AddPost");
+                                navigate("SearchMovie", {
+                                    nextUrl: "AddPost",
+                                });
                             }}
                         >
                             <Ionicons

@@ -16,10 +16,11 @@ import { useAuth } from "../context/AuthContext";
 import AppLayout from "../components/AppLayout";
 import { Ionicons } from "@expo/vector-icons";
 import MessageItem from "../components/MessageItem";
+import UserTopbar from "../components/Bars/UserTopBar";
 
 export default function DiscussionScreen({ route }) {
     const { discussionId } = route.params;
-    const { user } = useAuth();
+    const { loggedUser } = useAuth();
 
     const [messages, setMessages] = useState([]);
     const [otherUser, setOtherUser] = useState(null);
@@ -27,9 +28,8 @@ export default function DiscussionScreen({ route }) {
     const [hasMore, setHasMore] = useState(true);
     const [loading, setLoading] = useState(false);
     const [newMessage, setNewMessage] = useState("");
-    const [showOptions, setShowOptions] = useState(false);
     const [isBlocked, setIsBlocked] = useState(false);
-    const navigation = useNavigation();
+    const [hasBlocked, setHasBlocked] = useState(false);
 
     const fetchMessages = async (pageToLoad = 1) => {
         if (loading || !hasMore) return;
@@ -48,6 +48,8 @@ export default function DiscussionScreen({ route }) {
             if (pageToLoad === 1) {
                 setMessages(newMessages);
                 setOtherUser(data.other_user);
+                setIsBlocked(data.isBlocked);
+                setHasBlocked(data.hasBlocked);
             } else {
                 setMessages((prev) => [...prev, ...newMessages]);
             }
@@ -80,24 +82,6 @@ export default function DiscussionScreen({ route }) {
         }
     };
 
-    const toggleBlock = async () => {
-        try {
-            const data = await API.call(
-                "post",
-                `users/${otherUser.id}/toggle-block`,
-                {},
-                true
-            );
-            setIsBlocked(data.isBlocked);
-        } catch (e) {
-            console.error("Erreur lors du blocage/déblocage", e);
-        }
-    };
-
-    const goToProfile = () => {
-        navigation.navigate("Profile", { id: otherUser.id });
-    };
-
     useEffect(() => {
         if (discussionId) fetchMessages(1);
     }, [discussionId]);
@@ -108,104 +92,59 @@ export default function DiscussionScreen({ route }) {
 
     return (
         <AppLayout>
-            <View style={styles.header}>
-                <TouchableOpacity onPress={goToProfile}>
-                    <View style={styles.headerLeft}>
-                        {otherUser && (
-                            <>
-                                <TouchableOpacity
-                                    onPress={() => navigation.goBack()}
-                                    style={styles.backIcon}
-                                >
-                                    <Ionicons
-                                        name="arrow-back"
-                                        size={24}
-                                        color="#555"
-                                    />
-                                </TouchableOpacity>
-                                <Image
-                                    source={{
-                                        uri: otherUser.profile_picture_url,
-                                    }}
-                                    style={styles.avatar}
-                                />
-                                <Text style={styles.headerUsername}>
-                                    @{otherUser.username}
-                                </Text>
-                            </>
-                        )}
-                    </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => setShowOptions(true)}>
-                    <Ionicons
-                        name="ellipsis-horizontal"
-                        size={22}
-                        color="black"
-                    />
-                </TouchableOpacity>
-            </View>
-            <FlatList
-                showsVerticalScrollIndicator={false}
-                data={messages}
-                renderItem={({ item }) => (
-                    <MessageItem
-                        message={item}
-                        currentUserId={user.id}
-                        onDelete={(id) =>
-                            setMessages((prev) =>
-                                prev.filter((m) => m.id !== id)
-                            )
-                        }
-                    />
-                )}
-                keyExtractor={(item) => item.id.toString()}
-                contentContainerStyle={{ paddingVertical: 12 }}
-                inverted={true}
-                onEndReached={handleLoadMore}
-                onEndReachedThreshold={0.3}
-            />
-            <View style={styles.inputContainer}>
-                <TextInput
-                    style={styles.input}
-                    value={newMessage}
-                    onChangeText={setNewMessage}
-                    placeholder="Écris un message..."
-                    multiline
+            <UserTopbar otherUser={otherUser} />
+            {messages.length > 0 ? (
+                <FlatList
+                    showsVerticalScrollIndicator={false}
+                    data={messages}
+                    renderItem={({ item }) => (
+                        <MessageItem
+                            message={item}
+                            currentUserId={loggedUser.id}
+                            onDelete={(id) =>
+                                setMessages((prev) =>
+                                    prev.filter((m) => m.id !== id)
+                                )
+                            }
+                        />
+                    )}
+                    keyExtractor={(item) => item.id.toString()}
+                    contentContainerStyle={{ paddingVertical: 12 }}
+                    inverted={true}
+                    onEndReached={handleLoadMore}
+                    onEndReachedThreshold={0.3}
                 />
-                <TouchableOpacity
-                    onPress={sendMessage}
-                    style={styles.sendButton}
-                >
-                    <Ionicons name="send" size={24} color="#007AFF" />
-                </TouchableOpacity>
-            </View>
-            <Modal
-                visible={showOptions}
-                transparent
-                animationType="fade"
-                onRequestClose={() => setShowOptions(false)}
-            >
-                <Pressable
-                    style={styles.modalOverlay}
-                    onPress={() => setShowOptions(false)}
-                >
-                    <View style={styles.modalContainer}>
-                        <TouchableOpacity
-                            onPress={toggleBlock}
-                            style={styles.menuItem}
-                        >
-                            <Text>Block</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => {}}
-                            style={styles.menuItem}
-                        >
-                            <Text>Report</Text>
-                        </TouchableOpacity>
-                    </View>
-                </Pressable>
-            </Modal>
+            ) : (
+                <View style={styles.noMessages}>
+                    <Text style={styles.noMessagesText}>
+                        No messages yet...
+                    </Text>
+                </View>
+            )}
+
+            {isBlocked || hasBlocked ? (
+                <View style={styles.centered}>
+                    <Text style={styles.blockedText}>
+                        You can't send messages to this user.
+                    </Text>
+                </View>
+            ) : (
+                <View style={styles.inputContainer}>
+                    <TextInput
+                        style={styles.input}
+                        value={newMessage}
+                        onChangeText={setNewMessage}
+                        placeholder="Write a message..."
+                        multiline
+                    />
+                    <TouchableOpacity
+                        onPress={sendMessage}
+                        style={styles.sendButton}
+                    >
+                        <Ionicons name="send" size={24} color="#007AFF" />
+                    </TouchableOpacity>
+                </View>
+            )}
         </AppLayout>
     );
 }
@@ -253,7 +192,6 @@ const styles = StyleSheet.create({
         maxHeight: 100,
         paddingHorizontal: 12,
         paddingVertical: 8,
-        backgroundColor: "#f4f4f4",
         borderRadius: 20,
         fontSize: 16,
     },
@@ -261,62 +199,27 @@ const styles = StyleSheet.create({
         marginLeft: 8,
         padding: 6,
     },
-    header: {
-        flexDirection: "row",
+    centered: {
         alignItems: "center",
-        justifyContent: "space-between",
-        paddingHorizontal: 12,
-        paddingVertical: 10,
-        backgroundColor: "#fff",
-        borderBottomWidth: 1,
-        borderBottomColor: "#eee",
-    },
-
-    headerLeft: {
-        flexDirection: "row",
-        alignItems: "center",
-    },
-
-    headerUsername: {
-        fontSize: 16,
-        fontWeight: "bold",
-        marginLeft: 8,
-        color: "#333",
-    },
-
-    avatar: {
-        width: 32,
-        height: 32,
-        borderRadius: 16,
-        backgroundColor: "#ccc",
-    },
-    modalOverlay: {
-        flex: 1,
-        backgroundColor: "rgba(0,0,0,0.2)",
-        justifyContent: "flex-start",
-        alignItems: "flex-end",
-        paddingTop: 40,
-        paddingRight: 12,
-    },
-    modalContainer: {
-        backgroundColor: "#fff",
-        borderRadius: 6,
-        width: 160,
-        elevation: 5,
-        paddingVertical: 8,
-    },
-    menuItem: {
-        paddingVertical: 10,
-        paddingHorizontal: 16,
+        justifyContent: "center",
+        padding: 16,
     },
     blockedText: {
         fontSize: 16,
-        color: "#333",
+        color: "#888",
         textAlign: "center",
-        marginTop: 40,
+        fontStyle: "italic",
+        lineHeight: 22,
+        paddingHorizontal: 16,
     },
-    backIcon: {
-        padding: 4,
-        marginRight: 6,
+    noMessages: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    noMessagesText: {
+        textAlign: "center",
+        fontSize: 16,
+        color: "#666",
     },
 });

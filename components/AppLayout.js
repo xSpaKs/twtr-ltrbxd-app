@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import CustomTabBar from "./CustomTabBar";
+import CustomTabBar from "./Bars/CustomTabBar";
 import { useRoute } from "@react-navigation/native";
 
 const PAGES_WITH_TAB = [];

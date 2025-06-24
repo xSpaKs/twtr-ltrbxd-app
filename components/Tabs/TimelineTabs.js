@@ -1,8 +1,6 @@
-// navigation/TimelineTabs.js
-import React from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import PostTimelineScreen from "../screens/PostTimelineScreen";
-import ReviewTimelineScreen from "../screens/ReviewTimelineScreen";
+import PostTimeline from "../Timelines/Posts/PostTimeline";
+import ReviewTimeline from "../Timelines/Reviews/ReviewTimeline";
 
 const TopTab = createMaterialTopTabNavigator();
 
@@ -15,8 +13,8 @@ export default function TimelineTabs() {
                 tabBarStyle: { backgroundColor: "#fff", paddingTop: 24 },
             }}
         >
-            <TopTab.Screen name="Posts" component={PostTimelineScreen} />
-            <TopTab.Screen name="Reviews" component={ReviewTimelineScreen} />
+            <TopTab.Screen name="Posts" component={PostTimeline} />
+            <TopTab.Screen name="Reviews" component={ReviewTimeline} />
         </TopTab.Navigator>
     );
 }

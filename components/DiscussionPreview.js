@@ -39,7 +39,8 @@ export default function DiscussionPreview({ discussion }) {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 16,
+        paddingHorizontal: 16,
+        paddingVertical: 10,
         borderBottomWidth: 1,
         borderBottomColor: "#ddd",
         backgroundColor: "#fff",

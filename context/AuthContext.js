@@ -4,7 +4,7 @@ import * as SecureStore from "expo-secure-store";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+    const [loggedUser, setLoggedUser] = useState(null);
     const [token, setToken] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
                     setToken(storedToken);
                     const storedUser = await SecureStore.getItemAsync("user");
                     if (storedUser) {
-                        setUser(JSON.parse(storedUser));
+                        setLoggedUser(JSON.parse(storedUser));
                     }
                 }
             } catch (e) {
@@ -29,24 +29,24 @@ export const AuthProvider = ({ children }) => {
         loadToken();
     }, []);
 
-    const loginContext = async (user, token) => {
+    const loginContext = async (loggedUser, token) => {
         await SecureStore.setItemAsync("token", token);
-        await SecureStore.setItemAsync("user", JSON.stringify(user));
+        await SecureStore.setItemAsync("user", JSON.stringify(loggedUser));
         setToken(token);
-        setUser(user);
+        setLoggedUser(loggedUser);
     };
 
     const logoutContext = async () => {
         await SecureStore.deleteItemAsync("token");
         await SecureStore.deleteItemAsync("user");
         setToken(null);
-        setUser(null);
+        setLoggedUser(null);
     };
 
     return (
         <AuthContext.Provider
             value={{
-                user,
+                loggedUser,
                 token,
                 loginContext,
                 logoutContext,
