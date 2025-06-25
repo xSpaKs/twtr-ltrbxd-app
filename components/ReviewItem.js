@@ -76,6 +76,10 @@ const ReviewItem = ({ review, linesLimit = 999 }) => {
         navigation.navigate("Movie", { movieId: review.movie_id });
     };
 
+    if (!movie) {
+        return null;
+    }
+
     return (
         <TouchableOpacity style={styles.container} onPress={goToReviewDetail}>
             <View style={styles.topSection}>
@@ -128,11 +132,13 @@ const ReviewItem = ({ review, linesLimit = 999 }) => {
                 </TouchableOpacity>
             </View>
 
-            <View style={styles.reviewBox}>
-                <Text style={styles.reviewText} numberOfLines={linesLimit}>
-                    {review.content}
-                </Text>
-            </View>
+            {review.content && (
+                <View style={styles.reviewBox}>
+                    <Text style={styles.reviewText} numberOfLines={linesLimit}>
+                        {review.content}
+                    </Text>
+                </View>
+            )}
 
             <View style={styles.actionsRow}>
                 <TouchableOpacity
@@ -227,9 +233,10 @@ const styles = StyleSheet.create({
         color: "#666",
     },
     poster: {
-        width: 75,
-        height: 110,
+        width: 85,
+        height: 120,
         backgroundColor: "#ddd",
+        borderRadius: 5,
     },
     reviewBox: {
         paddingVertical: 10,

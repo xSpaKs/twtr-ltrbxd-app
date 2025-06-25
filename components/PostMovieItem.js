@@ -28,7 +28,7 @@ const PostMovieItem = ({ movie }) => {
                     </View>
                     <Text
                         style={styles.description}
-                        numberOfLines={6}
+                        numberOfLines={4}
                         ellipsizeMode="tail"
                     >
                         {movie.description}
@@ -43,18 +43,20 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
         backgroundColor: "#e5e5e5",
-        padding: 10,
         alignItems: "flex-start",
         marginTop: 10,
+        borderRadius: 5,
     },
     poster: {
         width: 85,
         height: 120,
         backgroundColor: "#933",
+        borderTopLeftRadius: 5,
+        borderBottomLeftRadius: 5,
     },
     info: {
         flex: 1,
-        marginLeft: 10,
+        padding: 10,
     },
     header: {
         flexDirection: "row",

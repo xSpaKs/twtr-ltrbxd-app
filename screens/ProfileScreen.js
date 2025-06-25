@@ -98,6 +98,10 @@ export default function ProfileScreen({ route }) {
         }
     };
 
+    const goToReport = () => {
+        navigation.navigate("Report", { otherUser: userProfile });
+    };
+
     if (!userProfile) {
         return (
             <View style={styles.centered}>
@@ -130,7 +134,7 @@ export default function ProfileScreen({ route }) {
                     </View>
                 </View>
                 <View style={styles.headerRightButtons}>
-                    {!isOwnUser && (
+                    {!isOwnUser && !isBlocked && !hasBlocked && (
                         <TouchableOpacity
                             style={
                                 isFollowed
@@ -210,7 +214,7 @@ export default function ProfileScreen({ route }) {
                                     )}
                                 </TouchableOpacity>
                                 <TouchableOpacity
-                                    onPress={() => {}}
+                                    onPress={goToReport}
                                     style={styles.menuItem}
                                 >
                                     <Text>Report</Text>
@@ -223,12 +227,20 @@ export default function ProfileScreen({ route }) {
                                     onPress={goToEditProfile}
                                     style={styles.menuItem}
                                 >
+                                    <Ionicons
+                                        name="pencil-sharp"
+                                        size={16}
+                                    ></Ionicons>
                                     <Text>Edit profile</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     onPress={handleLogout}
                                     style={styles.menuItem}
                                 >
+                                    <Ionicons
+                                        name="log-out-outline"
+                                        size={20}
+                                    ></Ionicons>
                                     <Text>Logout</Text>
                                 </TouchableOpacity>
                             </>
@@ -335,8 +347,8 @@ const styles = StyleSheet.create({
     modalOverlay: {
         flex: 1,
         backgroundColor: "rgba(0,0,0,0.2)",
-        justifyContent: "flex-start",
-        alignItems: "flex-end",
+        justifyContent: "center",
+        alignItems: "center",
         paddingTop: 40,
         paddingRight: 12,
     },
@@ -350,6 +362,10 @@ const styles = StyleSheet.create({
     menuItem: {
         paddingVertical: 10,
         paddingHorizontal: 16,
+        display: "flex",
+        flexDirection: "row",
+        gap: 10,
+        alignItems: "center",
     },
     blockedText: {
         fontSize: 16,

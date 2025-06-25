@@ -10,7 +10,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-const MovieTopBar = ({ title }) => {
+const MovieTopBar = ({ title, onPress, option, icon }) => {
     const navigation = useNavigation();
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -50,12 +50,12 @@ const MovieTopBar = ({ title }) => {
                         <TouchableOpacity
                             onPress={() => {
                                 setModalVisible(false);
+                                onPress();
                             }}
                             style={styles.modalOption}
                         >
-                            <Text style={styles.modalOptionText}>
-                                Add to watchlist
-                            </Text>
+                            {icon}
+                            <Text style={styles.modalOptionText}>{option}</Text>
                         </TouchableOpacity>
                     </View>
                 </Pressable>
@@ -91,16 +91,21 @@ const styles = StyleSheet.create({
     modalOverlay: {
         flex: 1,
         backgroundColor: "rgba(0,0,0,0.2)",
-        justifyContent: "flex-end",
+        justifyContent: "center",
+        alignItems: "center",
     },
     modalContent: {
         backgroundColor: "#fff",
         padding: 12,
-        borderTopLeftRadius: 12,
-        borderTopRightRadius: 12,
+        borderRadius: 10,
     },
     modalOption: {
-        paddingVertical: 12,
+        paddingVertical: 8,
+        paddingHorizontal: 10,
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 5,
     },
     modalOptionText: {
         fontSize: 16,

@@ -1,14 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import {
+    View,
+    Text,
+    FlatList,
+    StyleSheet,
+    ActivityIndicator,
+} from "react-native";
 import API from "../api/API";
 import DiscussionPreview from "../components/DiscussionPreview";
 import AppLayout from "../components/AppLayout";
+import BasicTopBar from "../components/Bars/BasicTopBar";
 
 const ListDiscussionsScreen = () => {
     const [discussions, setDiscussions] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchDiscussions = async () => {
+            setLoading(true);
             try {
                 const data = await API.call(
                     "get",
@@ -25,15 +34,24 @@ const ListDiscussionsScreen = () => {
                 );
                 setDiscussions([]);
             }
+            setLoading(false);
         };
 
         fetchDiscussions();
     }, []);
 
+    if (loading) {
+        return (
+            <View style={styles.centered}>
+                <ActivityIndicator size="large" />
+            </View>
+        );
+    }
+
     return (
         <AppLayout>
+            <BasicTopBar title={"Discussions"} />
             <View style={styles.container}>
-                <Text>Discussions</Text>
                 <FlatList
                     showsVerticalScrollIndicator={false}
                     data={discussions}
@@ -58,6 +76,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         padding: 16,
     },
+    centered: { flex: 1, justifyContent: "center", alignItems: "center" },
 });
 
 export default ListDiscussionsScreen;

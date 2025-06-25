@@ -41,6 +41,7 @@ export default function PostScreen({ route }) {
 
         while (current?.parent_post || current?.parent_review) {
             const parent = current.parent_post || current.parent_review;
+            console.log(parent);
             chain.push(parent);
             current = parent;
         }
@@ -65,7 +66,7 @@ export default function PostScreen({ route }) {
 
         return (
             <View style={{ marginTop: 24 }}>
-                <Text>Responses</Text>
+                <Text style={styles.replyText}>REPLIES</Text>
                 {post.replies.map((reply) => (
                     <PostItem key={reply.id} post={reply} />
                 ))}
@@ -135,5 +136,10 @@ const styles = StyleSheet.create({
         borderBottomColor: "#ccc",
         borderBottomWidth: 1,
         marginVertical: 6,
+    },
+    replyText: {
+        color: "#666",
+        fontSize: 14,
+        marginLeft: 10,
     },
 });

@@ -72,7 +72,7 @@ const EditProfileScreen = ({ route }) => {
 
         try {
             const response = await fetch(
-                `${HOME_WIFI_URL}/users/updatePicture`,
+                `${HOME_API_URL}/users/updatePicture`,
                 {
                     method: "POST",
                     headers: {
@@ -99,7 +99,7 @@ const EditProfileScreen = ({ route }) => {
                     ) : (
                         <View style={styles.placeholder}>
                             <Text style={styles.placeholderText}>
-                                Ajouter une photo
+                                Choose a picture
                             </Text>
                         </View>
                     )}
@@ -122,7 +122,7 @@ const EditProfileScreen = ({ route }) => {
                     keyboardType="email-address"
                 />
 
-                <Text style={styles.label}>Biographie</Text>
+                <Text style={styles.label}>Bio</Text>
                 <TextInput
                     style={styles.textArea}
                     value={bio}
@@ -135,7 +135,7 @@ const EditProfileScreen = ({ route }) => {
                     style={styles.saveButton}
                     onPress={handleSaveInfos}
                 >
-                    <Text style={styles.saveButtonText}>Enregistrer</Text>
+                    <Text style={styles.saveButtonText}>Save</Text>
                 </TouchableOpacity>
             </ScrollView>
         </AppLayout>

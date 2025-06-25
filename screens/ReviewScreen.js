@@ -21,6 +21,7 @@ export default function ReviewScreen({ route }) {
     const postRef = useRef(null);
 
     useEffect(() => {
+        setLoading(true);
         const fetchReview = async () => {
             try {
                 const data = await API.call(
@@ -47,7 +48,7 @@ export default function ReviewScreen({ route }) {
             <View style={{ marginTop: 24 }}>
                 <Text>Responses</Text>
                 {review.replies.map((reply) => (
-                    <ReviewItem key={reply.id} review={reply} />
+                    <PostItem key={reply.id} post={reply} />
                 ))}
                 <View style={styles.separator} />
             </View>

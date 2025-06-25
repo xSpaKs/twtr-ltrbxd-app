@@ -15,6 +15,7 @@ import EditProfileScreen from "../screens/EditProfileScreen";
 import WatchlistScreen from "../screens/WatchlistScreen";
 import SendMessageScreen from "../screens/SendMessageScreen";
 import AddReplyScreen from "../screens/AddReplyScreen";
+import ReportUserScreen from "../screens/ReportUserScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -48,6 +49,7 @@ export default function ScreensWithTabs() {
                     component={SendMessageScreen}
                 />
                 <Stack.Screen name="AddReply" component={AddReplyScreen} />
+                <Stack.Screen name="Report" component={ReportUserScreen} />
             </Stack.Navigator>
             <CustomTabBar />
         </View>

@@ -23,7 +23,7 @@ export default function AddReviewScreen({ route }) {
 
     const [reviewText, setReviewText] = useState("");
     const [rating, setRating] = useState(3);
-    const [watchDate, setWatchDate] = useState("2025-06-11");
+    const [watchDate, setWatchDate] = useState("");
 
     const movie = movies.find((m) => m.id == movieId);
 
@@ -35,7 +35,7 @@ export default function AddReviewScreen({ route }) {
                 movieId: movieId,
                 content: reviewText,
                 rating: rating,
-                watchDate: watchDate,
+                watch_date: watchDate,
             },
             true
         );
@@ -119,7 +119,11 @@ export default function AddReviewScreen({ route }) {
                         </View>
                     </View>
 
-                    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <ScrollView
+                        contentContainerStyle={{
+                            flexGrow: 1,
+                        }}
+                    >
                         <TextInput
                             style={styles.textArea}
                             multiline

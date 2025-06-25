@@ -53,7 +53,7 @@ export default function CustomTabBar() {
                     onPressOut={() => setModalVisible(false)}
                 >
                     <View style={styles.popup}>
-                        <Text style={styles.title}>Que veux-tu faire ?</Text>
+                        <Text style={styles.title}>What to do ?</Text>
                         <TouchableOpacity
                             style={styles.popupButton}
                             onPress={() => {
@@ -69,11 +69,9 @@ export default function CustomTabBar() {
                                 color="black"
                             />
                             <View style={styles.text}>
-                                <Text style={styles.mainText}>
-                                    Ajouter un film
-                                </Text>
+                                <Text style={styles.mainText}>Add a film</Text>
                                 <Text style={styles.secondaryText}>
-                                    Rédiger une critique
+                                    Write a review
                                 </Text>
                             </View>
                         </TouchableOpacity>
@@ -94,10 +92,10 @@ export default function CustomTabBar() {
                             />
                             <View style={styles.text}>
                                 <Text style={styles.mainText}>
-                                    Ajouter un post
+                                    Publish a post
                                 </Text>
                                 <Text style={styles.secondaryText}>
-                                    Partager une pensée
+                                    Share a thought
                                 </Text>
                             </View>
                         </TouchableOpacity>

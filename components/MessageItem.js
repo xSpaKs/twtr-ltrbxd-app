@@ -7,12 +7,12 @@ export default function MessageItem({ message, currentUserId, onDelete }) {
 
     const handleLongPress = () => {
         Alert.alert(
-            "Supprimer le message",
-            "Es-tu sûr de vouloir supprimer ce message ?",
+            "Delete this message",
+            "Are you sure to delete this message ? You can't go back.",
             [
                 { text: "Annuler", style: "cancel" },
                 {
-                    text: "Supprimer",
+                    text: "Delete",
                     style: "destructive",
                     onPress: async () => {
                         try {

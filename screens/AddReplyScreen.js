@@ -86,7 +86,12 @@ const AddReplyScreen = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
-    parentPreview: {},
+    parentPreview: {
+        margin: 12,
+        borderWidth: 1,
+        borderRadius: 10,
+        borderColor: "#ccc",
+    },
     inputWrapper: {
         flex: 1,
         paddingHorizontal: 12,
@@ -102,6 +107,7 @@ const styles = StyleSheet.create({
         textAlignVertical: "top",
         fontSize: 16,
         marginBottom: 12,
+        backgroundColor: "#fff",
     },
     publishButton: {
         paddingVertical: 10,

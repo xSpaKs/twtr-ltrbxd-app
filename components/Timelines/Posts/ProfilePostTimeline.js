@@ -44,36 +44,36 @@ const ProfilePostTimeline = ({ route }) => {
         }
     };
 
-    if (posts.length === 0) {
-        return (
-            <AppLayout>
-                <View style={styles.emptyContainer}>
-                    <Text style={styles.emptyText}>No posts found...</Text>
-                </View>
-            </AppLayout>
-        );
-    }
-
     return (
         <AppLayout>
-            <FlatList
-                showsVerticalScrollIndicator={false}
-                data={posts}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => (
-                    <PostItem post={item} linesLimit={6} />
-                )}
-                onEndReached={fetchPosts}
-                onEndReachedThreshold={0.4}
-                ListFooterComponent={
-                    loading ? (
-                        <ActivityIndicator
-                            size="small"
-                            style={{ marginVertical: 10 }}
-                        />
-                    ) : null
-                }
-            />
+            {posts.length === 0 ? (
+                <View style={styles.centered}>
+                    {loading ? (
+                        <ActivityIndicator size="large" />
+                    ) : (
+                        <Text style={styles.emptyText}>No posts found...</Text>
+                    )}
+                </View>
+            ) : (
+                <FlatList
+                    showsVerticalScrollIndicator={false}
+                    data={posts}
+                    keyExtractor={(item) => item.id.toString()}
+                    renderItem={({ item }) => (
+                        <PostItem post={item} linesLimit={6} />
+                    )}
+                    onEndReached={fetchPosts}
+                    onEndReachedThreshold={0.4}
+                    ListFooterComponent={
+                        loading ? (
+                            <ActivityIndicator
+                                size="small"
+                                style={{ marginVertical: 10 }}
+                            />
+                        ) : null
+                    }
+                />
+            )}
         </AppLayout>
     );
 };
@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
         color: "#888",
         textAlign: "center",
     },
+    centered: { flex: 1, justifyContent: "center", alignItems: "center" },
 });
 
 export default ProfilePostTimeline;

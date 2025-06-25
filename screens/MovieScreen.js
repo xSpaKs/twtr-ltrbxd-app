@@ -69,7 +69,22 @@ const MovieScreen = ({ route }) => {
 
     return (
         <AppLayout>
-            <MovieTopBar title={"Movie"} />
+            <MovieTopBar
+                title={"Movie"}
+                onPress={toggleWatchlist}
+                option={
+                    isInOwnWatchlist == true
+                        ? "Remove from watchlist"
+                        : "Add to watchlist"
+                }
+                icon={
+                    isInOwnWatchlist == true ? (
+                        <Ionicons name="bookmark" size={24} />
+                    ) : (
+                        <Ionicons name="bookmark-outline" size={24} />
+                    )
+                }
+            />
             <View style={styles.container}>
                 <View style={styles.row}>
                     <Image

@@ -44,36 +44,38 @@ const MovieReviewTimelineScreen = ({ route }) => {
         }
     };
 
-    if (reviews.length === 0) {
-        return (
-            <AppLayout>
-                <View style={styles.emptyContainer}>
-                    <Text style={styles.emptyText}>No reviews found...</Text>
-                </View>
-            </AppLayout>
-        );
-    }
-
     return (
         <AppLayout>
-            <FlatList
-                showsVerticalScrollIndicator={false}
-                data={reviews}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => (
-                    <ReviewItem review={item} linesLimit={3} />
-                )}
-                onEndReached={fetchReviews}
-                onEndReachedThreshold={0.4}
-                ListFooterComponent={
-                    loading ? (
-                        <ActivityIndicator
-                            size="small"
-                            style={{ marginVertical: 10 }}
-                        />
-                    ) : null
-                }
-            />
+            {reviews.length === 0 ? (
+                <View style={styles.centered}>
+                    {loading ? (
+                        <ActivityIndicator size="large" />
+                    ) : (
+                        <Text style={styles.emptyText}>
+                            No reviews found...
+                        </Text>
+                    )}
+                </View>
+            ) : (
+                <FlatList
+                    showsVerticalScrollIndicator={false}
+                    data={reviews}
+                    keyExtractor={(item) => item.id.toString()}
+                    renderItem={({ item }) => (
+                        <ReviewItem review={item} linesLimit={3} />
+                    )}
+                    onEndReached={fetchReviews}
+                    onEndReachedThreshold={0.4}
+                    ListFooterComponent={
+                        loading ? (
+                            <ActivityIndicator
+                                size="small"
+                                style={{ marginVertical: 10 }}
+                            />
+                        ) : null
+                    }
+                />
+            )}
         </AppLayout>
     );
 };
@@ -90,6 +92,7 @@ const styles = StyleSheet.create({
         color: "#888",
         textAlign: "center",
     },
+    centered: { flex: 1, justifyContent: "center", alignItems: "center" },
 });
 
 export default MovieReviewTimelineScreen;
