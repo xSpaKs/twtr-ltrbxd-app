@@ -1,19 +1,13 @@
-import React from "react";
 import { TouchableOpacity, View, Text, StyleSheet, Image } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import formatDate from "../helpers/formatDateHelper";
+import formatDate from "../helpers/formatDate.helper";
+import { goToDiscussion } from "../helpers/navigation.helper";
 
 export default function DiscussionPreview({ discussion }) {
-    const navigation = useNavigation();
-
-    const goToDiscussion = () => {
-        navigation.navigate("Discussion", {
-            discussionId: discussion.id,
-        });
-    };
-
     return (
-        <TouchableOpacity style={styles.container} onPress={goToDiscussion}>
+        <TouchableOpacity
+            style={styles.container}
+            onPress={() => goToDiscussion(discussion.id)}
+        >
             <View style={styles.row}>
                 <View style={styles.leftRow}>
                     <Image

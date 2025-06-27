@@ -7,6 +7,7 @@ import {
     TouchableOpacity,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { goToProfile } from "../helpers/navigation.helper";
 
 const UserSlider = ({ users }) => {
     const navigation = useNavigation();
@@ -19,11 +20,7 @@ const UserSlider = ({ users }) => {
             {users.map((user) => (
                 <TouchableOpacity
                     key={user.id}
-                    onPress={() =>
-                        navigation.navigate("Profile", {
-                            id: user.id,
-                        })
-                    }
+                    onPress={() => goToProfile(user.id)}
                     style={styles.avatarWrapper}
                 >
                     <Image

@@ -14,7 +14,12 @@ import API from "../api/API";
 import { useAuth } from "../context/AuthContext";
 import AppLayout from "../components/AppLayout";
 import ProfileTabs from "../components/Tabs/ProfileTabs";
-import { useNavigation } from "@react-navigation/native";
+import {
+    goToEditProfile,
+    goToDiscussion,
+    goToSendMessage,
+    goToReport,
+} from "../helpers/navigation.helper";
 
 export default function ProfileScreen({ route }) {
     const { id } = route.params;
@@ -28,7 +33,6 @@ export default function ProfileScreen({ route }) {
     const [isBlocked, setIsBlocked] = useState(false);
     const [hasBlocked, setHasBlocked] = useState(false);
     const [sharedDiscussion, setSharedDiscussion] = useState([]);
-    const navigation = useNavigation();
 
     useEffect(() => {
         fetchUser();
@@ -78,28 +82,10 @@ export default function ProfileScreen({ route }) {
         }
     };
 
-    const goToEditProfile = () => {
-        navigation.navigate("EditProfile", { user: userProfile });
-    };
-
-    const goToSendMessage = () => {
-        navigation.navigate("SendMessage", {
-            otherUser: userProfile,
-            followings,
-            followers,
-        });
-    };
-
-    const goToDiscussion = () => {
+    const handleDiscussion = () => {
         if (sharedDiscussion["value"] == true) {
-            navigation.navigate("Discussion", {
-                discussionId: sharedDiscussion["id"],
-            });
+            goToDiscussion(sharedDiscussion["id"]);
         }
-    };
-
-    const goToReport = () => {
-        navigation.navigate("Report", { otherUser: userProfile });
     };
 
     if (!userProfile) {
@@ -195,8 +181,13 @@ export default function ProfileScreen({ route }) {
                                     <TouchableOpacity
                                         onPress={
                                             sharedDiscussion["value"] == true
-                                                ? goToDiscussion
-                                                : goToSendMessage
+                                                ? handleDiscussion
+                                                : () =>
+                                                      goToSendMessage(
+                                                          userProfile,
+                                                          followings,
+                                                          followers
+                                                      )
                                         }
                                         style={styles.menuItem}
                                     >
@@ -214,7 +205,7 @@ export default function ProfileScreen({ route }) {
                                     )}
                                 </TouchableOpacity>
                                 <TouchableOpacity
-                                    onPress={goToReport}
+                                    onPress={() => goToReport(userProfile)}
                                     style={styles.menuItem}
                                 >
                                     <Text>Report</Text>
@@ -224,7 +215,7 @@ export default function ProfileScreen({ route }) {
                         {isOwnUser && (
                             <>
                                 <TouchableOpacity
-                                    onPress={goToEditProfile}
+                                    onPress={() => goToEditProfile(userProfile)}
                                     style={styles.menuItem}
                                 >
                                     <Ionicons

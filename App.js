@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { AuthProvider } from "./context/AuthContext";
 import { MovieProvider } from "./context/MovieContext";
 import AppRoutes from "./components/AppRoutes";
-import { navigationRef } from "./navigation/RootNavigation";
+import { navigationRef } from "./navigation/navigation";
 
 export default function App() {
     return (

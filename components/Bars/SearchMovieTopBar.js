@@ -1,20 +1,15 @@
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { goToAddPost, goToBack } from "../../helpers/navigation.helper";
 
 const SearchMovieTopBar = ({ title, nextUrl }) => {
-    const navigation = useNavigation();
-    const goToAddPost = () => {
-        navigation.navigate("AddPost", { movieId: null });
-    };
-
     return (
         <>
             <View style={styles.header}>
                 <TouchableOpacity>
                     <View style={styles.headerLeft}>
                         <TouchableOpacity
-                            onPress={() => navigation.goBack()}
+                            onPress={goToBack}
                             style={styles.backIcon}
                         >
                             <Ionicons
@@ -27,7 +22,7 @@ const SearchMovieTopBar = ({ title, nextUrl }) => {
                     </View>
                 </TouchableOpacity>
                 {nextUrl == "AddPost" && (
-                    <TouchableOpacity onPress={goToAddPost}>
+                    <TouchableOpacity onPress={() => goToAddPost(null)}>
                         <Text style={styles.noMovie}>No movie</Text>
                     </TouchableOpacity>
                 )}

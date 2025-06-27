@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { View, TouchableOpacity, Text, StyleSheet, Modal } from "react-native";
-import { navigate, push } from "../../navigation/RootNavigation";
+import {
+    goToTimeline,
+    goToProfile,
+    goToSearchMovie,
+    goToListDiscussions,
+} from "../../helpers/navigation.helper";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useAuth } from "../../context/AuthContext";
 
@@ -11,15 +16,11 @@ export default function CustomTabBar() {
     return (
         <>
             <View style={styles.tab}>
-                <TouchableOpacity
-                    onPress={() =>
-                        navigate("SearchMovie", { nextUrl: "Movie" })
-                    }
-                >
+                <TouchableOpacity onPress={() => goToSearchMovie("Movie")}>
                     <Ionicons name="search-outline" size={24} color="black" />
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => navigate("Timeline")}>
+                <TouchableOpacity onPress={goToTimeline}>
                     <Ionicons name="home-outline" size={24} color="black" />
                 </TouchableOpacity>
 
@@ -30,13 +31,11 @@ export default function CustomTabBar() {
                     <Ionicons name="add" size={24} color="white" />
                 </TouchableOpacity>
 
-                <TouchableOpacity
-                    onPress={() => push("Profile", { id: loggedUser.id })}
-                >
+                <TouchableOpacity onPress={() => goToProfile(loggedUser.id)}>
                     <Ionicons name="person-outline" size={24} color="black" />
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => navigate("ListDiscussions")}>
+                <TouchableOpacity onPress={goToListDiscussions}>
                     <Ionicons name="mail-outline" size={24} color="black" />
                 </TouchableOpacity>
             </View>
@@ -58,9 +57,7 @@ export default function CustomTabBar() {
                             style={styles.popupButton}
                             onPress={() => {
                                 setModalVisible(false);
-                                navigate("SearchMovie", {
-                                    nextUrl: "AddReview",
-                                });
+                                goToSearchMovie("AddReview");
                             }}
                         >
                             <Ionicons
@@ -69,7 +66,7 @@ export default function CustomTabBar() {
                                 color="black"
                             />
                             <View style={styles.text}>
-                                <Text style={styles.mainText}>Add a film</Text>
+                                <Text style={styles.mainText}>Add a movie</Text>
                                 <Text style={styles.secondaryText}>
                                     Write a review
                                 </Text>
@@ -80,9 +77,7 @@ export default function CustomTabBar() {
                             style={styles.popupButton}
                             onPress={() => {
                                 setModalVisible(false);
-                                navigate("SearchMovie", {
-                                    nextUrl: "AddPost",
-                                });
+                                goToSearchMovie("AddPost");
                             }}
                         >
                             <Ionicons

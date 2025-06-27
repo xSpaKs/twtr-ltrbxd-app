@@ -8,24 +8,18 @@ import {
     Pressable,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import { goToProfile, goToBack } from "../../helpers/navigation.helper";
 
 const UserTopbar = ({ otherUser }) => {
-    const navigation = useNavigation();
-
-    const goToProfile = () => {
-        navigation.navigate("Profile", { id: otherUser.id });
-    };
     return (
         <>
             <View style={styles.header}>
-                <TouchableOpacity onPress={goToProfile}>
+                <TouchableOpacity onPress={() => goToProfile(otherUser.id)}>
                     <View style={styles.headerLeft}>
                         {otherUser && (
                             <>
                                 <TouchableOpacity
-                                    onPress={() => navigation.goBack()}
+                                    onPress={goToBack}
                                     style={styles.backIcon}
                                 >
                                     <Ionicons

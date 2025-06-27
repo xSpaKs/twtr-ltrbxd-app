@@ -10,16 +10,15 @@ import {
 } from "react-native";
 import API from "../api/API";
 import AppLayout from "../components/AppLayout";
-import { useNavigation, useRoute } from "@react-navigation/native";
 import { useMovies } from "../context/MovieContext";
 import BasicTopBar from "../components/Bars/BasicTopBar";
 import StarRatingInput from "../components/StarRatingInput";
 import DateInput from "../components/DateInput";
+import { goToTimeline } from "../helpers/navigation.helper";
 
 export default function AddReviewScreen({ route }) {
     const { movieId } = route.params;
     const { movies } = useMovies();
-    const navigation = useNavigation();
 
     const [reviewText, setReviewText] = useState("");
     const [rating, setRating] = useState(3);
@@ -41,11 +40,7 @@ export default function AddReviewScreen({ route }) {
         );
 
         alert("Review publiée !");
-        navigation.navigate("Timeline", { refresh: true });
-    };
-
-    const goToMovieDetail = () => {
-        navigation.navigate("Movie", { movieId: movieId });
+        goToTimeline({ refresh: true });
     };
 
     if (!movie) {
@@ -65,7 +60,7 @@ export default function AddReviewScreen({ route }) {
             <View style={{ flex: 1 }}>
                 <BasicTopBar title={"Publish a review"} />
                 <View style={styles.container}>
-                    <TouchableOpacity onPress={goToMovieDetail}>
+                    <TouchableOpacity onPress={() => goToMovieDetail(movieId)}>
                         <View style={styles.movieHeader}>
                             <Image
                                 source={{

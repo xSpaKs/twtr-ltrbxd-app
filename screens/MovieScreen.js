@@ -16,6 +16,7 @@ import MovieTopBar from "../components/Bars/MovieTopBar";
 import MovieTabs from "../components/Tabs/MovieTabs";
 import API from "../api/API";
 import UserSlider from "../components/UserSlider";
+import { goToSearchMovie } from "../helpers/navigation.helper";
 
 const MovieScreen = ({ route }) => {
     const { movieId } = route.params;
@@ -35,7 +36,7 @@ const MovieScreen = ({ route }) => {
 
     useEffect(() => {
         if (!movieId) {
-            navigation.navigate("SearchMovie");
+            goToSearchMovie();
         }
 
         const fetchFollowingsInWatchlist = async () => {

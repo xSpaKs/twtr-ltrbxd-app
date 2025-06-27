@@ -2,13 +2,10 @@ import React from "react";
 import { Image, StyleSheet, TouchableOpacity, Alert, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import API from "../api/API";
+import { goToMovieDetail } from "../helpers/navigation.helper";
 
 const WatchlistItem = ({ movie, isOwnUser, onRemove }) => {
     const navigation = useNavigation();
-
-    const goToMovieDetail = () => {
-        navigation.navigate("Movie", { movieId: movie.id });
-    };
 
     const handleLongPress = () => {
         if (!isOwnUser) return;
@@ -42,7 +39,7 @@ const WatchlistItem = ({ movie, isOwnUser, onRemove }) => {
 
     return (
         <TouchableOpacity
-            onPress={goToMovieDetail}
+            onPress={() => goToMovieDetail(movie.id)}
             onLongPress={handleLongPress}
             style={styles.container}
         >

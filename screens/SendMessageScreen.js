@@ -13,6 +13,7 @@ import API from "../api/API";
 import AppLayout from "../components/AppLayout";
 import { useNavigation } from "@react-navigation/native";
 import BasicTopBar from "../components/Bars/BasicTopBar";
+import { goToDiscussion } from "../helpers/navigation.helper";
 
 export default function SendMessageScreen({ route }) {
     const { otherUser, followings, followers } = route.params;
@@ -32,7 +33,7 @@ export default function SendMessageScreen({ route }) {
             true
         );
 
-        navigation.navigate("Discussion", { discussionId: data.discussion.id });
+        goToDiscussion(data.discussion.id);
     };
 
     return (

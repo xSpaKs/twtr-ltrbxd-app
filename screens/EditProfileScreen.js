@@ -17,9 +17,9 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import API from "../api/API";
 import { useAuth } from "../context/AuthContext";
-import { useNavigation } from "@react-navigation/native";
 import BasicTopBar from "../components/Bars/BasicTopBar";
 import AppLayout from "../components/AppLayout";
+import { goToProfile } from "../helpers/navigation.helper";
 
 const EditProfileScreen = ({ route }) => {
     const { user } = route.params;
@@ -28,7 +28,6 @@ const EditProfileScreen = ({ route }) => {
     const [email, setEmail] = useState(user.email || "");
     const [bio, setBio] = useState(user.bio || "");
     const [avatar, setAvatar] = useState(user.profile_picture_url || null);
-    const navigation = useNavigation();
 
     const pickImage = async () => {
         const result = await ImagePicker.launchImageLibraryAsync({
@@ -53,7 +52,7 @@ const EditProfileScreen = ({ route }) => {
         };
 
         await API.call("put", "users/updateInfos", data, true);
-        navigation.navigate("Profile", { id: user.id });
+        goToProfile(user.id);
     };
 
     const handleSavePicture = async (imageUri) => {

@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import API from "../api/API";
 import { useAuth } from "../context/AuthContext";
+import { goToLogin } from "../helpers/navigation.helper";
 
 export default function RegisterScreen({ navigation }) {
     const [username, setUsername] = useState("xSpaKs");
@@ -87,7 +88,7 @@ export default function RegisterScreen({ navigation }) {
                     <Text style={styles.buttonText}>S'inscrire</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+                <TouchableOpacity onPress={goToLogin}>
                     <Text style={styles.registerLink}>
                         Déjà un compte ? Connectez-vous
                     </Text>

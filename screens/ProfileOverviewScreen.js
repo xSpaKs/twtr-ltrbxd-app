@@ -5,6 +5,7 @@ import API from "../api/API";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "../context/AuthContext";
+import { goToWatchlist } from "../helpers/navigation.helper";
 
 const ProfileOverviewScreen = ({ route }) => {
     const [bestRatedReviews, setBestRatedReviews] = useState([]);
@@ -27,14 +28,6 @@ const ProfileOverviewScreen = ({ route }) => {
 
         fetchHighestRatedReviews();
     }, []);
-
-    const goToPosts = () => {
-        navigation.navigate("ProfilePosts", { user: user });
-    };
-
-    const goToWatchlist = () => {
-        navigation.navigate("Watchlist", { user: user, isOwnUser: isOwnUser });
-    };
 
     return (
         <>
@@ -61,7 +54,7 @@ const ProfileOverviewScreen = ({ route }) => {
                     </TouchableOpacity>
                     <View style={styles.separator} />
                     <TouchableOpacity
-                        onPress={goToPosts}
+                        onPress={() => goToPosts(user)}
                         style={styles.dataContainer}
                     >
                         <Text>Posts</Text>
@@ -69,7 +62,7 @@ const ProfileOverviewScreen = ({ route }) => {
                     </TouchableOpacity>
                     <View style={styles.separator} />
                     <TouchableOpacity
-                        onPress={goToWatchlist}
+                        onPress={() => goToWatchlist(user, isOwnUser)}
                         style={styles.dataContainer}
                     >
                         <Text>Watchlist</Text>

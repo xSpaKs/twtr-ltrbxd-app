@@ -1,13 +1,18 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { useState } from "react";
-import formatDate from "../helpers/formatDateHelper";
+import formatDate from "../helpers/formatDate.helper";
 import PostMovieItem from "./PostMovieItem";
 import { useMovies } from "../context/MovieContext";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import API from "../api/API";
 import { useAuth } from "../context/AuthContext";
+import {
+    goToProfile,
+    goToPostDetail,
+    goToAddReply,
+} from "../helpers/navigation.helper";
 
 const PostItem = ({ post, type = "detail", linesLimit = 999 }) => {
     const postId = post.id;
@@ -57,25 +62,9 @@ const PostItem = ({ post, type = "detail", linesLimit = 999 }) => {
         }
     };
 
-    const handleReply = async () => {
-        navigation.navigate("AddReply", { typeParent: "post", parent: post });
-    };
-
-    const goToProfile = () => {
-        navigation.navigate("Profile", { id: profileId });
-    };
-
-    const goToParentProfile = () => {
-        navigation.navigate("Profile", { id: post.parent_post.user.id });
-    };
-
-    const goToPostDetail = () => {
-        navigation.push("Post", { postId });
-    };
-
     return (
         <TouchableOpacity style={styles.container}>
-            <TouchableOpacity onPress={goToProfile}>
+            <TouchableOpacity onPress={() => goToProfile(profileId)}>
                 <View style={styles.userInfoRow}>
                     <Image
                         source={{ uri: post.user.profile_picture_url }}
@@ -92,7 +81,11 @@ const PostItem = ({ post, type = "detail", linesLimit = 999 }) => {
                 </View>
             </TouchableOpacity>
             {(post.parent_post || post.parent_review) && (
-                <TouchableOpacity onPress={goToParentProfile}>
+                <TouchableOpacity
+                    onPress={() => {
+                        goToProfile(post.parent_post.user.id);
+                    }}
+                >
                     <Text style={styles.answerText}>
                         Answering to @
                         {post.parent_post
@@ -103,7 +96,7 @@ const PostItem = ({ post, type = "detail", linesLimit = 999 }) => {
             )}
 
             <Text
-                onPress={goToPostDetail}
+                onPress={() => goToPostDetail(post.id)}
                 style={styles.content}
                 numberOfLines={linesLimit}
             >
@@ -129,7 +122,7 @@ const PostItem = ({ post, type = "detail", linesLimit = 999 }) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.likeButton}
-                    onPress={handleReply}
+                    onPress={() => goToAddReply("post", post)}
                     disabled={isLoading}
                 >
                     <Ionicons

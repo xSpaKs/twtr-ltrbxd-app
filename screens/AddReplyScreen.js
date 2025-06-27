@@ -13,13 +13,12 @@ import AppLayout from "../components/AppLayout";
 import PostItem from "../components/PostItem";
 import ReviewItem from "../components/ReviewItem";
 import BasicTopBar from "../components/Bars/BasicTopBar";
-import { useNavigation } from "@react-navigation/native";
+import { goToPostDetail } from "../helpers/navigation.helper";
 
 const AddReplyScreen = ({ route }) => {
     const { typeParent, parent } = route.params;
     const [content, setContent] = useState("");
     const [loading, setLoading] = useState(false);
-    const navigation = useNavigation();
 
     const handleSubmit = async () => {
         if (!content.trim()) {
@@ -42,7 +41,7 @@ const AddReplyScreen = ({ route }) => {
                 true
             );
 
-            navigation.navigate("Post", { postId: data.id });
+            goToPostDetail(data.id);
         } catch (error) {
             Alert.alert("", "Unable to send your post.");
         } finally {

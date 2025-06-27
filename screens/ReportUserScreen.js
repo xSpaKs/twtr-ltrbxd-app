@@ -17,6 +17,7 @@ import { useAuth } from "../context/AuthContext";
 import { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { goToTimeline } from "../helpers/navigation.helper";
 
 const ReportUserScreen = ({ route }) => {
     const { loggedUser } = useAuth();
@@ -69,7 +70,7 @@ const ReportUserScreen = ({ route }) => {
             );
             setReason("");
             setSelectedPostId(null);
-            navigation.navigate("Timeline");
+            goToTimeline();
         } catch (error) {
             console.error("Erreur report :", error);
             Alert.alert("Erreur", "Impossible d’envoyer le signalement.");

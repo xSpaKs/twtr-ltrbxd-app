@@ -10,12 +10,12 @@ import {
 import { useMovies } from "../context/MovieContext";
 import { useNavigation } from "@react-navigation/native";
 import StarRatingDisplay from "../components/StarRatingDisplay";
+import { goToReviewDetail } from "../helpers/navigation.helper";
 
 const ProfileMovies = ({ reviews }) => {
     const { movies } = useMovies();
     const navigation = useNavigation();
 
-    // Dans ProfileMovies.js
     if (!reviews || reviews.length === 0) {
         return (
             <View style={styles.container}>
@@ -39,11 +39,7 @@ const ProfileMovies = ({ reviews }) => {
                 return (
                     <TouchableOpacity
                         key={index}
-                        onPress={() =>
-                            navigation.navigate("Review", {
-                                reviewId: review.id,
-                            })
-                        }
+                        onPress={() => goToReviewDetail(review.id)}
                         style={styles.card}
                     >
                         <Image

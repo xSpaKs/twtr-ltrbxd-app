@@ -9,19 +9,19 @@ const formatDate = (dateStr) => {
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
 
     if (seconds < 60) {
-        return `il y a ${seconds}s`;
+        return `${seconds}s ago`;
     }
 
     if (minutes < 60) {
-        return `il y a ${minutes}m`;
+        return `${minutes}m ago`;
     }
 
     if (hours < 24) {
-        return `il y a ${hours}h`;
+        return `${hours}h ago`;
     }
 
     if (days < 7) {
-        return `il y a ${days} jour${days > 1 ? "s" : ""}`;
+        return `${days} day${days > 1 ? "s" : ""} ago`;
     }
 
     const day = String(date.getDate()).padStart(2, "0");

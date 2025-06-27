@@ -1,21 +1,24 @@
-import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { useMovies } from "../context/MovieContext";
-import formatDate from "../helpers/formatDateHelper";
-import { useNavigation } from "@react-navigation/native";
+import formatDate from "../helpers/formatDate.helper";
 import StarRatingDisplay from "./StarRatingDisplay";
-import { reviewFormatDate } from "../helpers/reviewFormatDateHelper";
+import { reviewFormatDate } from "../helpers/reviewFormatDate.helper";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import API from "../api/API";
 import { useAuth } from "../context/AuthContext";
+import {
+    goToProfile,
+    goToReviewDetail,
+    goToMovieDetail,
+    goToAddReply,
+} from "../helpers/navigation.helper";
 
 const ReviewItem = ({ review, linesLimit = 999 }) => {
     const reviewId = review.id;
     const { loggedUser } = useAuth();
     const { movies } = useMovies();
     const movie = movies.find((m) => m.id == review.movie_id);
-    const navigation = useNavigation();
     const [isLiked, setIsLiked] = useState(() => {
         return (
             review.likes?.some((like) => like.user_id === loggedUser.id) ||
@@ -55,36 +58,24 @@ const ReviewItem = ({ review, linesLimit = 999 }) => {
         }
     };
 
-    const handleReply = async () => {
-        navigation.navigate("AddReply", {
-            typeParent: "review",
-            parent: review,
-        });
-    };
-
-    const goToProfile = () => {
-        navigation.navigate("Profile", { id: review.user_id });
-    };
-
-    const goToReviewDetail = () => {
-        navigation.push("Review", {
-            reviewId: review.id,
-        });
-    };
-
-    const goToMovieDetail = () => {
-        navigation.navigate("Movie", { movieId: review.movie_id });
-    };
-
     if (!movie) {
         return null;
     }
 
     return (
-        <TouchableOpacity style={styles.container} onPress={goToReviewDetail}>
+        <TouchableOpacity
+            style={styles.container}
+            onPress={() => {
+                goToReviewDetail(review.id);
+            }}
+        >
             <View style={styles.topSection}>
                 <View style={styles.leftColumn}>
-                    <TouchableOpacity onPress={goToProfile}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            goToProfile(loggedUser.id);
+                        }}
+                    >
                         <View style={styles.userInfoRow}>
                             <Image
                                 source={{
@@ -104,7 +95,9 @@ const ReviewItem = ({ review, linesLimit = 999 }) => {
                     </TouchableOpacity>
 
                     <View style={styles.reviewInfo}>
-                        <TouchableOpacity onPress={goToMovieDetail}>
+                        <TouchableOpacity
+                            onPress={() => goToMovieDetail(review.movie.id)}
+                        >
                             <Text style={styles.movieTitle}>
                                 {movie?.title}{" "}
                                 <Text style={styles.year}>
@@ -122,7 +115,9 @@ const ReviewItem = ({ review, linesLimit = 999 }) => {
                         </Text>
                     </View>
                 </View>
-                <TouchableOpacity onPress={goToMovieDetail}>
+                <TouchableOpacity
+                    onPress={() => goToMovieDetail(review.movie.id)}
+                >
                     <Image
                         source={{
                             uri: `https://image.tmdb.org/t/p/w154${movie.poster_url}`,
@@ -159,7 +154,9 @@ const ReviewItem = ({ review, linesLimit = 999 }) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.likeButton}
-                    onPress={handleReply}
+                    onPress={() => {
+                        goToAddReply("review", review);
+                    }}
                     disabled={isLoading}
                 >
                     <Ionicons

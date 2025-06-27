@@ -41,7 +41,6 @@ export default function PostScreen({ route }) {
 
         while (current?.parent_post || current?.parent_review) {
             const parent = current.parent_post || current.parent_review;
-            console.log(parent);
             chain.push(parent);
             current = parent;
         }

@@ -1,17 +1,12 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { goToMovieDetail } from "../helpers/navigation.helper";
 
 const PostMovieItem = ({ movie }) => {
     const year = new Date(movie.release_date).getFullYear();
-    const navigation = useNavigation();
-
-    const goToMovieDetail = () => {
-        navigation.navigate("Movie", { movieId: movie.id });
-    };
 
     return (
-        <TouchableOpacity onPress={goToMovieDetail}>
+        <TouchableOpacity onPress={() => goToMovieDetail(movie.id)}>
             <View style={styles.container}>
                 <Image
                     source={{

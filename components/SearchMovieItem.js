@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { goToPage } from "../helpers/navigation.helper";
 
 const SearchMovieItem = ({
     id,
@@ -10,16 +10,13 @@ const SearchMovieItem = ({
     description = "",
     nextUrl,
 }) => {
-    const navigation = useNavigation();
-
     if (!nextUrl) nextUrl = "Movie";
 
-    const goToNextUrl = () => {
-        navigation.navigate(nextUrl, { movieId: id });
-    };
-
     return (
-        <TouchableOpacity onPress={goToNextUrl} style={styles.container}>
+        <TouchableOpacity
+            onPress={() => goToPage(nextUrl, { movieId: id })}
+            style={styles.container}
+        >
             {posterUrl && (
                 <Image
                     source={{
