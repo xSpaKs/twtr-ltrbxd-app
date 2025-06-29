@@ -1,10 +1,11 @@
-import { StyleSheet, FlatList, View } from "react-native";
+import { FlatList, View } from "react-native";
 import { useState, useEffect } from "react";
 import API from "../api/API";
 import { useMovies } from "../context/MovieContext";
 import BasicTopBar from "../components/Bars/BasicTopBar";
 import AppLayout from "../components/AppLayout";
 import WatchlistItem from "../components/WatchlistItem";
+import { styles } from "../styles/Watchlist.styles";
 
 const WatchlistScreen = ({ route }) => {
     const { user, isOwnUser } = route.params;
@@ -61,18 +62,5 @@ const WatchlistScreen = ({ route }) => {
         </AppLayout>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        padding: 3,
-    },
-    flexList: {
-        padding: 12,
-    },
-    flexItem: {
-        flex: 1,
-        padding: 3,
-    },
-});
 
 export default WatchlistScreen;

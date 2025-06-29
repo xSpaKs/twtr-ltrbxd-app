@@ -11,6 +11,8 @@ import { useMovies } from "../context/MovieContext";
 import SearchMovieItem from "../components/SearchMovieItem";
 import AppLayout from "../components/AppLayout";
 import SearchMovieTopBar from "../components/Bars/SearchMovieTopBar";
+import { styles } from "../styles/SearchMovie.styles";
+
 const SearchMovieScreen = ({ route }) => {
     const { movies } = useMovies();
     const [search, setSearch] = useState("");
@@ -60,30 +62,5 @@ const SearchMovieScreen = ({ route }) => {
         </AppLayout>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        marginHorizontal: 12,
-    },
-    emptyContainer: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        paddingHorizontal: 24,
-    },
-    emptyText: {
-        fontSize: 18,
-        color: "#888",
-        textAlign: "center",
-    },
-    searchBar: {
-        marginVertical: 10,
-        borderWidth: 1,
-        borderColor: "#ccc",
-        borderRadius: 5,
-        padding: 10,
-        backgroundColor: "white",
-    },
-});
 
 export default SearchMovieScreen;

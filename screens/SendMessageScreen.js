@@ -1,24 +1,14 @@
 import React, { useState, useEffect } from "react";
-import {
-    View,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    StyleSheet,
-    Button,
-    Image,
-    ActivityIndicator,
-} from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
 import API from "../api/API";
 import AppLayout from "../components/AppLayout";
-import { useNavigation } from "@react-navigation/native";
 import BasicTopBar from "../components/Bars/BasicTopBar";
 import { goToDiscussion } from "../helpers/navigation.helper";
+import { styles } from "../styles/SendMessage.styles";
 
 export default function SendMessageScreen({ route }) {
     const { otherUser, followings, followers } = route.params;
     const [messageText, setMessageText] = useState("");
-    const navigation = useNavigation();
 
     const sendMessage = async () => {
         if (!messageText.trim()) {
@@ -87,76 +77,3 @@ export default function SendMessageScreen({ route }) {
         </AppLayout>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        padding: 16,
-        flex: 1,
-        backgroundColor: "#fff",
-    },
-    profile: {
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    label: {
-        fontWeight: "bold",
-        marginBottom: 6,
-    },
-    textArea: {
-        borderColor: "#ccc",
-        borderWidth: 1,
-        borderRadius: 6,
-        padding: 10,
-        textAlignVertical: "top",
-        marginBottom: 16,
-        flex: 1,
-    },
-    button: {
-        backgroundColor: "#555",
-        padding: 14,
-        borderRadius: 8,
-        alignItems: "center",
-    },
-    buttonText: {
-        color: "#fff",
-        fontWeight: "bold",
-    },
-    avatar: {
-        width: 60,
-        height: 60,
-        borderRadius: 30,
-        backgroundColor: "#ddd",
-    },
-    info: {
-        alignItems: "center",
-    },
-    username: {
-        fontWeight: "600",
-        fontSize: 16,
-        textAlign: "center",
-    },
-    joined: {
-        color: "#666",
-        fontSize: 12,
-        marginVertical: 2,
-        textAlign: "center",
-    },
-    statsRow: {
-        flexDirection: "row",
-        gap: 10,
-        marginTop: 8,
-    },
-    stat: {
-        fontSize: 13,
-        color: "#666",
-    },
-    bold: {
-        fontWeight: "bold",
-        color: "#333",
-    },
-    separator: {
-        borderBottomColor: "#ccc",
-        borderBottomWidth: 1,
-        marginVertical: 12,
-    },
-});

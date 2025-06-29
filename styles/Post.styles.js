@@ -1,0 +1,18 @@
+import { StyleSheet } from "react-native";
+
+export const styles = StyleSheet.create({
+    container: { padding: 20 },
+    title: { fontSize: 20, fontWeight: "bold" },
+    content: { marginTop: 10, fontSize: 16 },
+    centered: { flex: 1, justifyContent: "center", alignItems: "center" },
+    separator: {
+        borderBottomColor: "#ccc",
+        borderBottomWidth: 1,
+        marginVertical: 6,
+    },
+    replyText: {
+        color: "#666",
+        fontSize: 14,
+        marginLeft: 10,
+    },
+});

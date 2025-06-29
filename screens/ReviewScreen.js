@@ -1,16 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
-import {
-    ScrollView,
-    View,
-    Text,
-    ActivityIndicator,
-    StyleSheet,
-} from "react-native";
+import { ScrollView, View, Text, ActivityIndicator } from "react-native";
 import API from "../api/API";
 import ReviewItem from "../components/ReviewItem";
 import PostItem from "../components/PostItem";
 import BasicTopBar from "../components/Bars/BasicTopBar";
 import AppLayout from "../components/AppLayout";
+import { styles } from "../styles/Review.styles";
 
 export default function ReviewScreen({ route }) {
     const { reviewId } = route.params;
@@ -102,9 +97,3 @@ export default function ReviewScreen({ route }) {
         </>
     );
 }
-
-const styles = StyleSheet.create({
-    title: { fontSize: 20, fontWeight: "bold" },
-    content: { marginTop: 10, fontSize: 16 },
-    centered: { flex: 1, justifyContent: "center", alignItems: "center" },
-});

@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from "react";
-import {
-    View,
-    Text,
-    FlatList,
-    StyleSheet,
-    ActivityIndicator,
-} from "react-native";
+import { View, Text, FlatList, ActivityIndicator } from "react-native";
 import API from "../api/API";
 import DiscussionPreview from "../components/DiscussionPreview";
 import AppLayout from "../components/AppLayout";
 import BasicTopBar from "../components/Bars/BasicTopBar";
+import { styles } from "../styles/ListDiscussion.styles";
 
 const ListDiscussionsScreen = () => {
     const [discussions, setDiscussions] = useState([]);
@@ -65,18 +60,5 @@ const ListDiscussionsScreen = () => {
         </AppLayout>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#f4f4f4",
-    },
-    title: {
-        fontSize: 22,
-        fontWeight: "bold",
-        padding: 16,
-    },
-    centered: { flex: 1, justifyContent: "center", alignItems: "center" },
-});
 
 export default ListDiscussionsScreen;

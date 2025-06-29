@@ -14,6 +14,7 @@ import PostItem from "../components/PostItem";
 import ReviewItem from "../components/ReviewItem";
 import BasicTopBar from "../components/Bars/BasicTopBar";
 import { goToPostDetail } from "../helpers/navigation.helper";
+import { styles } from "../styles/AddReply.styles";
 
 const AddReplyScreen = ({ route }) => {
     const { typeParent, parent } = route.params;
@@ -83,34 +84,5 @@ const AddReplyScreen = ({ route }) => {
         </AppLayout>
     );
 };
-
-const styles = StyleSheet.create({
-    parentPreview: {
-        margin: 12,
-        borderWidth: 1,
-        borderRadius: 10,
-        borderColor: "#ccc",
-    },
-    inputWrapper: {
-        flex: 1,
-        paddingHorizontal: 12,
-        paddingTop: 6,
-        justifyContent: "flex-start",
-    },
-    textInput: {
-        height: 150,
-        borderColor: "#ccc",
-        borderWidth: 1,
-        borderRadius: 8,
-        padding: 12,
-        textAlignVertical: "top",
-        fontSize: 16,
-        marginBottom: 12,
-        backgroundColor: "#fff",
-    },
-    publishButton: {
-        paddingVertical: 10,
-    },
-});
 
 export default AddReplyScreen;

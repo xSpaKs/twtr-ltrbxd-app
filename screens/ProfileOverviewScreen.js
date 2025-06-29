@@ -1,19 +1,17 @@
-import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 import ProfileMovies from "../components/ProfileMovies";
 import { useEffect } from "react";
 import API from "../api/API";
 import { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "../context/AuthContext";
 import { goToWatchlist } from "../helpers/navigation.helper";
+import { styles } from "../styles/ProfileOverview.styles";
 
 const ProfileOverviewScreen = ({ route }) => {
     const [bestRatedReviews, setBestRatedReviews] = useState([]);
     const { user } = route.params;
     const { loggedUser } = useAuth();
     const isOwnUser = loggedUser.id == user.id;
-
-    const navigation = useNavigation();
 
     useEffect(() => {
         const fetchHighestRatedReviews = async () => {
@@ -73,32 +71,5 @@ const ProfileOverviewScreen = ({ route }) => {
         </>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        padding: 10,
-    },
-    favoriteText: {
-        fontSize: 16,
-        paddingBottom: 8,
-        color: "#666",
-    },
-    statText: {
-        fontSize: 16,
-        marginTop: 24,
-        color: "#666",
-    },
-    separator: {
-        borderBottomColor: "#ccc",
-        borderBottomWidth: 1,
-        marginVertical: 6,
-    },
-    dataContainer: {
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        paddingHorizontal: 10,
-    },
-});
 
 export default ProfileOverviewScreen;

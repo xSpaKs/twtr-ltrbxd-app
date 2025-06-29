@@ -1,16 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
-import {
-    ScrollView,
-    View,
-    Text,
-    ActivityIndicator,
-    StyleSheet,
-} from "react-native";
+import { ScrollView, View, Text, ActivityIndicator } from "react-native";
 import API from "../api/API";
 import BasicTopBar from "../components/Bars/BasicTopBar";
 import AppLayout from "../components/AppLayout";
 import PostItem from "../components/PostItem";
 import ReviewItem from "../components/ReviewItem";
+import { styles } from "../styles/Post.styles";
 
 export default function PostScreen({ route }) {
     const { postId } = route.params;
@@ -125,20 +120,3 @@ export default function PostScreen({ route }) {
         </>
     );
 }
-
-const styles = StyleSheet.create({
-    container: { padding: 20 },
-    title: { fontSize: 20, fontWeight: "bold" },
-    content: { marginTop: 10, fontSize: 16 },
-    centered: { flex: 1, justifyContent: "center", alignItems: "center" },
-    separator: {
-        borderBottomColor: "#ccc",
-        borderBottomWidth: 1,
-        marginVertical: 6,
-    },
-    replyText: {
-        color: "#666",
-        fontSize: 14,
-        marginLeft: 10,
-    },
-});
