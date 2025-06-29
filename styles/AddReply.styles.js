@@ -4,7 +4,6 @@ export const styles = StyleSheet.create({
     parentPreview: {
         margin: 12,
         borderWidth: 1,
-        borderRadius: 10,
         borderColor: "#ccc",
     },
     inputWrapper: {
@@ -26,5 +25,15 @@ export const styles = StyleSheet.create({
     },
     publishButton: {
         paddingVertical: 10,
+        backgroundColor: "#1C1C1E",
+        borderRadius: 8,
+    },
+    publishButtonText: {
+        color: "white",
+        textAlign: "center",
+        fontWeight: "bold",
+    },
+    buttonDisabled: {
+        backgroundColor: "#ccc",
     },
 });

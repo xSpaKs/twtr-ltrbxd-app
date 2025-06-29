@@ -9,8 +9,8 @@ export default function TimelineTabs() {
         <TopTab.Navigator
             screenOptions={{
                 tabBarLabelStyle: { fontSize: 14 },
-                tabBarIndicatorStyle: { backgroundColor: "#000" },
-                tabBarStyle: { backgroundColor: "#fff", paddingTop: 24 },
+                tabBarIndicatorStyle: { backgroundColor: "#1C1C1E" },
+                tabBarStyle: { backgroundColor: "#fff" },
             }}
         >
             <TopTab.Screen name="Posts" component={PostTimeline} />

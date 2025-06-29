@@ -11,8 +11,8 @@ export default function ProfileTabs({ user }) {
         <TopTab.Navigator
             screenOptions={{
                 tabBarLabelStyle: { fontSize: 14 },
-                tabBarIndicatorStyle: { backgroundColor: "#000" },
-                tabBarStyle: { backgroundColor: "#fff" },
+                tabBarIndicatorStyle: { backgroundColor: "#1C1C1E" },
+                tabBarStyle: { backgroundColor: "whie" },
             }}
         >
             <TopTab.Screen

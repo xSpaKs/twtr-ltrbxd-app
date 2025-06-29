@@ -1,27 +1,22 @@
-import React from "react";
 import { View, StyleSheet } from "react-native";
-import CustomTabBar from "./Bars/CustomTabBar";
-import { useRoute } from "@react-navigation/native";
 
-const PAGES_WITH_TAB = [];
-
-export default function AppLayout({ children }) {
-    const route = useRoute();
-
-    const showTabBar = PAGES_WITH_TAB.includes(route.name);
-
+export default function AppLayout({ children, color = "#1C1C1E" }) {
     return (
-        <View style={styles.container}>
-            <View style={styles.content}>{children}</View>
-            {showTabBar && <CustomTabBar />}
-        </View>
+        <>
+            <View style={styles.container}>
+                <View style={[styles.top, { backgroundColor: color }]}></View>
+                <View style={styles.content}>{children}</View>
+            </View>
+        </>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 25,
+    },
+    top: {
+        height: 30,
     },
     content: {
         flex: 1,

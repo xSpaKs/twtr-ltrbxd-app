@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
         padding: 16,
         alignItems: "flex-start",
         justifyContent: "space-between",
+        backgroundColor: "#1C1C1E",
     },
     avatar: {
         width: 60,
@@ -25,9 +26,10 @@ export const styles = StyleSheet.create({
     username: {
         fontWeight: "600",
         fontSize: 16,
+        color: "#fff",
     },
     joined: {
-        color: "#666",
+        color: "#fff",
         fontSize: 12,
         marginVertical: 2,
     },
@@ -42,14 +44,14 @@ export const styles = StyleSheet.create({
     },
     bold: {
         fontWeight: "bold",
-        color: "#333",
+        color: "#fff",
     },
     headerRightButtons: {
         flexDirection: "row",
         alignItems: "center",
     },
     followButton: {
-        borderColor: "#333",
+        borderColor: "white",
         borderWidth: 1,
         paddingVertical: 6,
         paddingHorizontal: 12,
@@ -58,7 +60,7 @@ export const styles = StyleSheet.create({
         minWidth: 70,
     },
     followButtonText: {
-        color: "#333",
+        color: "white",
         fontSize: 14,
         fontWeight: "500",
         textAlign: "center",

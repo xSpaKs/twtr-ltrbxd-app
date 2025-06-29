@@ -4,6 +4,8 @@ import API from "../api/API";
 import { useAuth } from "../context/AuthContext";
 import { goToLogin } from "../helpers/navigation.helper";
 import { styles } from "../styles/Register.styles";
+import { MainScreenTopBar } from "../components/Bars/MainScreenTopBar";
+import AppLayout from "../components/AppLayout";
 
 export default function RegisterScreen() {
     const [username, setUsername] = useState("xSpaKs");
@@ -34,60 +36,63 @@ export default function RegisterScreen() {
     };
 
     return (
-        <View style={styles.container}>
-            <View style={styles.form}>
-                <Text style={styles.title}>Créer un compte</Text>
+        <AppLayout>
+            <MainScreenTopBar />
+            <View style={styles.container}>
+                <View style={styles.form}>
+                    <Text style={styles.title}>Créer un compte</Text>
 
-                <TextInput
-                    placeholder="Nom d'utilisateur"
-                    value={username}
-                    onChangeText={setUsername}
-                    autoCapitalize="none"
-                    style={styles.input}
-                    placeholderTextColor="#999"
-                />
+                    <TextInput
+                        placeholder="Nom d'utilisateur"
+                        value={username}
+                        onChangeText={setUsername}
+                        autoCapitalize="none"
+                        style={styles.input}
+                        placeholderTextColor="#999"
+                    />
 
-                <TextInput
-                    placeholder="Email"
-                    value={email}
-                    onChangeText={setEmail}
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    style={styles.input}
-                    placeholderTextColor="#999"
-                />
+                    <TextInput
+                        placeholder="Email"
+                        value={email}
+                        onChangeText={setEmail}
+                        keyboardType="email-address"
+                        autoCapitalize="none"
+                        style={styles.input}
+                        placeholderTextColor="#999"
+                    />
 
-                <TextInput
-                    placeholder="Mot de passe"
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry
-                    style={styles.input}
-                    placeholderTextColor="#999"
-                />
+                    <TextInput
+                        placeholder="Mot de passe"
+                        value={password}
+                        onChangeText={setPassword}
+                        secureTextEntry
+                        style={styles.input}
+                        placeholderTextColor="#999"
+                    />
 
-                <TextInput
-                    placeholder="Confirmation du mot de passe"
-                    value={passwordConfirm}
-                    onChangeText={setPasswordConfirm}
-                    secureTextEntry
-                    style={styles.input}
-                    placeholderTextColor="#999"
-                />
+                    <TextInput
+                        placeholder="Confirmation du mot de passe"
+                        value={passwordConfirm}
+                        onChangeText={setPasswordConfirm}
+                        secureTextEntry
+                        style={styles.input}
+                        placeholderTextColor="#999"
+                    />
 
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={handleRegister}
-                >
-                    <Text style={styles.buttonText}>S'inscrire</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={handleRegister}
+                    >
+                        <Text style={styles.buttonText}>S'inscrire</Text>
+                    </TouchableOpacity>
 
-                <TouchableOpacity onPress={goToLogin}>
-                    <Text style={styles.registerLink}>
-                        Déjà un compte ? Connectez-vous
-                    </Text>
-                </TouchableOpacity>
+                    <TouchableOpacity onPress={goToLogin}>
+                        <Text style={styles.registerLink}>
+                            Déjà un compte ? Connectez-vous
+                        </Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-        </View>
+        </AppLayout>
     );
 }

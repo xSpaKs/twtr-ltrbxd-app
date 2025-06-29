@@ -23,7 +23,7 @@ const SearchMovieScreen = ({ route }) => {
     );
 
     return (
-        <AppLayout>
+        <AppLayout color={"#1C1C1E"}>
             <SearchMovieTopBar title={"Pick a movie"} nextUrl={nextUrl} />
             <View style={styles.container}>
                 <TextInput

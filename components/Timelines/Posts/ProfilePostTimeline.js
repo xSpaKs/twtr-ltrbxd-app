@@ -45,7 +45,7 @@ const ProfilePostTimeline = ({ route }) => {
     };
 
     return (
-        <AppLayout>
+        <View>
             {posts.length === 0 ? (
                 <View style={styles.centered}>
                     {loading ? (
@@ -74,7 +74,7 @@ const ProfilePostTimeline = ({ route }) => {
                     }
                 />
             )}
-        </AppLayout>
+        </View>
     );
 };
 

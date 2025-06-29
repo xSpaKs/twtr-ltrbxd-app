@@ -16,7 +16,7 @@ const BasicTopBar = ({ title }) => {
                             <Ionicons
                                 name="arrow-back"
                                 size={24}
-                                color="#555"
+                                color="#fff"
                             />
                         </TouchableOpacity>
                         <Text style={styles.title}>{title}</Text>
@@ -34,10 +34,9 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         paddingHorizontal: 12,
         paddingVertical: 10,
-        backgroundColor: "#fff",
+        backgroundColor: "#1C1C1E",
         borderBottomWidth: 1,
         borderBottomColor: "#eee",
-        marginTop: 4,
     },
     headerLeft: {
         flexDirection: "row",
@@ -50,6 +49,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 18,
         fontWeight: "bold",
+        color: "white",
     },
 });
 

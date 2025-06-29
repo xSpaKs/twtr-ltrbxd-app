@@ -45,7 +45,7 @@ const MovieReviewTimelineScreen = ({ route }) => {
     };
 
     return (
-        <AppLayout>
+        <View>
             {reviews.length === 0 ? (
                 <View style={styles.centered}>
                     {loading ? (
@@ -76,7 +76,7 @@ const MovieReviewTimelineScreen = ({ route }) => {
                     }
                 />
             )}
-        </AppLayout>
+        </View>
     );
 };
 

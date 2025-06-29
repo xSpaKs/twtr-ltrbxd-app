@@ -90,7 +90,10 @@ export default function PostScreen({ route }) {
             <AppLayout>
                 <BasicTopBar title={"Post"} />
                 <ScrollView
-                    contentContainerStyle={{ paddingBottom: 100 }}
+                    contentContainerStyle={{
+                        minHeight: "100%",
+                        backgroundColor: "white",
+                    }}
                     ref={scrollViewRef}
                 >
                     {renderParentChain(post)}

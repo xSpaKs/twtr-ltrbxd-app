@@ -5,7 +5,13 @@ import { MovieProvider } from "./context/MovieContext";
 import AppRoutes from "./components/AppRoutes";
 import { navigationRef } from "./navigation/navigation";
 
+import * as SystemUI from "expo-system-ui";
+import { useEffect } from "react";
+
 export default function App() {
+    useEffect(() => {
+        SystemUI.setBackgroundColorAsync("#ffffff"); // ou "#FAFAFA"
+    }, []);
     return (
         <AuthProvider>
             <MovieProvider>

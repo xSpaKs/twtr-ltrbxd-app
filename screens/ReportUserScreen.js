@@ -167,9 +167,6 @@ const ReportUserScreen = ({ route }) => {
             >
                 <View style={styles.modalOverlay}>
                     <View style={styles.modalContainer}>
-                        <Text style={styles.modalTitle}>
-                            Sélectionner un post
-                        </Text>
                         <FlatList
                             data={posts}
                             keyExtractor={(item) => item.id.toString()}

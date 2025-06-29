@@ -15,6 +15,7 @@ const PostTimeline = () => {
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
         fetchPosts();
@@ -43,6 +44,25 @@ const PostTimeline = () => {
         }
     };
 
+    const refreshPosts = async () => {
+        setRefreshing(true);
+        try {
+            const res = await API.call(
+                "get",
+                `timeline/posts?page=1`,
+                {},
+                true
+            );
+            setPosts(res.data);
+            setHasMore(res.next_page_url !== null);
+            setPage(2);
+        } catch (e) {
+            console.error("Erreur refresh posts :", e);
+        } finally {
+            setRefreshing(false);
+        }
+    };
+
     if (!loading && posts.length === 0) {
         return (
             <AppLayout>
@@ -54,7 +74,7 @@ const PostTimeline = () => {
     }
 
     return (
-        <AppLayout>
+        <View>
             {posts.length === 0 ? (
                 <View style={styles.centered}>
                     {loading ? (
@@ -65,7 +85,6 @@ const PostTimeline = () => {
                 </View>
             ) : (
                 <FlatList
-                    showsVerticalScrollIndicator={false}
                     data={posts}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (
@@ -73,17 +92,21 @@ const PostTimeline = () => {
                     )}
                     onEndReached={fetchPosts}
                     onEndReachedThreshold={0.4}
-                    ListFooterComponent={
-                        loading ? (
-                            <ActivityIndicator
-                                size="small"
-                                style={{ marginVertical: 10 }}
-                            />
-                        ) : null
-                    }
+                    refreshing={refreshing}
+                    onRefresh={refreshPosts}
+                    showsVerticalScrollIndicator={false}
+                    ItemSeparatorComponent={() => (
+                        <View
+                            style={{
+                                height: 1,
+                                backgroundColor: "#ccc",
+                                marginHorizontal: 0,
+                            }}
+                        />
+                    )}
                 />
             )}
-        </AppLayout>
+        </View>
     );
 };
 

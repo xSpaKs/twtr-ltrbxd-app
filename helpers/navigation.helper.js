@@ -28,12 +28,12 @@ export const goToProfilePosts = (user) => {
     navigate("ProfilePosts", { user });
 };
 
-export const goToPostDetail = () => {
-    push("Post", { postId });
+export const goToPostDetail = (id) => {
+    push("Post", { postId: id });
 };
 
-export const goToTimeline = (params = {}) => {
-    navigate("Timeline", params);
+export const goToTimeline = (refresh) => {
+    navigate("Timeline", { refresh: refresh });
 };
 
 export const goToMovieDetail = (id) => {

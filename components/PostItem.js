@@ -4,7 +4,6 @@ import { useState } from "react";
 import formatDate from "../helpers/formatDate.helper";
 import PostMovieItem from "./PostMovieItem";
 import { useMovies } from "../context/MovieContext";
-import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import API from "../api/API";
 import { useAuth } from "../context/AuthContext";
@@ -28,7 +27,6 @@ const PostItem = ({ post, type = "detail", linesLimit = 999 }) => {
     const [likesCount, setLikesCount] = useState(post.likes?.length || 0);
     const [repliesCount, setRepliesCount] = useState(post.replies?.length || 0);
     const [isLoading, setIsLoading] = useState(false);
-    const navigation = useNavigation();
 
     if (post.movie_id != null) {
         const { movies } = useMovies();
@@ -140,6 +138,7 @@ const PostItem = ({ post, type = "detail", linesLimit = 999 }) => {
 const styles = StyleSheet.create({
     container: {
         padding: 12,
+        backgroundColor: "white",
     },
 
     headerRow: {
@@ -156,7 +155,7 @@ const styles = StyleSheet.create({
         width: 40,
         height: 40,
         borderRadius: 20,
-        backgroundColor: "#ccc",
+        backgroundColor: "white",
         marginRight: 10,
     },
     userText: {
@@ -185,7 +184,7 @@ const styles = StyleSheet.create({
         color: "gray",
     },
     likedIcon: {
-        color: "red",
+        color: "#E50914",
     },
     actionsRow: {
         marginTop: 10,

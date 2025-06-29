@@ -46,7 +46,7 @@ const ProfileReviewTimeline = ({ route }) => {
     };
 
     return (
-        <AppLayout>
+        <View>
             {reviews.length === 0 ? (
                 <View style={styles.centered}>
                     {loading ? (
@@ -77,7 +77,7 @@ const ProfileReviewTimeline = ({ route }) => {
                     }
                 />
             )}
-        </AppLayout>
+        </View>
     );
 };
 

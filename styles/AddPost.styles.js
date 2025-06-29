@@ -59,15 +59,18 @@ export const styles = StyleSheet.create({
         marginBottom: 16,
         minHeight: 100,
     },
-    button: {
-        backgroundColor: "#555",
-        padding: 14,
+    publishButton: {
+        paddingVertical: 10,
+        backgroundColor: "#1C1C1E",
         borderRadius: 8,
-        alignItems: "center",
     },
-    buttonText: {
-        color: "#fff",
+    publishButtonText: {
+        color: "white",
+        textAlign: "center",
         fontWeight: "bold",
+    },
+    buttonDisabled: {
+        backgroundColor: "#ccc",
     },
     avatar: {
         width: 40,

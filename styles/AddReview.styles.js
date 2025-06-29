@@ -69,14 +69,17 @@ export const styles = StyleSheet.create({
     starsWrapper: {
         justifyContent: "center",
     },
-    button: {
-        backgroundColor: "#555",
-        padding: 14,
+    publishButton: {
+        paddingVertical: 10,
+        backgroundColor: "#1C1C1E",
         borderRadius: 8,
-        alignItems: "center",
     },
-    buttonText: {
-        color: "#fff",
+    publishButtonText: {
+        color: "white",
+        textAlign: "center",
         fontWeight: "bold",
+    },
+    buttonDisabled: {
+        backgroundColor: "#ccc",
     },
 });

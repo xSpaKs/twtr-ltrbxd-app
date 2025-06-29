@@ -17,6 +17,7 @@ export default function AddPostScreen({ route }) {
     const [movieId, setMovieId] = useState(initialMovieId ?? null);
     const [movie, setMovie] = useState(null);
     const { loggedUser } = useAuth();
+    const [loading, setLoading] = useState(false);
 
     const { movies } = useMovies();
     const [postText, setPostText] = useState("");
@@ -35,12 +36,20 @@ export default function AddPostScreen({ route }) {
             return;
         }
 
-        await API.call(
-            "post",
-            "posts",
-            { content: postText, movie_id: movieId ?? null },
-            true
-        );
+        setLoading(true);
+
+        try {
+            await API.call(
+                "post",
+                "posts",
+                { content: postText, movie_id: movieId ?? null },
+                true
+            );
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
 
         alert("Post publié !");
         goToTimeline({ refresh: true });
@@ -103,8 +112,17 @@ export default function AddPostScreen({ route }) {
                     </TouchableOpacity>
                 )}
 
-                <TouchableOpacity style={styles.button} onPress={publishPost}>
-                    <Text style={styles.buttonText}>Publish</Text>
+                <TouchableOpacity
+                    style={[
+                        styles.publishButton,
+                        (!postText.trim() || loading) && styles.buttonDisabled,
+                    ]}
+                    onPress={publishPost}
+                    disabled={loading || !postText.trim()}
+                >
+                    <Text style={styles.publishButtonText}>
+                        {loading ? "PUBLISHING..." : "PUBLISH"}
+                    </Text>
                 </TouchableOpacity>
             </View>
         </AppLayout>

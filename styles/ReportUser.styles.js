@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
     },
     selectButton: {
-        backgroundColor: "#000",
+        backgroundColor: "#1C1C1E",
         padding: 12,
         borderRadius: 8,
         alignItems: "center",
@@ -103,7 +103,7 @@ export const styles = StyleSheet.create({
         alignItems: "center",
     },
     modalCloseText: {
-        color: "#007AFF",
+        color: "#1C1C1E",
         fontWeight: "600",
     },
     textArea: {
@@ -117,7 +117,7 @@ export const styles = StyleSheet.create({
     },
     submitButton: {
         marginTop: 24,
-        backgroundColor: "#007AFF",
+        backgroundColor: "#1C1C1E",
         padding: 14,
         marginHorizontal: 16,
         borderRadius: 8,

@@ -176,6 +176,7 @@ const styles = StyleSheet.create({
         padding: 12,
         borderBottomWidth: 1,
         borderBottomColor: "#eee",
+        backgroundColor: "white",
     },
     topSection: {
         flexDirection: "row",
@@ -194,7 +195,7 @@ const styles = StyleSheet.create({
         width: 40,
         height: 40,
         borderRadius: 20,
-        backgroundColor: "#ccc",
+        backgroundColor: "white",
         marginRight: 10,
     },
     userText: {
@@ -254,7 +255,7 @@ const styles = StyleSheet.create({
         color: "gray",
     },
     likedIcon: {
-        color: "red",
+        color: "#E50914",
     },
     actionsRow: {
         marginTop: 10,

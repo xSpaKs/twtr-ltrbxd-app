@@ -13,7 +13,7 @@ import { useMovies } from "../context/MovieContext";
 import BasicTopBar from "../components/Bars/BasicTopBar";
 import StarRatingInput from "../components/StarRatingInput";
 import DateInput from "../components/DateInput";
-import { goToTimeline } from "../helpers/navigation.helper";
+import { goToTimeline, goToMovieDetail } from "../helpers/navigation.helper";
 import { styles } from "../styles/AddReview.styles";
 
 export default function AddReviewScreen({ route }) {
@@ -23,24 +23,31 @@ export default function AddReviewScreen({ route }) {
     const [reviewText, setReviewText] = useState("");
     const [rating, setRating] = useState(3);
     const [watchDate, setWatchDate] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const movie = movies.find((m) => m.id == movieId);
 
     const postReview = async () => {
-        await API.call(
-            "post",
-            "reviews",
-            {
-                movieId: movieId,
-                content: reviewText,
-                rating: rating,
-                watch_date: watchDate,
-            },
-            true
-        );
+        try {
+            await API.call(
+                "post",
+                "reviews",
+                {
+                    movieId: movieId,
+                    content: reviewText,
+                    rating: rating,
+                    watch_date: watchDate,
+                },
+                true
+            );
 
-        alert("Review publiée !");
-        goToTimeline({ refresh: true });
+            alert("Review publiée !");
+            goToTimeline({ refresh: true });
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     if (!movie) {
@@ -130,10 +137,12 @@ export default function AddReviewScreen({ route }) {
                     </ScrollView>
 
                     <TouchableOpacity
-                        style={styles.button}
+                        style={styles.publishButton}
                         onPress={postReview}
                     >
-                        <Text style={styles.buttonText}>Publish</Text>
+                        <Text style={styles.publishButtonText}>
+                            {loading ? "PUBLISHING..." : "PUBLISH"}
+                        </Text>
                     </TouchableOpacity>
                 </View>
             </View>

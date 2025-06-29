@@ -37,7 +37,7 @@ const PostMovieItem = ({ movie }) => {
 const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
-        backgroundColor: "#e5e5e5",
+        backgroundColor: "#FAFAFA",
         alignItems: "flex-start",
         marginTop: 10,
         borderRadius: 5,

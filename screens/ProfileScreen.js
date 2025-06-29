@@ -97,7 +97,7 @@ export default function ProfileScreen({ route }) {
     }
 
     return (
-        <AppLayout>
+        <AppLayout color={"#1C1C1E"}>
             <View style={styles.header}>
                 <Image
                     source={{ uri: userProfile.profile_picture_url }}
@@ -147,7 +147,7 @@ export default function ProfileScreen({ route }) {
                         <Ionicons
                             name="ellipsis-horizontal"
                             size={22}
-                            color="black"
+                            color="white"
                         />
                     </TouchableOpacity>
                 </View>

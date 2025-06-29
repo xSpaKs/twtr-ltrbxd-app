@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         borderBottomWidth: 1,
         borderBottomColor: "#eee",
+        backgroundColor: "white",
     },
     poster: {
         width: 60,

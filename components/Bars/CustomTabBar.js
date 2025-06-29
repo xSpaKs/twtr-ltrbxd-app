@@ -9,34 +9,57 @@ import {
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useAuth } from "../../context/AuthContext";
 
-export default function CustomTabBar() {
+export default function CustomTabBar({ currentRoute }) {
     const { loggedUser } = useAuth();
     const [modalVisible, setModalVisible] = useState(false);
 
+    const isSearchMovieActive = ["SearchMovie"].includes(currentRoute);
+    const isHomeActive = ["Timeline"].includes(currentRoute);
+    const isAddActive = ["AddPost", "AddReview"].includes(currentRoute);
+    const isProfileActive = ["Profile", "EditProfile"].includes(currentRoute);
+    const isDiscussionActive = ["ListDiscussions", "Discussion"].includes(
+        currentRoute
+    );
     return (
         <>
             <View style={styles.tab}>
                 <TouchableOpacity onPress={() => goToSearchMovie("Movie")}>
-                    <Ionicons name="search-outline" size={24} color="black" />
+                    <Ionicons
+                        name={isSearchMovieActive ? "search" : "search-outline"}
+                        size={24}
+                        color={isSearchMovieActive ? "gold" : "white"}
+                    />
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={goToTimeline}>
-                    <Ionicons name="home-outline" size={24} color="black" />
+                <TouchableOpacity onPress={() => goToTimeline(true)}>
+                    <Ionicons
+                        name={isHomeActive ? "home" : "home-outline"}
+                        size={24}
+                        color={isHomeActive ? "gold" : "white"}
+                    />
                 </TouchableOpacity>
 
                 <TouchableOpacity
                     onPress={() => setModalVisible(true)}
                     style={styles.addButton}
                 >
-                    <Ionicons name="add" size={24} color="white" />
+                    <Ionicons name="add" size={24} color="black" />
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => goToProfile(loggedUser.id)}>
-                    <Ionicons name="person-outline" size={24} color="black" />
+                    <Ionicons
+                        name={isProfileActive ? "person" : "person-outline"}
+                        size={24}
+                        color={isProfileActive ? "gold" : "white"}
+                    />
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={goToListDiscussions}>
-                    <Ionicons name="mail-outline" size={24} color="black" />
+                    <Ionicons
+                        name={isDiscussionActive ? "mail" : "mail-outline"}
+                        size={24}
+                        color={isDiscussionActive ? "gold" : "white"}
+                    />
                 </TouchableOpacity>
             </View>
 
@@ -107,13 +130,13 @@ const styles = StyleSheet.create({
         justifyContent: "space-around",
         alignItems: "center",
         paddingVertical: 10,
-        backgroundColor: "#f9f9f9",
+        backgroundColor: "#1C1C1E",
         borderTopWidth: 1,
         borderColor: "#ccc",
-        marginBottom: 50,
+        marginBottom: 48,
     },
     addButton: {
-        backgroundColor: "#000",
+        backgroundColor: "#fff",
         width: 30,
         height: 30,
         borderRadius: 20,

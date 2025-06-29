@@ -25,7 +25,7 @@ const UserTopbar = ({ otherUser }) => {
                                     <Ionicons
                                         name="arrow-back"
                                         size={24}
-                                        color="#555"
+                                        color="white"
                                     />
                                 </TouchableOpacity>
                                 <Image
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         paddingHorizontal: 12,
         paddingVertical: 10,
-        backgroundColor: "#fff",
+        backgroundColor: "#1C1C1E",
         borderBottomWidth: 1,
         borderBottomColor: "#eee",
     },
@@ -67,14 +67,14 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "bold",
         marginLeft: 8,
-        color: "#333",
+        color: "white",
     },
 
     avatar: {
         width: 32,
         height: 32,
         borderRadius: 16,
-        backgroundColor: "#ccc",
+        backgroundColor: "white",
     },
     modalOverlay: {
         flex: 1,

@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-    View,
-    TextInput,
-    Button,
-    StyleSheet,
-    Alert,
-    KeyboardAvoidingView,
-    Platform,
-} from "react-native";
+import { View, TextInput, TouchableOpacity, Alert, Text } from "react-native";
 import API from "../api/API";
 import AppLayout from "../components/AppLayout";
 import PostItem from "../components/PostItem";
@@ -62,10 +54,7 @@ const AddReplyScreen = ({ route }) => {
                 )}
             </View>
 
-            <KeyboardAvoidingView
-                style={styles.inputWrapper}
-                behavior={Platform.OS === "ios" ? "padding" : undefined}
-            >
+            <View style={styles.inputWrapper}>
                 <TextInput
                     style={styles.textInput}
                     placeholder="Write your reply..."
@@ -74,13 +63,19 @@ const AddReplyScreen = ({ route }) => {
                     onChangeText={setContent}
                 />
 
-                <Button
-                    style={styles.publishButton}
-                    title={loading ? "Publishing..." : "Publish"}
+                <TouchableOpacity
+                    style={[
+                        styles.publishButton,
+                        (!content.trim() || loading) && styles.buttonDisabled,
+                    ]}
                     onPress={handleSubmit}
                     disabled={loading || !content.trim()}
-                />
-            </KeyboardAvoidingView>
+                >
+                    <Text style={styles.publishButtonText}>
+                        {loading ? "PUBLISHING..." : "PUBLISH"}
+                    </Text>
+                </TouchableOpacity>
+            </View>
         </AppLayout>
     );
 };

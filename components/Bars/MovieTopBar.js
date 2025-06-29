@@ -22,7 +22,7 @@ const MovieTopBar = ({ title, onPress, option, icon }) => {
                         onPress={() => navigation.goBack()}
                         style={styles.backIcon}
                     >
-                        <Ionicons name="arrow-back" size={24} color="#555" />
+                        <Ionicons name="arrow-back" size={24} color="white" />
                     </TouchableOpacity>
                     <Text style={styles.title}>{title}</Text>
                 </View>
@@ -31,7 +31,7 @@ const MovieTopBar = ({ title, onPress, option, icon }) => {
                     <Ionicons
                         name="ellipsis-horizontal"
                         size={24}
-                        color="#555"
+                        color="white"
                     />
                 </TouchableOpacity>
             </View>
@@ -71,10 +71,9 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         paddingHorizontal: 12,
         paddingVertical: 10,
-        backgroundColor: "#fff",
+        backgroundColor: "#1C1C1E",
         borderBottomWidth: 1,
         borderBottomColor: "#eee",
-        marginTop: 4,
     },
     headerLeft: {
         flexDirection: "row",
@@ -87,6 +86,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 18,
         fontWeight: "bold",
+        color: "white",
     },
     modalOverlay: {
         flex: 1,

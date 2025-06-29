@@ -8,14 +8,13 @@ import {
 } from "react-native";
 import ReviewItem from "../../ReviewItem";
 import API from "../../../api/API";
-import { useNavigation } from "@react-navigation/native";
-import AppLayout from "../../AppLayout";
 
 const ReviewTimelineScreen = () => {
     const [reviews, setReviews] = useState([]);
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
         fetchReviews();
@@ -44,8 +43,27 @@ const ReviewTimelineScreen = () => {
         }
     };
 
+    const refreshReviews = async () => {
+        setRefreshing(true);
+        try {
+            const res = await API.call(
+                "get",
+                `timeline/reviews?page=1`,
+                {},
+                true
+            );
+            setReviews(res.data);
+            setHasMore(res.next_page_url !== null);
+            setPage(2);
+        } catch (e) {
+            console.error("Erreur refresh reviews :", e);
+        } finally {
+            setRefreshing(false);
+        }
+    };
+
     return (
-        <AppLayout>
+        <View>
             {reviews.length === 0 ? (
                 <View style={styles.centered}>
                     {loading ? (
@@ -58,7 +76,6 @@ const ReviewTimelineScreen = () => {
                 </View>
             ) : (
                 <FlatList
-                    showsVerticalScrollIndicator={false}
                     data={reviews}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (
@@ -66,17 +83,12 @@ const ReviewTimelineScreen = () => {
                     )}
                     onEndReached={fetchReviews}
                     onEndReachedThreshold={0.4}
-                    ListFooterComponent={
-                        loading ? (
-                            <ActivityIndicator
-                                size="small"
-                                style={{ marginVertical: 10 }}
-                            />
-                        ) : null
-                    }
+                    refreshing={refreshing}
+                    onRefresh={refreshReviews}
+                    showsVerticalScrollIndicator={false}
                 />
             )}
-        </AppLayout>
+        </View>
     );
 };
 
