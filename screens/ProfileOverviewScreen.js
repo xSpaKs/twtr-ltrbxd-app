@@ -1,21 +1,22 @@
 import { Text, View, TouchableOpacity } from "react-native";
 import ProfileMovies from "../components/ProfileMovies";
 import { useEffect } from "react";
-import API from "../api/API";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { goToWatchlist } from "../helpers/navigation.helper";
 import { styles } from "../styles/ProfileOverview.styles";
+import { useApi } from "../api/useApi";
 
 const ProfileOverviewScreen = ({ route }) => {
     const [bestRatedReviews, setBestRatedReviews] = useState([]);
     const { user } = route.params;
     const { loggedUser } = useAuth();
     const isOwnUser = loggedUser.id == user.id;
+    const { call } = useApi();
 
     useEffect(() => {
         const fetchHighestRatedReviews = async () => {
-            const data = await API.call(
+            const data = await call(
                 "get",
                 `users/${user.id}/bestRatedReviews`,
                 {},

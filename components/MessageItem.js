@@ -1,22 +1,23 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
-import API from "../api/API";
+import { useApi } from "../api/useApi";
 
 export default function MessageItem({ message, currentUserId, onDelete }) {
     const isSentByCurrentUser = message.sender_id === currentUserId;
+    const { call } = useApi();
 
     const handleLongPress = () => {
         Alert.alert(
             "Delete this message",
             "Are you sure to delete this message ? You can't go back.",
             [
-                { text: "Annuler", style: "cancel" },
+                { text: "Cancel", style: "cancel" },
                 {
                     text: "Delete",
                     style: "destructive",
                     onPress: async () => {
                         try {
-                            await API.call(
+                            await call(
                                 "delete",
                                 `messages/${message.id}`,
                                 {},
@@ -45,7 +46,15 @@ export default function MessageItem({ message, currentUserId, onDelete }) {
                     isSentByCurrentUser ? styles.sent : styles.received,
                 ]}
             >
-                <Text style={styles.messageText}>{message.content}</Text>
+                <Text
+                    style={[
+                        isSentByCurrentUser
+                            ? styles.sentText
+                            : styles.receivedText,
+                    ]}
+                >
+                    {message.content}
+                </Text>
                 <Text style={styles.messageDate}>
                     {new Date(message.created_at).toLocaleTimeString([], {
                         hour: "2-digit",
@@ -65,16 +74,20 @@ const styles = StyleSheet.create({
         marginVertical: 6,
     },
     sent: {
-        backgroundColor: "#DCF8C6",
+        backgroundColor: "#1C1C1E",
         alignSelf: "flex-end",
         marginRight: 8,
+    },
+    sentText: {
+        fontSize: 16,
+        color: "white",
     },
     received: {
         backgroundColor: "#FFFFFF",
         alignSelf: "flex-start",
         marginLeft: 8,
     },
-    messageText: {
+    receivedText: {
         fontSize: 16,
         color: "#000",
     },

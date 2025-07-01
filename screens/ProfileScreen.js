@@ -9,7 +9,7 @@ import {
     Pressable,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import API from "../api/API";
+import { useApi } from "../api/useApi";
 import { useAuth } from "../context/AuthContext";
 import AppLayout from "../components/AppLayout";
 import ProfileTabs from "../components/Tabs/ProfileTabs";
@@ -33,6 +33,7 @@ export default function ProfileScreen({ route }) {
     const [isBlocked, setIsBlocked] = useState(false);
     const [hasBlocked, setHasBlocked] = useState(false);
     const [sharedDiscussion, setSharedDiscussion] = useState([]);
+    const { call } = useApi();
 
     useEffect(() => {
         fetchUser();
@@ -40,7 +41,7 @@ export default function ProfileScreen({ route }) {
 
     const fetchUser = async () => {
         try {
-            let data = await API.call("get", `users/${id}`, {}, true);
+            let data = await call("get", `users/${id}`, {}, true);
             setUserProfile(data.user);
             setIsBlocked(data.isBlockedByMe);
             setHasBlocked(data.hasBlockedMe);
@@ -54,13 +55,13 @@ export default function ProfileScreen({ route }) {
     };
 
     const handleLogout = async () => {
-        await API.call("post", "logout", {}, true);
+        await call("post", "logout", {}, true);
         logoutContext();
     };
 
     const toggleFollow = async () => {
         try {
-            const data = await API.call(
+            const data = await call(
                 "post",
                 `users/${id}/toggle-follow`,
                 {},
@@ -75,7 +76,7 @@ export default function ProfileScreen({ route }) {
 
     const toggleBlock = async () => {
         try {
-            await API.call("post", `users/${id}/toggle-block`, {}, true);
+            await call("post", `users/${id}/toggle-block`, {}, true);
             await fetchUser();
         } catch (e) {
             console.error("Erreur lors du blocage/déblocage", e);

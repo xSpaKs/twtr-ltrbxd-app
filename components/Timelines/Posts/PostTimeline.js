@@ -7,8 +7,8 @@ import {
     StyleSheet,
 } from "react-native";
 import PostItem from "../../PostItem";
-import API from "../../../api/API";
 import AppLayout from "../../AppLayout";
+import { useApi } from "../../../api/useApi";
 
 const PostTimeline = () => {
     const [posts, setPosts] = useState([]);
@@ -16,6 +16,7 @@ const PostTimeline = () => {
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
+    const { call } = useApi();
 
     useEffect(() => {
         fetchPosts();
@@ -26,7 +27,7 @@ const PostTimeline = () => {
 
         setLoading(true);
         try {
-            const res = await API.call(
+            const res = await call(
                 "get",
                 `timeline/posts?page=${page}`,
                 {},
@@ -47,12 +48,7 @@ const PostTimeline = () => {
     const refreshPosts = async () => {
         setRefreshing(true);
         try {
-            const res = await API.call(
-                "get",
-                `timeline/posts?page=1`,
-                {},
-                true
-            );
+            const res = await call("get", `timeline/posts?page=1`, {}, true);
             setPosts(res.data);
             setHasMore(res.next_page_url !== null);
             setPage(2);

@@ -7,7 +7,6 @@ import {
     ScrollView,
     TouchableOpacity,
 } from "react-native";
-import API from "../api/API";
 import AppLayout from "../components/AppLayout";
 import { useMovies } from "../context/MovieContext";
 import BasicTopBar from "../components/Bars/BasicTopBar";
@@ -15,6 +14,7 @@ import StarRatingInput from "../components/StarRatingInput";
 import DateInput from "../components/DateInput";
 import { goToTimeline, goToMovieDetail } from "../helpers/navigation.helper";
 import { styles } from "../styles/AddReview.styles";
+import { useApi } from "../api/useApi";
 
 export default function AddReviewScreen({ route }) {
     const { movieId } = route.params;
@@ -24,12 +24,13 @@ export default function AddReviewScreen({ route }) {
     const [rating, setRating] = useState(3);
     const [watchDate, setWatchDate] = useState("");
     const [loading, setLoading] = useState(false);
+    const { call } = useApi();
 
     const movie = movies.find((m) => m.id == movieId);
 
     const postReview = async () => {
         try {
-            await API.call(
+            await call(
                 "post",
                 "reviews",
                 {

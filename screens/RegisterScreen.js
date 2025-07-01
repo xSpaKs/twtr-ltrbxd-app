@@ -1,29 +1,27 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
-import API from "../api/API";
 import { useAuth } from "../context/AuthContext";
 import { goToLogin } from "../helpers/navigation.helper";
 import { styles } from "../styles/Register.styles";
 import { MainScreenTopBar } from "../components/Bars/MainScreenTopBar";
 import AppLayout from "../components/AppLayout";
+import { useApi } from "../api/useApi";
 
 export default function RegisterScreen() {
     const [username, setUsername] = useState("xSpaKs");
     const [email, setEmail] = useState("aranhiblot20@gmail.com");
-    const [password, setPassword] = useState("Bm1vx3;I");
-    const [passwordConfirm, setPasswordConfirm] = useState("Bm1vx3;I");
+    const [password, setPassword] = useState("aaaaaaaa1");
+    const [passwordConfirm, setPasswordConfirm] = useState("aaaaaaaa1");
     const { loginContext } = useAuth();
+    const { call } = useApi();
 
     const handleRegister = async () => {
         if (password !== passwordConfirm) {
-            return Alert.alert(
-                "Erreur",
-                "Les mots de passe ne correspondent pas."
-            );
+            return Alert.alert("Error", "Passwords do not match.");
         }
 
         try {
-            const data = await API.call("post", "register", {
+            const data = await call("post", "register", {
                 username,
                 email,
                 password,
@@ -40,10 +38,10 @@ export default function RegisterScreen() {
             <MainScreenTopBar />
             <View style={styles.container}>
                 <View style={styles.form}>
-                    <Text style={styles.title}>Créer un compte</Text>
+                    <Text style={styles.title}>Register</Text>
 
                     <TextInput
-                        placeholder="Nom d'utilisateur"
+                        placeholder="Username"
                         value={username}
                         onChangeText={setUsername}
                         autoCapitalize="none"
@@ -62,7 +60,7 @@ export default function RegisterScreen() {
                     />
 
                     <TextInput
-                        placeholder="Mot de passe"
+                        placeholder="Password"
                         value={password}
                         onChangeText={setPassword}
                         secureTextEntry
@@ -71,7 +69,7 @@ export default function RegisterScreen() {
                     />
 
                     <TextInput
-                        placeholder="Confirmation du mot de passe"
+                        placeholder="Password confirmation"
                         value={passwordConfirm}
                         onChangeText={setPasswordConfirm}
                         secureTextEntry
@@ -83,12 +81,12 @@ export default function RegisterScreen() {
                         style={styles.button}
                         onPress={handleRegister}
                     >
-                        <Text style={styles.buttonText}>S'inscrire</Text>
+                        <Text style={styles.buttonText}>Register</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={goToLogin}>
                         <Text style={styles.registerLink}>
-                            Déjà un compte ? Connectez-vous
+                            You have an account ? Login
                         </Text>
                     </TouchableOpacity>
                 </View>

@@ -1,4 +1,3 @@
-import API from "../api/API";
 import BasicTopBar from "../components/Bars/BasicTopBar";
 import {
     View,
@@ -15,6 +14,7 @@ import { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { goToTimeline } from "../helpers/navigation.helper";
 import { styles } from "../styles/ReportUser.styles";
+import { useApi } from "../api/useApi";
 
 const ReportUserScreen = ({ route }) => {
     const { otherUser } = route.params;
@@ -24,11 +24,12 @@ const ReportUserScreen = ({ route }) => {
     const [selectedPostId, setSelectedPostId] = useState(null);
     const [loading, setLoading] = useState(false);
     const [isModalVisible, setModalVisible] = useState(false);
+    const { call } = useApi();
 
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const res = await API.call(
+                const res = await call(
                     "get",
                     `users/${otherUser.id}/timeline/posts`,
                     {},
@@ -49,7 +50,7 @@ const ReportUserScreen = ({ route }) => {
         }
         try {
             setLoading(true);
-            await API.call(
+            await call(
                 "post",
                 "users/report",
                 {

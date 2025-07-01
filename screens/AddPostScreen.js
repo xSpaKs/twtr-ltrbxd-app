@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
-import API from "../api/API";
 import AppLayout from "../components/AppLayout";
 import BasicTopBar from "../components/Bars/BasicTopBar";
 import { useMovies } from "../context/MovieContext";
@@ -11,6 +10,7 @@ import {
     goToSearchMovie,
 } from "../helpers/navigation.helper";
 import { styles } from "../styles/AddPost.styles";
+import { useApi } from "../api/useApi";
 
 export default function AddPostScreen({ route }) {
     const { movieId: initialMovieId } = route.params;
@@ -18,6 +18,7 @@ export default function AddPostScreen({ route }) {
     const [movie, setMovie] = useState(null);
     const { loggedUser } = useAuth();
     const [loading, setLoading] = useState(false);
+    const { call } = useApi();
 
     const { movies } = useMovies();
     const [postText, setPostText] = useState("");
@@ -39,7 +40,7 @@ export default function AddPostScreen({ route }) {
         setLoading(true);
 
         try {
-            await API.call(
+            await call(
                 "post",
                 "posts",
                 { content: postText, movie_id: movieId ?? null },

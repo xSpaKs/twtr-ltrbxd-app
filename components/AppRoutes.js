@@ -5,6 +5,9 @@ import { useAuth } from "../context/AuthContext";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import ScreensWithTabs from "./ScreensWithTab";
+import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
+import VerifyResetCodeScreen from "../screens/VerifyResetCodeScreen";
+import ResetPasswordScreen from "../screens/ResetPasswordScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -34,6 +37,18 @@ export default function AppRoutes() {
                         <Stack.Screen
                             name="Register"
                             component={RegisterScreen}
+                        />
+                        <Stack.Screen
+                            name="ForgotPassword"
+                            component={ForgotPasswordScreen}
+                        />
+                        <Stack.Screen
+                            name="VerifyResetCode"
+                            component={VerifyResetCodeScreen}
+                        />
+                        <Stack.Screen
+                            name="ResetPassword"
+                            component={ResetPasswordScreen}
                         />
                     </>
                 ) : (

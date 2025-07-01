@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
     HOME_API_URL,
     HOME_WIFI_URL,
@@ -14,12 +14,12 @@ import {
     ScrollView,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import API from "../api/API";
 import { useAuth } from "../context/AuthContext";
 import BasicTopBar from "../components/Bars/BasicTopBar";
 import AppLayout from "../components/AppLayout";
 import { goToProfile } from "../helpers/navigation.helper";
 import { styles } from "../styles/EditProfile.styles";
+import { useApi } from "../api/useApi";
 
 const EditProfileScreen = ({ route }) => {
     const { user } = route.params;
@@ -28,6 +28,7 @@ const EditProfileScreen = ({ route }) => {
     const [email, setEmail] = useState(user.email || "");
     const [bio, setBio] = useState(user.bio || "");
     const [avatar, setAvatar] = useState(user.profile_picture_url || null);
+    const { call } = useApi();
 
     const pickImage = async () => {
         const result = await ImagePicker.launchImageLibraryAsync({
@@ -51,7 +52,7 @@ const EditProfileScreen = ({ route }) => {
             bio: bio,
         };
 
-        await API.call("put", "users/updateInfos", data, true);
+        await call("put", "users/updateInfos", data, true);
         goToProfile(user.id);
     };
 

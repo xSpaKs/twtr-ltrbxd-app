@@ -7,16 +7,14 @@ import {
     StyleSheet,
 } from "react-native";
 import ReviewItem from "../../ReviewItem";
-import API from "../../../api/API";
-import { useNavigation } from "@react-navigation/native";
-import AppLayout from "../../AppLayout";
-
+import { useApi } from "../../../api/useApi";
 const ProfileReviewTimeline = ({ route }) => {
     const [reviews, setReviews] = useState([]);
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const { user } = route.params;
+    const { call } = useApi();
 
     useEffect(() => {
         fetchReviews();
@@ -27,7 +25,7 @@ const ProfileReviewTimeline = ({ route }) => {
 
         setLoading(true);
         try {
-            const res = await API.call(
+            const res = await call(
                 "get",
                 `users/${user.id}/timeline/reviews?page=${page}`,
                 {},

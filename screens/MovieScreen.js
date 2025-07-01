@@ -1,5 +1,4 @@
 import { Text, View, Image, TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { useMovies } from "../context/MovieContext";
 import { useEffect, useState } from "react";
 import StarRatingDisplay from "../components/StarRatingDisplay";
@@ -7,20 +6,20 @@ import { Ionicons } from "@expo/vector-icons";
 import AppLayout from "../components/AppLayout";
 import MovieTopBar from "../components/Bars/MovieTopBar";
 import MovieTabs from "../components/Tabs/MovieTabs";
-import API from "../api/API";
 import UserSlider from "../components/UserSlider";
 import { goToSearchMovie } from "../helpers/navigation.helper";
 import { styles } from "../styles/Movie.styles";
+import { useApi } from "../api/useApi";
 
 const MovieScreen = ({ route }) => {
     const { movieId } = route.params;
-    const navigation = useNavigation();
     const { movies } = useMovies();
     const movie = movies.find((m) => m.id == movieId);
     const [expanded, setExpanded] = useState(false);
     const [shouldShowExpand, setShouldShowExpand] = useState(false);
     const [usersWatchlist, setUsersWatchlist] = useState([]);
     const [isInOwnWatchlist, setIsInOwnWatchlist] = useState(false);
+    const { call } = useApi();
 
     const handleTextLayout = (e) => {
         if (e.nativeEvent.lines.length > 4) {
@@ -34,7 +33,7 @@ const MovieScreen = ({ route }) => {
         }
 
         const fetchFollowingsInWatchlist = async () => {
-            const data = await API.call(
+            const data = await call(
                 "get",
                 `movies/${movieId}/followings-watchlist`,
                 {},
@@ -48,7 +47,7 @@ const MovieScreen = ({ route }) => {
     }, [movieId]);
 
     const toggleWatchlist = async () => {
-        const data = await API.call(
+        const data = await call(
             "post",
             `movies/${movieId}/toggle-watchlist`,
             {},

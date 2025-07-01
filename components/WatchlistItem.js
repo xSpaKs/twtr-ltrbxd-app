@@ -1,11 +1,10 @@
 import React from "react";
 import { Image, StyleSheet, TouchableOpacity, Alert, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import API from "../api/API";
 import { goToMovieDetail } from "../helpers/navigation.helper";
+import { useApi } from "../api/useApi";
 
 const WatchlistItem = ({ movie, isOwnUser, onRemove }) => {
-    const navigation = useNavigation();
+    const { call } = useApi();
 
     const handleLongPress = () => {
         if (!isOwnUser) return;
@@ -20,7 +19,7 @@ const WatchlistItem = ({ movie, isOwnUser, onRemove }) => {
                     style: "destructive",
                     onPress: async () => {
                         try {
-                            await API.call(
+                            await call(
                                 "delete",
                                 `watchlist/${movie.id}`,
                                 {},

@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import { View, TextInput, TouchableOpacity, Alert, Text } from "react-native";
-import API from "../api/API";
 import AppLayout from "../components/AppLayout";
 import PostItem from "../components/PostItem";
 import ReviewItem from "../components/ReviewItem";
 import BasicTopBar from "../components/Bars/BasicTopBar";
 import { goToPostDetail } from "../helpers/navigation.helper";
 import { styles } from "../styles/AddReply.styles";
+import { useApi } from "../api/useApi";
 
 const AddReplyScreen = ({ route }) => {
     const { typeParent, parent } = route.params;
     const [content, setContent] = useState("");
     const [loading, setLoading] = useState(false);
+    const { call } = useApi();
 
     const handleSubmit = async () => {
         if (!content.trim()) {
@@ -22,7 +23,7 @@ const AddReplyScreen = ({ route }) => {
         setLoading(true);
 
         try {
-            const data = await API.call(
+            const data = await call(
                 "post",
                 "posts",
                 {

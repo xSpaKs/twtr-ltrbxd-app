@@ -6,13 +6,13 @@ import {
     TextInput,
     TouchableOpacity,
 } from "react-native";
-import API from "../api/API";
 import { useAuth } from "../context/AuthContext";
 import AppLayout from "../components/AppLayout";
 import { Ionicons } from "@expo/vector-icons";
 import MessageItem from "../components/MessageItem";
 import UserTopbar from "../components/Bars/UserTopBar";
 import { styles } from "../styles/Discussion.styles";
+import { useApi } from "../api/useApi";
 
 export default function DiscussionScreen({ route }) {
     const { discussionId } = route.params;
@@ -26,13 +26,14 @@ export default function DiscussionScreen({ route }) {
     const [newMessage, setNewMessage] = useState("");
     const [isBlocked, setIsBlocked] = useState(false);
     const [hasBlocked, setHasBlocked] = useState(false);
+    const { call } = useApi();
 
     const fetchMessages = async (pageToLoad = 1) => {
         if (loading || !hasMore) return;
         setLoading(true);
 
         try {
-            const data = await API.call(
+            const data = await call(
                 "get",
                 `users/discussions/${discussionId}/messages?page=${pageToLoad}`,
                 {},
@@ -63,7 +64,7 @@ export default function DiscussionScreen({ route }) {
         if (!newMessage.trim()) return;
 
         try {
-            const response = await API.call(
+            const response = await call(
                 "post",
                 `users/discussions/${discussionId}/messages`,
                 { content: newMessage },

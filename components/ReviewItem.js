@@ -5,7 +5,6 @@ import StarRatingDisplay from "./StarRatingDisplay";
 import { reviewFormatDate } from "../helpers/reviewFormatDate.helper";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import API from "../api/API";
 import { useAuth } from "../context/AuthContext";
 import {
     goToProfile,
@@ -13,6 +12,7 @@ import {
     goToMovieDetail,
     goToAddReply,
 } from "../helpers/navigation.helper";
+import { useApi } from "../api/useApi";
 
 const ReviewItem = ({ review, linesLimit = 999 }) => {
     const reviewId = review.id;
@@ -30,6 +30,7 @@ const ReviewItem = ({ review, linesLimit = 999 }) => {
         review.replies?.length || 0
     );
     const [isLoading, setIsLoading] = useState(false);
+    const { call } = useApi();
 
     const handleLike = async () => {
         if (isLoading) return;
@@ -37,7 +38,7 @@ const ReviewItem = ({ review, linesLimit = 999 }) => {
         setIsLoading(true);
 
         try {
-            const data = await API.call(
+            const data = await call(
                 "post",
                 `reviews/${reviewId}/toggle-review-like`,
                 {},

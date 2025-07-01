@@ -7,7 +7,7 @@ import {
     StyleSheet,
 } from "react-native";
 import ReviewItem from "../../ReviewItem";
-import API from "../../../api/API";
+import { useApi } from "../../../api/useApi";
 
 const ReviewTimelineScreen = () => {
     const [reviews, setReviews] = useState([]);
@@ -15,6 +15,7 @@ const ReviewTimelineScreen = () => {
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
+    const { call } = useApi();
 
     useEffect(() => {
         fetchReviews();
@@ -25,7 +26,7 @@ const ReviewTimelineScreen = () => {
 
         setLoading(true);
         try {
-            const res = await API.call(
+            const res = await call(
                 "get",
                 `timeline/reviews?page=${page}`,
                 {},
@@ -46,12 +47,7 @@ const ReviewTimelineScreen = () => {
     const refreshReviews = async () => {
         setRefreshing(true);
         try {
-            const res = await API.call(
-                "get",
-                `timeline/reviews?page=1`,
-                {},
-                true
-            );
+            const res = await call("get", `timeline/reviews?page=1`, {}, true);
             setReviews(res.data);
             setHasMore(res.next_page_url !== null);
             setPage(2);

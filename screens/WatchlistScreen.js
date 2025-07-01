@@ -1,21 +1,22 @@
 import { FlatList, View } from "react-native";
 import { useState, useEffect } from "react";
-import API from "../api/API";
 import { useMovies } from "../context/MovieContext";
 import BasicTopBar from "../components/Bars/BasicTopBar";
 import AppLayout from "../components/AppLayout";
 import WatchlistItem from "../components/WatchlistItem";
 import { styles } from "../styles/Watchlist.styles";
+import { useApi } from "../api/useApi";
 
 const WatchlistScreen = ({ route }) => {
     const { user, isOwnUser } = route.params;
     const [watchlistIds, setWatchlistIds] = useState([]);
+    const { call } = useApi();
     const { movies } = useMovies();
     const watchlistMovies = movies.filter((m) => watchlistIds.includes(m.id));
 
     useEffect(() => {
         const fetchWatchlist = async () => {
-            const data = await API.call(
+            const data = await call(
                 "get",
                 `users/${user.id}/watchlist`,
                 {},

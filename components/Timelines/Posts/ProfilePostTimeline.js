@@ -7,8 +7,7 @@ import {
     StyleSheet,
 } from "react-native";
 import PostItem from "../../PostItem";
-import API from "../../../api/API";
-import AppLayout from "../../AppLayout";
+import { useApi } from "../../../api/useApi";
 
 const ProfilePostTimeline = ({ route }) => {
     const [posts, setPosts] = useState([]);
@@ -16,6 +15,7 @@ const ProfilePostTimeline = ({ route }) => {
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const { user } = route.params;
+    const { call } = useApi();
 
     useEffect(() => {
         fetchPosts();
@@ -26,7 +26,7 @@ const ProfilePostTimeline = ({ route }) => {
 
         setLoading(true);
         try {
-            const res = await API.call(
+            const res = await call(
                 "get",
                 `users/${user.id}/timeline/posts?page=${page}`,
                 {},

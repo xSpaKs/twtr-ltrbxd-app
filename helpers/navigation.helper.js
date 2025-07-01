@@ -76,3 +76,15 @@ export const goToSendMessage = (otherUser, followings, followers) => {
 export const goToReport = (otherUser) => {
     navigate("Report", { otherUser });
 };
+
+export const goToForgottenPassword = () => {
+    navigate("ForgotPassword");
+};
+
+export const goToVerifyResetCode = (email) => {
+    navigate("VerifyResetCode", { email });
+};
+
+export const goToResetPassword = (email, code) => {
+    navigate("ResetPassword", { email, code });
+};

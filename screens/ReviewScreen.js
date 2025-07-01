@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import { ScrollView, View, Text, ActivityIndicator } from "react-native";
-import API from "../api/API";
 import ReviewItem from "../components/ReviewItem";
 import PostItem from "../components/PostItem";
 import BasicTopBar from "../components/Bars/BasicTopBar";
 import AppLayout from "../components/AppLayout";
 import { styles } from "../styles/Review.styles";
+import { useApi } from "../api/useApi";
 
 export default function ReviewScreen({ route }) {
     const { reviewId } = route.params;
@@ -14,17 +14,13 @@ export default function ReviewScreen({ route }) {
     const [loading, setLoading] = useState(true);
     const scrollViewRef = useRef(null);
     const postRef = useRef(null);
+    const { call } = useApi();
 
     useEffect(() => {
         setLoading(true);
         const fetchReview = async () => {
             try {
-                const data = await API.call(
-                    "get",
-                    `reviews/${reviewId}`,
-                    {},
-                    true
-                );
+                const data = await call("get", `reviews/${reviewId}`, {}, true);
                 setReview(data);
             } catch (err) {
                 console.error("Erreur fetch review :", err);

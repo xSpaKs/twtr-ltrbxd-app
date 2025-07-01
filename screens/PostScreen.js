@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import { ScrollView, View, Text, ActivityIndicator } from "react-native";
-import API from "../api/API";
 import BasicTopBar from "../components/Bars/BasicTopBar";
 import AppLayout from "../components/AppLayout";
 import PostItem from "../components/PostItem";
 import ReviewItem from "../components/ReviewItem";
 import { styles } from "../styles/Post.styles";
+import { useApi } from "../api/useApi";
 
 export default function PostScreen({ route }) {
     const { postId } = route.params;
@@ -14,11 +14,12 @@ export default function PostScreen({ route }) {
     const [loading, setLoading] = useState(true);
     const scrollViewRef = useRef(null);
     const postRef = useRef(null);
+    const { call } = useApi();
 
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const data = await API.call("get", `posts/${postId}`, {}, true);
+                const data = await call("get", `posts/${postId}`, {}, true);
                 setPost(data);
             } catch (err) {
                 console.error("Erreur fetch post :", err);

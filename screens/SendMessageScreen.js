@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
-import API from "../api/API";
 import AppLayout from "../components/AppLayout";
 import BasicTopBar from "../components/Bars/BasicTopBar";
 import { goToDiscussion } from "../helpers/navigation.helper";
 import { styles } from "../styles/SendMessage.styles";
+import { useApi } from "../api/useApi";
 
 export default function SendMessageScreen({ route }) {
     const { otherUser, followings, followers } = route.params;
     const [messageText, setMessageText] = useState("");
+    const { call } = useApi();
 
     const sendMessage = async () => {
         if (!messageText.trim()) {
@@ -16,7 +17,7 @@ export default function SendMessageScreen({ route }) {
             return;
         }
 
-        const data = await API.call(
+        const data = await call(
             "post",
             "users/discussions",
             { content: messageText, receiver_id: otherUser.id },

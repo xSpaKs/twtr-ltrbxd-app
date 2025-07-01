@@ -1,25 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, ActivityIndicator } from "react-native";
-import API from "../api/API";
 import DiscussionPreview from "../components/DiscussionPreview";
 import AppLayout from "../components/AppLayout";
 import BasicTopBar from "../components/Bars/BasicTopBar";
 import { styles } from "../styles/ListDiscussion.styles";
+import { useApi } from "../api/useApi";
 
 const ListDiscussionsScreen = () => {
     const [discussions, setDiscussions] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { call } = useApi();
 
     useEffect(() => {
         const fetchDiscussions = async () => {
             setLoading(true);
             try {
-                const data = await API.call(
-                    "get",
-                    "users/discussions",
-                    {},
-                    true
-                );
+                const data = await call("get", "users/discussions", {}, true);
 
                 setDiscussions(data.discussions);
             } catch (error) {

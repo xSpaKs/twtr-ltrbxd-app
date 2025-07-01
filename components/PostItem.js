@@ -5,19 +5,20 @@ import formatDate from "../helpers/formatDate.helper";
 import PostMovieItem from "./PostMovieItem";
 import { useMovies } from "../context/MovieContext";
 import { Ionicons } from "@expo/vector-icons";
-import API from "../api/API";
 import { useAuth } from "../context/AuthContext";
 import {
     goToProfile,
     goToPostDetail,
     goToAddReply,
 } from "../helpers/navigation.helper";
+import { useApi } from "../api/useApi";
 
 const PostItem = ({ post, type = "detail", linesLimit = 999 }) => {
     const postId = post.id;
     const profileId = post.user.id;
     const { loggedUser } = useAuth();
     let movie = null;
+    const { call } = useApi();
 
     const [isLiked, setIsLiked] = useState(() => {
         return (
@@ -39,7 +40,7 @@ const PostItem = ({ post, type = "detail", linesLimit = 999 }) => {
         setIsLoading(true);
 
         try {
-            const data = await API.call(
+            const data = await call(
                 "post",
                 `posts/${postId}/toggle-post-like`,
                 {},

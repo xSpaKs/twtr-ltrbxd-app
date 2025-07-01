@@ -7,8 +7,7 @@ import {
     StyleSheet,
 } from "react-native";
 import ReviewItem from "../../ReviewItem";
-import API from "../../../api/API";
-import AppLayout from "../../AppLayout";
+import { useApi } from "../../../api/useApi";
 
 const MovieReviewTimelineScreen = ({ route }) => {
     const { movieId } = route.params;
@@ -16,6 +15,7 @@ const MovieReviewTimelineScreen = ({ route }) => {
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
+    const { call } = useApi();
 
     useEffect(() => {
         fetchReviews();
@@ -26,7 +26,7 @@ const MovieReviewTimelineScreen = ({ route }) => {
 
         setLoading(true);
         try {
-            const res = await API.call(
+            const res = await call(
                 "get",
                 `movies/${movieId}/popular-reviews?page=${page}`,
                 {},
