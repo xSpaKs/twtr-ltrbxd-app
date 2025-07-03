@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, TouchableOpacity, Text, StyleSheet, Modal } from "react-native";
 import {
     goToTimeline,
-    goToProfile,
+    pushToProfile,
     goToSearchMovie,
     goToListDiscussions,
 } from "../../helpers/navigation.helper";
@@ -46,7 +46,7 @@ export default function CustomTabBar({ currentRoute }) {
                     <Ionicons name="add" size={24} color="black" />
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => goToProfile(loggedUser.id)}>
+                <TouchableOpacity onPress={() => pushToProfile(loggedUser.id)}>
                     <Ionicons
                         name={isProfileActive ? "person" : "person-outline"}
                         size={24}

@@ -34,7 +34,6 @@ export default function DateInput({ initialDate, onDateChange }) {
                 <DateTimePicker
                     value={date}
                     mode="date"
-                    display={Platform.OS === "ios" ? "spinner" : "default"}
                     onChange={handleChange}
                     maximumDate={new Date()}
                 />

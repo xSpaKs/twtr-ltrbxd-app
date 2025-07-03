@@ -11,4 +11,9 @@ export const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
+    replyText: {
+        color: "#666",
+        fontSize: 14,
+        marginLeft: 10,
+    },
 });

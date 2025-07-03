@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
+import {
+    View,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    Image,
+    Alert,
+} from "react-native";
 import AppLayout from "../components/AppLayout";
 import BasicTopBar from "../components/Bars/BasicTopBar";
 import { useMovies } from "../context/MovieContext";
@@ -21,7 +28,9 @@ export default function AddPostScreen({ route }) {
     const { call } = useApi();
 
     const { movies } = useMovies();
-    const [postText, setPostText] = useState("");
+    const [postText, setPostText] = useState(
+        "I really look forward to watch this movie !"
+    );
 
     useEffect(() => {
         if (movieId) {
@@ -33,7 +42,7 @@ export default function AddPostScreen({ route }) {
 
     const publishPost = async () => {
         if (!postText.trim()) {
-            alert("Veuillez écrire un post.");
+            alert("You must write a post.");
             return;
         }
 
@@ -52,7 +61,7 @@ export default function AddPostScreen({ route }) {
             setLoading(false);
         }
 
-        alert("Post publié !");
+        Alert.alert("Success", "Post published");
         goToTimeline({ refresh: true });
     };
 

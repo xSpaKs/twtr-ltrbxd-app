@@ -9,7 +9,7 @@ import { useApi } from "../api/useApi";
 import { goToForgottenPassword } from "../helpers/navigation.helper";
 
 export default function LoginScreen() {
-    const [login, setLogin] = useState("xSpaKs");
+    const [login, setLogin] = useState("testuser@gmail.com");
     const [password, setPassword] = useState("aaaaaaaa1");
     const { loginContext } = useAuth();
     const { call } = useApi();

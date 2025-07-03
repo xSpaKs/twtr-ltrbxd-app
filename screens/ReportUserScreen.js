@@ -19,7 +19,9 @@ import { useApi } from "../api/useApi";
 const ReportUserScreen = ({ route }) => {
     const { otherUser } = route.params;
 
-    const [reason, setReason] = useState("");
+    const [reason, setReason] = useState(
+        "I think this person posted inappropriate content."
+    );
     const [posts, setPosts] = useState([]);
     const [selectedPostId, setSelectedPostId] = useState(null);
     const [loading, setLoading] = useState(false);

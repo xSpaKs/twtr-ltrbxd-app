@@ -10,7 +10,7 @@ import { useApi } from "../api/useApi";
 
 const AddReplyScreen = ({ route }) => {
     const { typeParent, parent } = route.params;
-    const [content, setContent] = useState("");
+    const [content, setContent] = useState("I could not agree more !");
     const [loading, setLoading] = useState(false);
     const { call } = useApi();
 
@@ -34,7 +34,6 @@ const AddReplyScreen = ({ route }) => {
                 },
                 true
             );
-
             goToPostDetail(data.id);
         } catch (error) {
             Alert.alert("", "Unable to send your post.");

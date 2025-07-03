@@ -23,7 +23,7 @@ export default function DiscussionScreen({ route }) {
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const [loading, setLoading] = useState(false);
-    const [newMessage, setNewMessage] = useState("");
+    const [newMessage, setNewMessage] = useState("I totally agree with you !");
     const [isBlocked, setIsBlocked] = useState(false);
     const [hasBlocked, setHasBlocked] = useState(false);
     const { call } = useApi();
@@ -138,7 +138,7 @@ export default function DiscussionScreen({ route }) {
                         onPress={sendMessage}
                         style={styles.sendButton}
                     >
-                        <Ionicons name="send" size={24} color="#007AFF" />
+                        <Ionicons name="send" size={24} color="#1C1C1E" />
                     </TouchableOpacity>
                 </View>
             )}

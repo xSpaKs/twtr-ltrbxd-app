@@ -8,7 +8,9 @@ import { useApi } from "../api/useApi";
 
 export default function SendMessageScreen({ route }) {
     const { otherUser, followings, followers } = route.params;
-    const [messageText, setMessageText] = useState("");
+    const [messageText, setMessageText] = useState(
+        "Hello, how are you ? I would like to talk with you about this movie you recently logged !"
+    );
     const { call } = useApi();
 
     const sendMessage = async () => {

@@ -37,7 +37,7 @@ export default function ReviewScreen({ route }) {
 
         return (
             <View style={{ marginTop: 24 }}>
-                <Text>Responses</Text>
+                <Text style={styles.replyText}>REPLIES</Text>
                 {review.replies.map((reply) => (
                     <PostItem key={reply.id} post={reply} />
                 ))}

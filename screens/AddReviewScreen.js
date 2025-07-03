@@ -6,6 +6,7 @@ import {
     Image,
     ScrollView,
     TouchableOpacity,
+    Alert,
 } from "react-native";
 import AppLayout from "../components/AppLayout";
 import { useMovies } from "../context/MovieContext";
@@ -20,9 +21,11 @@ export default function AddReviewScreen({ route }) {
     const { movieId } = route.params;
     const { movies } = useMovies();
 
-    const [reviewText, setReviewText] = useState("");
+    const [reviewText, setReviewText] = useState(
+        "This is the best movie I've watched in a long time !"
+    );
     const [rating, setRating] = useState(3);
-    const [watchDate, setWatchDate] = useState("");
+    const [watchDate, setWatchDate] = useState(new Date().toISOString());
     const [loading, setLoading] = useState(false);
     const { call } = useApi();
 
@@ -42,7 +45,7 @@ export default function AddReviewScreen({ route }) {
                 true
             );
 
-            alert("Review publiée !");
+            Alert.alert("Success", "Review published !");
             goToTimeline({ refresh: true });
         } catch (error) {
             console.log(error);
@@ -55,7 +58,7 @@ export default function AddReviewScreen({ route }) {
         return (
             <AppLayout>
                 <View style={styles.container}>
-                    <Text>Chargement du film...</Text>
+                    <Text>Movie loading...</Text>
                 </View>
             </AppLayout>
         );

@@ -20,6 +20,10 @@ export const goToDiscussion = (id) => {
     navigate("Discussion", { discussionId: id });
 };
 
+export const pushToProfile = (id) => {
+    push("Profile", { id });
+};
+
 export const goToProfile = (id) => {
     navigate("Profile", { id });
 };

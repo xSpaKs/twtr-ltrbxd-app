@@ -72,7 +72,7 @@ const EditProfileScreen = ({ route }) => {
 
         try {
             const response = await fetch(
-                `${HOME_API_URL}/users/updatePicture`,
+                `${SHARE_API_URL}/users/updatePicture`,
                 {
                     method: "POST",
                     headers: {

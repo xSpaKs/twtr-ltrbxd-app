@@ -74,7 +74,7 @@ const ReviewItem = ({ review, linesLimit = 999 }) => {
                 <View style={styles.leftColumn}>
                     <TouchableOpacity
                         onPress={() => {
-                            goToProfile(loggedUser.id);
+                            goToProfile(review.user.id);
                         }}
                     >
                         <View style={styles.userInfoRow}>

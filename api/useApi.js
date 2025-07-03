@@ -3,7 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { Alert } from "react-native";
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
-import { HOME_API_URL } from "@env";
+import { HOME_API_URL, SHARE_API_URL, SCHOOL_API_URL } from "@env";
 import { goToLogin } from "../helpers/navigation.helper";
 
 export function useApi() {
@@ -24,7 +24,7 @@ export function useApi() {
 
             const config = {
                 method: method.toLowerCase(),
-                url: `${HOME_API_URL}/${endpoint}`,
+                url: `${SHARE_API_URL}/${endpoint}`,
                 headers,
             };
 
@@ -37,6 +37,7 @@ export function useApi() {
             const response = await axios(config);
             return response.data;
         } catch (error) {
+            console.log(error);
             if (
                 error.response &&
                 error.response.status === 403 &&

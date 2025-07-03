@@ -1,10 +1,10 @@
 <!-- ⚠️ This README has been generated from the file(s) "blueprint.md" ⚠️-->
+
 [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#-watch-it-application)
 
 # ➤ 🎬 Watch It (Application)
 
 The social media for cinephiles
-
 
 [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#-main-features)
 
@@ -16,7 +16,6 @@ The social media for cinephiles
 -   🎥 Manage personal watchlist
 -   👥 Follow other cinephiles
 
-
 [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#-technologies-used)
 
 ## ➤ 🚀 Technologies Used
@@ -25,7 +24,6 @@ The social media for cinephiles
 
 -   React Native (Expo)
 -   Axios
-
 
 [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#-installation)
 
@@ -41,3 +39,4 @@ The social media for cinephiles
 
 -   `npx expo start`
 -   Connect to the app from Expo Go, with URL address or QR code
+-   Login with test user (`testuser@gmail.com` / `aaaaaaaa1`) or create a new user

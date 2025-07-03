@@ -15,7 +15,7 @@ import { styles } from "../styles/SearchMovie.styles";
 
 const SearchMovieScreen = ({ route }) => {
     const { movies } = useMovies();
-    const [search, setSearch] = useState("");
+    const [search, setSearch] = useState("Prisoners");
     const { nextUrl } = route.params || "Movie";
 
     const filteredMovies = movies.filter((movie) =>
@@ -47,15 +47,19 @@ const SearchMovieScreen = ({ route }) => {
                         />
                     )}
                     ListEmptyComponent={
-                        <View style={styles.emptyContainer}>
+                        <View
+                            style={[
+                                styles.emptyContainer,
+                                { flex: 1, justifyContent: "center" },
+                            ]}
+                        >
                             <Text style={styles.emptyText}>
                                 No movie found...
                             </Text>
                         </View>
                     }
                     contentContainerStyle={{
-                        flexGrow: 1,
-                        justifyContent: "center",
+                        paddingBottom: 20,
                     }}
                 />
             </View>
