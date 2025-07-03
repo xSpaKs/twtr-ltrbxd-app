@@ -1,0 +1,3042 @@
+{
+  "openapi": "3.1.0",
+  "x-stoplight": {
+    "id": "83beihv99jg02"
+  },
+  "info": {
+    "title": "Watch it",
+    "version": "1.0",
+    "description": "An API to manage travels and items related to them  ",
+    "contact": {
+      "name": "Aran Hiblot",
+      "email": "aranonepiece@gmailcom",
+      "url": "https://github.com/xSpaKs"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://www.poc.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "paths": {
+    "/api/register": {
+      "post": {
+        "summary": "Register",
+        "tags": [],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "object",
+                      "x-stoplight": {
+                        "id": "bqvcm91hbg1dy"
+                      },
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "x-stoplight": {
+                            "id": "b7n3zczc34252"
+                          }
+                        },
+                        "username": {
+                          "type": "string",
+                          "x-stoplight": {
+                            "id": "5jie8iida0jk8"
+                          }
+                        },
+                        "email": {
+                          "type": "string",
+                          "x-stoplight": {
+                            "id": "fu5xyyln3x0e9"
+                          }
+                        }
+                      }
+                    },
+                    "token": {
+                      "type": "string",
+                      "x-stoplight": {
+                        "id": "gafhpd46lvw3s"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)"
+          }
+        },
+        "operationId": "post-api-register",
+        "x-stoplight": {
+          "id": "4ks1sb6aiai1f"
+        },
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "username",
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "x-stoplight": {
+                      "id": "6qvtpd5f1b2pq"
+                    }
+                  },
+                  "email": {
+                    "type": "string",
+                    "x-stoplight": {
+                      "id": "qfo5y8nehs3nq"
+                    }
+                  },
+                  "password": {
+                    "type": "string",
+                    "x-stoplight": {
+                      "id": "plw9mjh9q9ngk"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/login": {
+      "post": {
+        "summary": "Login",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "object",
+                      "x-stoplight": {
+                        "id": "leh1e3s69ak1g"
+                      },
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "x-stoplight": {
+                            "id": "86rm6vsd54i0r"
+                          }
+                        },
+                        "username": {
+                          "type": "string",
+                          "x-stoplight": {
+                            "id": "q09i5dll9ipqy"
+                          }
+                        },
+                        "email": {
+                          "type": "string",
+                          "x-stoplight": {
+                            "id": "w3sdd8m5bdatc"
+                          }
+                        }
+                      }
+                    },
+                    "token": {
+                      "type": "string",
+                      "x-stoplight": {
+                        "id": "xko1vp2xu3je1"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)"
+          }
+        },
+        "operationId": "post-api-login",
+        "x-stoplight": {
+          "id": "iipbxtnfx1ckd"
+        }
+      }
+    },
+    "/api/forgot-password": {
+      "post": {
+        "summary": "Ask for a reset password code",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)"
+          }
+        },
+        "operationId": "post-api-forgot-password",
+        "x-stoplight": {
+          "id": "nwxy0lmw1rxrk"
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "mail"
+                ],
+                "properties": {
+                  "mail": {
+                    "type": "string",
+                    "x-stoplight": {
+                      "id": "cc57nmgo2typl"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/verify-reset-code": {
+      "post": {
+        "summary": "Verify reset password code",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "410": {
+            "description": "Gone"
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)"
+          }
+        },
+        "operationId": "post-api-verify-reset-code",
+        "x-stoplight": {
+          "id": "9zab7yflrd8a2"
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "code"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "x-stoplight": {
+                      "id": "zvr9794h5ytbv"
+                    }
+                  },
+                  "code": {
+                    "type": "string",
+                    "x-stoplight": {
+                      "id": "hsxgjamlenx73"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/reset-password": {
+      "post": {
+        "summary": "Reset password",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "410": {
+            "description": "Gone"
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)"
+          }
+        },
+        "operationId": "post-api-reset-password",
+        "x-stoplight": {
+          "id": "qaulpvqn6miwl"
+        }
+      }
+    },
+    "/api/logout": {
+      "post": {
+        "summary": "Logout",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "operationId": "post-api-logout",
+        "x-stoplight": {
+          "id": "ommivf0rmln70"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token"
+          }
+        ]
+      }
+    },
+    "/api/movies": {
+      "get": {
+        "summary": "Get movies",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Movie",
+                    "x-stoplight": {
+                      "id": "ndt4bduv1cd97"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "operationId": "get-api-movies",
+        "x-stoplight": {
+          "id": "0dlpdc68znq2q"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token"
+          }
+        ]
+      }
+    },
+    "/api/posts/{id}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get post",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "post": {
+                      "$ref": "#/components/schemas/Post",
+                      "x-stoplight": {
+                        "id": "f3oiy2jrm0p84"
+                      }
+                    },
+                    "movie": {
+                      "$ref": "#/components/schemas/Movie",
+                      "x-stoplight": {
+                        "id": "j8o64nawm5l06"
+                      }
+                    },
+                    "likes": {
+                      "type": "array",
+                      "x-stoplight": {
+                        "id": "w7w8c83vg1yne"
+                      },
+                      "items": {
+                        "$ref": "#/components/schemas/Like",
+                        "x-stoplight": {
+                          "id": "zeqcowuxwnn45"
+                        }
+                      }
+                    },
+                    "replies": {
+                      "type": "array",
+                      "x-stoplight": {
+                        "id": "qi42j4uw9vti9"
+                      },
+                      "items": {
+                        "$ref": "#/components/schemas/Post",
+                        "x-stoplight": {
+                          "id": "2iacpfu4v4o2r"
+                        }
+                      }
+                    },
+                    "parentPost": {
+                      "$ref": "#/components/schemas/Post",
+                      "x-stoplight": {
+                        "id": "vyu57d3h7iw08"
+                      }
+                    },
+                    "parentReview": {
+                      "$ref": "#/components/schemas/Review",
+                      "x-stoplight": {
+                        "id": "r99pisj1nmnox"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "operationId": "get-api-posts-id",
+        "x-stoplight": {
+          "id": "fjce6r7katk8s"
+        }
+      }
+    },
+    "/api/posts": {
+      "post": {
+        "summary": "Publish a post",
+        "tags": [],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)"
+          }
+        },
+        "operationId": "post-api-posts",
+        "x-stoplight": {
+          "id": "u4q4dr4lvm033"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "content",
+                  "user_id"
+                ],
+                "properties": {
+                  "content": {
+                    "type": "string",
+                    "x-stoplight": {
+                      "id": "ux0ap255uwa09"
+                    }
+                  },
+                  "user_id": {
+                    "type": "integer",
+                    "x-stoplight": {
+                      "id": "61us91w1u40qh"
+                    }
+                  },
+                  "post_id": {
+                    "type": "integer",
+                    "x-stoplight": {
+                      "id": "qa2wzkx337576"
+                    }
+                  },
+                  "review_id": {
+                    "type": "integer",
+                    "x-stoplight": {
+                      "id": "jh3y2mzftz8b9"
+                    }
+                  },
+                  "movie_id": {
+                    "type": "integer",
+                    "x-stoplight": {
+                      "id": "7z9vtc2dgm0kc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/timeline/posts": {
+      "get": {
+        "summary": "Get posts for main timeline",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "x-stoplight": {
+                      "id": "s4p11xncqp71j"
+                    },
+                    "type": "object",
+                    "properties": {
+                      "post": {
+                        "$ref": "#/components/schemas/Post",
+                        "x-stoplight": {
+                          "id": "4h06y6b1t467a"
+                        }
+                      },
+                      "user": {
+                        "$ref": "#/components/schemas/User",
+                        "x-stoplight": {
+                          "id": "xjhay1tww9amd"
+                        }
+                      },
+                      "movie": {
+                        "$ref": "#/components/schemas/Movie",
+                        "x-stoplight": {
+                          "id": "4kuwkceqie0zq"
+                        }
+                      },
+                      "likes": {
+                        "type": "array",
+                        "x-stoplight": {
+                          "id": "gv6kdawhd0hjc"
+                        },
+                        "items": {
+                          "$ref": "#/components/schemas/Like",
+                          "x-stoplight": {
+                            "id": "mic9vqwg2uxgm"
+                          }
+                        }
+                      },
+                      "replies": {
+                        "type": "array",
+                        "x-stoplight": {
+                          "id": "rd7xahj4dksa9"
+                        },
+                        "items": {
+                          "$ref": "#/components/schemas/Post",
+                          "x-stoplight": {
+                            "id": "m5qbf0ny3stb9"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "operationId": "get-api-timeline-posts",
+        "x-stoplight": {
+          "id": "mpt0i4ddrgvql"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token"
+          }
+        ]
+      }
+    },
+    "/api/users/{id}/timeline/posts": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get posts for user profile timeline",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "x-stoplight": {
+                      "id": "e30806dzmk99m"
+                    },
+                    "type": "object",
+                    "properties": {
+                      "post": {
+                        "$ref": "#/components/schemas/Post",
+                        "x-stoplight": {
+                          "id": "wfqfaj7futzkj"
+                        }
+                      },
+                      "user": {
+                        "$ref": "#/components/schemas/User",
+                        "x-stoplight": {
+                          "id": "ep1ng9nsyw3b9"
+                        }
+                      },
+                      "movie": {
+                        "$ref": "#/components/schemas/Movie",
+                        "x-stoplight": {
+                          "id": "mjxb5bjbzt0eb"
+                        }
+                      },
+                      "likes": {
+                        "type": "array",
+                        "x-stoplight": {
+                          "id": "nxdnychmfmum2"
+                        },
+                        "items": {
+                          "$ref": "#/components/schemas/Like",
+                          "x-stoplight": {
+                            "id": "nz6ze8jz9xjeu"
+                          }
+                        }
+                      },
+                      "replies": {
+                        "type": "array",
+                        "x-stoplight": {
+                          "id": "5yqc72ql4272m"
+                        },
+                        "items": {
+                          "$ref": "#/components/schemas/Post",
+                          "x-stoplight": {
+                            "id": "un9yb27jxpc3j"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "operationId": "get-api-users-id-timeline-posts",
+        "x-stoplight": {
+          "id": "hs4932y2c9as0"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token"
+          }
+        ]
+      }
+    },
+    "/api/movies/{id}/popular-posts": {
+      "get": {
+        "summary": "Get posts for movie timeline",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "x-stoplight": {
+                      "id": "iyhvgks1h7l95"
+                    },
+                    "type": "object",
+                    "properties": {
+                      "post": {
+                        "$ref": "#/components/schemas/Post",
+                        "x-stoplight": {
+                          "id": "jpqem3i5iuah1"
+                        }
+                      },
+                      "user": {
+                        "$ref": "#/components/schemas/User",
+                        "x-stoplight": {
+                          "id": "2d952uqqm5vi1"
+                        }
+                      },
+                      "movie": {
+                        "$ref": "#/components/schemas/Movie",
+                        "x-stoplight": {
+                          "id": "1iapfqd1eq4lr"
+                        }
+                      },
+                      "likes": {
+                        "type": "array",
+                        "x-stoplight": {
+                          "id": "0h4nqxg96km5i"
+                        },
+                        "items": {
+                          "$ref": "#/components/schemas/Like",
+                          "x-stoplight": {
+                            "id": "x03xlb0l3yu0c"
+                          }
+                        }
+                      },
+                      "replies": {
+                        "type": "array",
+                        "x-stoplight": {
+                          "id": "4jlio41hr4sci"
+                        },
+                        "items": {
+                          "$ref": "#/components/schemas/Post",
+                          "x-stoplight": {
+                            "id": "1t46uzp5mk2zg"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "operationId": "get-api-movies-id-popular-posts",
+        "x-stoplight": {
+          "id": "p57uhhr14tvzn"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token"
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/api/reviews/{id}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get review",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "review": {
+                      "$ref": "#/components/schemas/Review",
+                      "x-stoplight": {
+                        "id": "f3oiy2jrm0p84"
+                      }
+                    },
+                    "movie": {
+                      "$ref": "#/components/schemas/Movie",
+                      "x-stoplight": {
+                        "id": "j8o64nawm5l06"
+                      }
+                    },
+                    "likes": {
+                      "type": "array",
+                      "x-stoplight": {
+                        "id": "w7w8c83vg1yne"
+                      },
+                      "items": {
+                        "$ref": "#/components/schemas/Like",
+                        "x-stoplight": {
+                          "id": "zeqcowuxwnn45"
+                        }
+                      }
+                    },
+                    "replies": {
+                      "type": "array",
+                      "x-stoplight": {
+                        "id": "qi42j4uw9vti9"
+                      },
+                      "items": {
+                        "$ref": "#/components/schemas/Post",
+                        "x-stoplight": {
+                          "id": "2iacpfu4v4o2r"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "operationId": "get-api-reviews-id",
+        "x-stoplight": {
+          "id": "fjce6r7katk8s"
+        }
+      }
+    },
+    "/api/reviews": {
+      "post": {
+        "summary": "Publish a review",
+        "tags": [],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Review"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)"
+          }
+        },
+        "operationId": "post-api-reviews",
+        "x-stoplight": {
+          "id": "u4q4dr4lvm033"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "content",
+                  "user_id",
+                  "rating",
+                  "movie_id"
+                ],
+                "properties": {
+                  "content": {
+                    "type": "string",
+                    "x-stoplight": {
+                      "id": "ux0ap255uwa09"
+                    }
+                  },
+                  "user_id": {
+                    "type": "integer",
+                    "x-stoplight": {
+                      "id": "61us91w1u40qh"
+                    }
+                  },
+                  "rating": {
+                    "type": "number",
+                    "x-stoplight": {
+                      "id": "b37p1weq8ki29"
+                    }
+                  },
+                  "movie_id": {
+                    "type": "integer",
+                    "x-stoplight": {
+                      "id": "7z9vtc2dgm0kc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/timeline/reviews": {
+      "get": {
+        "summary": "Get reviews for main timeline",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "x-stoplight": {
+                      "id": "s4p11xncqp71j"
+                    },
+                    "type": "object",
+                    "properties": {
+                      "review": {
+                        "$ref": "#/components/schemas/Review",
+                        "x-stoplight": {
+                          "id": "4h06y6b1t467a"
+                        }
+                      },
+                      "user": {
+                        "$ref": "#/components/schemas/User",
+                        "x-stoplight": {
+                          "id": "xjhay1tww9amd"
+                        }
+                      },
+                      "movie": {
+                        "$ref": "#/components/schemas/Movie",
+                        "x-stoplight": {
+                          "id": "4kuwkceqie0zq"
+                        }
+                      },
+                      "likes": {
+                        "type": "array",
+                        "x-stoplight": {
+                          "id": "gv6kdawhd0hjc"
+                        },
+                        "items": {
+                          "$ref": "#/components/schemas/Like",
+                          "x-stoplight": {
+                            "id": "mic9vqwg2uxgm"
+                          }
+                        }
+                      },
+                      "replies": {
+                        "type": "array",
+                        "x-stoplight": {
+                          "id": "rd7xahj4dksa9"
+                        },
+                        "items": {
+                          "$ref": "#/components/schemas/Post",
+                          "x-stoplight": {
+                            "id": "m5qbf0ny3stb9"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "operationId": "get-api-timeline-reviews",
+        "x-stoplight": {
+          "id": "mpt0i4ddrgvql"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token"
+          }
+        ]
+      }
+    },
+    "/api/users/{id}/timeline/reviews": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get reviews for user profile timeline",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "x-stoplight": {
+                      "id": "e30806dzmk99m"
+                    },
+                    "type": "object",
+                    "properties": {
+                      "reviews": {
+                        "$ref": "#/components/schemas/Review",
+                        "x-stoplight": {
+                          "id": "wfqfaj7futzkj"
+                        }
+                      },
+                      "user": {
+                        "$ref": "#/components/schemas/User",
+                        "x-stoplight": {
+                          "id": "ep1ng9nsyw3b9"
+                        }
+                      },
+                      "movie": {
+                        "$ref": "#/components/schemas/Movie",
+                        "x-stoplight": {
+                          "id": "mjxb5bjbzt0eb"
+                        }
+                      },
+                      "likes": {
+                        "type": "array",
+                        "x-stoplight": {
+                          "id": "nxdnychmfmum2"
+                        },
+                        "items": {
+                          "$ref": "#/components/schemas/Like",
+                          "x-stoplight": {
+                            "id": "nz6ze8jz9xjeu"
+                          }
+                        }
+                      },
+                      "replies": {
+                        "type": "array",
+                        "x-stoplight": {
+                          "id": "5yqc72ql4272m"
+                        },
+                        "items": {
+                          "$ref": "#/components/schemas/Post",
+                          "x-stoplight": {
+                            "id": "un9yb27jxpc3j"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "operationId": "get-api-users-id-timeline-reviews",
+        "x-stoplight": {
+          "id": "hs4932y2c9as0"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token"
+          }
+        ]
+      }
+    },
+    "/api/movies/{id}/popular-reviews": {
+      "get": {
+        "summary": "Get reviews for movie timeline",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "x-stoplight": {
+                      "id": "iyhvgks1h7l95"
+                    },
+                    "type": "object",
+                    "properties": {
+                      "review": {
+                        "$ref": "#/components/schemas/Review",
+                        "x-stoplight": {
+                          "id": "jpqem3i5iuah1"
+                        }
+                      },
+                      "user": {
+                        "$ref": "#/components/schemas/User",
+                        "x-stoplight": {
+                          "id": "2d952uqqm5vi1"
+                        }
+                      },
+                      "movie": {
+                        "$ref": "#/components/schemas/Movie",
+                        "x-stoplight": {
+                          "id": "1iapfqd1eq4lr"
+                        }
+                      },
+                      "likes": {
+                        "type": "array",
+                        "x-stoplight": {
+                          "id": "0h4nqxg96km5i"
+                        },
+                        "items": {
+                          "$ref": "#/components/schemas/Like",
+                          "x-stoplight": {
+                            "id": "x03xlb0l3yu0c"
+                          }
+                        }
+                      },
+                      "replies": {
+                        "type": "array",
+                        "x-stoplight": {
+                          "id": "4jlio41hr4sci"
+                        },
+                        "items": {
+                          "$ref": "#/components/schemas/Post",
+                          "x-stoplight": {
+                            "id": "1t46uzp5mk2zg"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "operationId": "get-api-movies-id-popular-reviews",
+        "x-stoplight": {
+          "id": "p57uhhr14tvzn"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token"
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/api/posts/{id}/toggle-post-like": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "post": {
+        "summary": "Toggle like on a post",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user_has_liked": {
+                      "type": "boolean",
+                      "x-stoplight": {
+                        "id": "8yx1i4d16jsys"
+                      }
+                    },
+                    "likes_count": {
+                      "type": "integer",
+                      "x-stoplight": {
+                        "id": "r3mdiq9tq7nt4"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "operationId": "post-api-posts-id-toggle-post-like",
+        "x-stoplight": {
+          "id": "c5caur9h0bcwl"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token"
+          }
+        ]
+      }
+    },
+    "/api/reviews/{id}/toggle-review-like": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "post": {
+        "summary": "Toggle like on a review",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user_has_liked": {
+                      "type": "boolean",
+                      "x-stoplight": {
+                        "id": "8yx1i4d16jsys"
+                      }
+                    },
+                    "likes_count": {
+                      "type": "integer",
+                      "x-stoplight": {
+                        "id": "r3mdiq9tq7nt4"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "operationId": "post-api-reviews-id-toggle-review-like",
+        "x-stoplight": {
+          "id": "c5caur9h0bcwl"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token"
+          }
+        ]
+      }
+    },
+    "/api/users/{id}/toggle-follow": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "post": {
+        "summary": "Toggle follow between users",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isFollowed": {
+                      "type": "boolean",
+                      "x-stoplight": {
+                        "id": "b0mv0qvvrdame"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "operationId": "post-api-users-id-toggle-follow",
+        "x-stoplight": {
+          "id": "94obw6y0d2f80"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token"
+          }
+        ]
+      }
+    },
+    "/api/users/discussions": {
+      "get": {
+        "summary": "Get discussions from user",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "x-stoplight": {
+                      "id": "gh79mlukkac4q"
+                    },
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "x-stoplight": {
+                          "id": "tjqeez2d43ivs"
+                        }
+                      },
+                      "last_message_at": {
+                        "type": "string",
+                        "x-stoplight": {
+                          "id": "jwjns3slf2772"
+                        }
+                      },
+                      "other_user": {
+                        "$ref": "#/components/schemas/User",
+                        "x-stoplight": {
+                          "id": "mirieksctn49q"
+                        }
+                      },
+                      "last_message": {
+                        "$ref": "#/components/schemas/Message",
+                        "x-stoplight": {
+                          "id": "16dlfgttwft5o"
+                        }
+                      },
+                      "isBlocked": {
+                        "type": "boolean",
+                        "x-stoplight": {
+                          "id": "nbxyrjeak2qgx"
+                        }
+                      },
+                      "hasBlocked": {
+                        "type": "boolean",
+                        "x-stoplight": {
+                          "id": "6xqkfsxc1azjy"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "operationId": "get-api-users-discussions",
+        "x-stoplight": {
+          "id": "ic0eyvv3ao5lr"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token"
+          }
+        ]
+      },
+      "post": {
+        "summary": "Create a new discussion",
+        "tags": [],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "discussion": {
+                      "$ref": "#/components/schemas/Discussion",
+                      "x-stoplight": {
+                        "id": "g5d1baw2d25ng"
+                      }
+                    },
+                    "messages": {
+                      "type": "array",
+                      "x-stoplight": {
+                        "id": "1einwv3g3migo"
+                      },
+                      "items": {
+                        "$ref": "#/components/schemas/Message",
+                        "x-stoplight": {
+                          "id": "6r89xz45vyz22"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "discussion_id": {
+                      "type": "integer",
+                      "x-stoplight": {
+                        "id": "dv1puj4k2l6bd"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "post-api-users-discussions",
+        "x-stoplight": {
+          "id": "ge5u9vdw58nfb"
+        }
+      }
+    },
+    "/api/users/discussions/{id}/messages": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get full discussion",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "messages": {
+                      "type": "array",
+                      "x-stoplight": {
+                        "id": "dqsjew1ce3f23"
+                      },
+                      "items": {
+                        "$ref": "#/components/schemas/Message",
+                        "x-stoplight": {
+                          "id": "l0oilqdewnhzd"
+                        }
+                      }
+                    },
+                    "other_user": {
+                      "$ref": "#/components/schemas/User",
+                      "x-stoplight": {
+                        "id": "iloz07o35x1z3"
+                      }
+                    },
+                    "isBlocked": {
+                      "type": "boolean",
+                      "x-stoplight": {
+                        "id": "86olml7o7whjm"
+                      }
+                    },
+                    "hasBlocked": {
+                      "type": "boolean",
+                      "x-stoplight": {
+                        "id": "bkfgk9mydqc6s"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "operationId": "get-api-users-discussions-id-messages",
+        "x-stoplight": {
+          "id": "uvu2ytp5vm18t"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token"
+          }
+        ]
+      },
+      "post": {
+        "summary": "Send a message to discussion",
+        "tags": [],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "$ref": "#/components/schemas/Message",
+                      "x-stoplight": {
+                        "id": "yi7u87rpj1u5f"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)"
+          }
+        },
+        "operationId": "post-api-users-discussions-id-messages",
+        "x-stoplight": {
+          "id": "emzezcgijole3"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "content"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "x-stoplight": {
+                      "id": "hzbdeeuac3dip"
+                    }
+                  },
+                  "content": {
+                    "type": "string",
+                    "x-stoplight": {
+                      "id": "osqolz3r6q088"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/messages/{id}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "delete": {
+        "summary": "Delete a message",
+        "tags": [],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "operationId": "delete-api-messages-id",
+        "x-stoplight": {
+          "id": "a84nhcob4c5cc"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token"
+          }
+        ]
+      }
+    },
+    "/api/users/{id}/watchlist": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get watchlist from user",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "watchlist": {
+                      "type": "array",
+                      "x-stoplight": {
+                        "id": "8w7hgres1d2gt"
+                      },
+                      "items": {
+                        "$ref": "#/components/schemas/Watchlist",
+                        "x-stoplight": {
+                          "id": "dpclxbb9uoz5u"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "operationId": "get-api-users-id-watchlist",
+        "x-stoplight": {
+          "id": "9s36gg9kaqkhd"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token"
+          }
+        ]
+      }
+    },
+    "/api/movies/{id}/followings-watchlist": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get all friends who has this movie in watchlist",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "$ref": "#/components/schemas/User",
+                      "x-stoplight": {
+                        "id": "8igdw62aubrg7"
+                      }
+                    },
+                    "watchlist": {
+                      "type": "array",
+                      "x-stoplight": {
+                        "id": "k283orutbybwb"
+                      },
+                      "items": {
+                        "$ref": "#/components/schemas/Watchlist",
+                        "x-stoplight": {
+                          "id": "nnz73i3vxf0a2"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "operationId": "get-api-movies-id-followings-watchlist",
+        "x-stoplight": {
+          "id": "q2rh4solxu2vz"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token"
+          }
+        ]
+      }
+    },
+    "/api/users/updateInfos": {
+      "post": {
+        "summary": "Update user infos",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)"
+          }
+        },
+        "operationId": "post-users-updateInfos",
+        "x-stoplight": {
+          "id": "kowg5h9xaqthr"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "x-stoplight": {
+                      "id": "zbg245f10t1ac"
+                    }
+                  },
+                  "email": {
+                    "type": "string",
+                    "x-stoplight": {
+                      "id": "5s4t2h7hifphg"
+                    }
+                  },
+                  "bio": {
+                    "type": "string",
+                    "x-stoplight": {
+                      "id": "emqy9l4x5y4he"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": []
+    },
+    "/api/users/profilePicture": {
+      "post": {
+        "summary": "Update user picture",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)"
+          }
+        },
+        "operationId": "post-users-profilePicture",
+        "x-stoplight": {
+          "id": "k3336rqvhs6hf"
+        }
+      },
+      "parameters": []
+    },
+    "/api/users/{id}/toggle-block": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "integer"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "The id of the user to toggle-block"
+        }
+      ],
+      "post": {
+        "summary": "Toggle block between users",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user_is_blocked": {
+                      "type": "boolean",
+                      "x-stoplight": {
+                        "id": "b5fegiw443hxs"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "operationId": "post-api-users-id-toggle-block",
+        "x-stoplight": {
+          "id": "429dn4tx0r982"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token"
+          }
+        ]
+      }
+    },
+    "/api/users/{id}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get user info",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "$ref": "#/components/schemas/User",
+                      "x-stoplight": {
+                        "id": "y037ev64wpjol"
+                      }
+                    },
+                    "isBlockedByMe": {
+                      "type": "boolean",
+                      "x-stoplight": {
+                        "id": "oorihjm9j67v0"
+                      }
+                    },
+                    "hasBlockedMe": {
+                      "type": "boolean",
+                      "x-stoplight": {
+                        "id": "pxodpixug84f0"
+                      }
+                    },
+                    "hiddenContent": {
+                      "type": "boolean",
+                      "x-stoplight": {
+                        "id": "vrb2v9kpengoi"
+                      }
+                    },
+                    "followings": {
+                      "type": "array",
+                      "x-stoplight": {
+                        "id": "e4h0l2qqed9lt"
+                      },
+                      "items": {
+                        "$ref": "#/components/schemas/User",
+                        "x-stoplight": {
+                          "id": "r9s24udcxmkqr"
+                        }
+                      }
+                    },
+                    "followers": {
+                      "type": "array",
+                      "x-stoplight": {
+                        "id": "rp4nb6uyla7b2"
+                      },
+                      "items": {
+                        "$ref": "#/components/schemas/User",
+                        "x-stoplight": {
+                          "id": "pl9d338utgn3h"
+                        }
+                      }
+                    },
+                    "sharedDiscussion": {
+                      "type": "object",
+                      "x-stoplight": {
+                        "id": "j7ujplklpwaxp"
+                      },
+                      "properties": {
+                        "value": {
+                          "type": "boolean",
+                          "x-stoplight": {
+                            "id": "ttbrpd0aie3s2"
+                          }
+                        },
+                        "id": {
+                          "type": "integer",
+                          "x-stoplight": {
+                            "id": "3qsqu51xgwpx6"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "operationId": "get-api-users-id",
+        "x-stoplight": {
+          "id": "t3izqk1udk2qp"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token"
+          }
+        ]
+      }
+    },
+    "/api/movies/{id}/toggle-watchlist": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "post": {
+        "summary": "Toggle movie from watchlist",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "hasInWatchlist": {
+                      "type": "boolean",
+                      "x-stoplight": {
+                        "id": "mjev4dkf408xu"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "operationId": "post-api-movies-id-toggle-watchlist",
+        "x-stoplight": {
+          "id": "e4f726nhp4sxj"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token"
+          }
+        ]
+      }
+    },
+    "/api/users/reports": {
+      "get": {
+        "summary": "Report a user",
+        "tags": [],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)"
+          }
+        },
+        "operationId": "get-api-users-reports",
+        "x-stoplight": {
+          "id": "zho85lwcpfdmk"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "reported_id",
+                  "reason"
+                ],
+                "properties": {
+                  "reported_id": {
+                    "type": "integer",
+                    "x-stoplight": {
+                      "id": "geetj9mw2nn7o"
+                    }
+                  },
+                  "post_id": {
+                    "type": "integer",
+                    "x-stoplight": {
+                      "id": "weh8z8rp8mfhu"
+                    }
+                  },
+                  "reason": {
+                    "type": "string",
+                    "x-stoplight": {
+                      "id": "d00zinvwu8j9p"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "title": "User",
+        "type": "object",
+        "examples": [
+          {
+            "id": 142,
+            "firstName": "Alice",
+            "lastName": "Smith",
+            "email": "alice.smith@gmail.com",
+            "dateOfBirth": "1997-10-31",
+            "emailVerified": true,
+            "signUpDate": "2019-08-24"
+          }
+        ],
+        "x-stoplight": {
+          "id": "ee57e7xce5od4"
+        },
+        "description": "A model for users",
+        "required": [
+          "id",
+          "username",
+          "email",
+          "password",
+          "created_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the given user.",
+            "x-stoplight": {
+              "id": "vqg9dxml5fr3g"
+            }
+          },
+          "username": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "2at3w6tgj6bmw"
+            }
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "x-stoplight": {
+              "id": "ip5l0mhq53cb2"
+            },
+            "description": "The email of the user"
+          },
+          "bio": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "6udw7vnoys5ko"
+            }
+          },
+          "password": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "utf8gqmueq506"
+            },
+            "description": "The password of the user"
+          },
+          "profile_picture": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "vuj4142fz6r12"
+            }
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date",
+            "description": "The date that the user was created.",
+            "x-stoplight": {
+              "id": "a14snu3qaf00x"
+            }
+          },
+          "updated_at": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "s558ntz7wzcbb"
+            }
+          }
+        }
+      },
+      "Movie": {
+        "title": "Movie",
+        "x-stoplight": {
+          "id": "g8c09g6fv8opk"
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "tmdb_id",
+          "title",
+          "description",
+          "poster_url",
+          "release_date",
+          "created_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "ruyy0o6ze0sjd"
+            }
+          },
+          "tmdb_id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "e4jektbyj9ii8"
+            }
+          },
+          "title": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "0fhn6s4k4arsp"
+            }
+          },
+          "description": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "ida00v78fubyz"
+            }
+          },
+          "poster_url": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "pvej5cjvpy94e"
+            }
+          },
+          "release_date": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "v1c7aprd60tb8"
+            }
+          },
+          "created_at": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "mfgc7l5ruzbnk"
+            }
+          },
+          "updated_at": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "2cnjhknolm8ri"
+            }
+          }
+        },
+        "description": "A model for movies"
+      },
+      "Post": {
+        "title": "Post",
+        "x-stoplight": {
+          "id": "ybu37uyh2cyf3"
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "user_id",
+          "content",
+          "created_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "341gci4nr0bcl"
+            }
+          },
+          "user_id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "whjly02gdlajq"
+            }
+          },
+          "post_id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "yayrgq3iksycq"
+            }
+          },
+          "movie_id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "espkby8i89uph"
+            }
+          },
+          "review_id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "vjpyedalgkgar"
+            }
+          },
+          "content": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "aqhs9ujf7wp6p"
+            }
+          },
+          "created_at": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "6hy733b1dnauc"
+            }
+          },
+          "updated_at": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "k3toh8x9rq9u1"
+            }
+          }
+        },
+        "description": "A model for posts"
+      },
+      "Review": {
+        "title": "Review",
+        "x-stoplight": {
+          "id": "kxxh819nxi1ix"
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "user_id",
+          "movie_id",
+          "rating",
+          "watch_date",
+          "created_at",
+          "updated_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "sfctgswezm74x"
+            }
+          },
+          "user_id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "o4uguj0a9wo55"
+            }
+          },
+          "movie_id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "w3bjk3diprf9q"
+            }
+          },
+          "rating": {
+            "type": "number",
+            "x-stoplight": {
+              "id": "0pto6jpsutffd"
+            }
+          },
+          "content": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "h7g8pfxcbanv8"
+            }
+          },
+          "watch_date": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "z63qdw81f44nn"
+            }
+          },
+          "created_at": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "qjb31rbf7ekks"
+            }
+          },
+          "updated_at": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "fat0o5dp01z2i"
+            }
+          }
+        },
+        "description": "A model for reviews"
+      },
+      "Like": {
+        "title": "Like",
+        "x-stoplight": {
+          "id": "ustj6kf80isyb"
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "user_id",
+          "created_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "4rmws4nwxm03w"
+            }
+          },
+          "user_id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "l7uajuq3klxbx"
+            }
+          },
+          "post_id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "q0olmaqnweq2f"
+            }
+          },
+          "review_id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "hw3oir1lxyesz"
+            }
+          },
+          "created_at": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "leh9k53l926g8"
+            }
+          },
+          "updated_at": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "fjcj9suoeu8kb"
+            }
+          }
+        },
+        "description": "A model for likes"
+      },
+      "Follow": {
+        "title": "Follow",
+        "x-stoplight": {
+          "id": "u8lfaymicdxy5"
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "follower_id",
+          "followed_id",
+          "created_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "60pga1djy0xat"
+            }
+          },
+          "follower_id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "qgrp5cmencxhy"
+            }
+          },
+          "followed_id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "fa3fkxg6g4682"
+            }
+          },
+          "created_at": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "0h3rtibytw30f"
+            }
+          },
+          "updated_at": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "q625q5fol82s8"
+            }
+          }
+        },
+        "description": "A model for follows"
+      },
+      "Admin": {
+        "title": "Admin",
+        "x-stoplight": {
+          "id": "zonao5mk73ysh"
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "email",
+          "password",
+          "created_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "4i9txti8bd4ai"
+            }
+          },
+          "email": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "spduq3wt41n5x"
+            }
+          },
+          "password": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "9byxvb1fgmlzk"
+            }
+          },
+          "created_at": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "ogkm6n116i4u1"
+            }
+          },
+          "updated_at": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "9td2kuapxbsbr"
+            }
+          }
+        },
+        "description": "A model for administrators"
+      },
+      "Message": {
+        "title": "Message",
+        "x-stoplight": {
+          "id": "x8df188wwdnfo"
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "discussion_id",
+          "sender_id",
+          "content",
+          "deleted",
+          "created_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "jgdpf59epz8z1"
+            }
+          },
+          "discussion_id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "6jbct87xrzlnq"
+            }
+          },
+          "sender_id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "mfnpxeinl26nk"
+            }
+          },
+          "content": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "z0t3h66fiz9qv"
+            }
+          },
+          "deleted": {
+            "type": "boolean",
+            "x-stoplight": {
+              "id": "yzphyn82omuq1"
+            }
+          },
+          "created_at": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "7gs89zmmuc9fg"
+            }
+          },
+          "updated_at": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "9bfpw5d38wl95"
+            }
+          }
+        },
+        "description": "A model for messages in discussions"
+      },
+      "Discussion": {
+        "title": "Discussion",
+        "x-stoplight": {
+          "id": "9zadbe6hwvteu"
+        },
+        "type": "object",
+        "description": "A model for discussions",
+        "required": [
+          "id",
+          "created_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "rqyjsmruw2edu"
+            }
+          },
+          "created_at": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "cqrod5v73rzvm"
+            }
+          },
+          "updated_at": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "9nr3atvvbowkj"
+            }
+          }
+        }
+      },
+      "DiscussionUser": {
+        "title": "DiscussionUser",
+        "x-stoplight": {
+          "id": "3wq4suo21z6z0"
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "discussion_id",
+          "user_id",
+          "created_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "8s576ahynjhkk"
+            }
+          },
+          "discussion_id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "ixkr39w2txvxl"
+            }
+          },
+          "user_id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "ibxsrv56pqvdf"
+            }
+          },
+          "created_at": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "odxu1kit07kgz"
+            }
+          },
+          "updated_at": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "llsxjzcxc3xby"
+            }
+          }
+        },
+        "description": "A model for users taking part in discussions"
+      },
+      "Block": {
+        "title": "Block",
+        "x-stoplight": {
+          "id": "defm1xnnbfo7r"
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "blocker_id",
+          "blocked_id",
+          "created_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "ylrw7s5zruzvu"
+            }
+          },
+          "blocker_id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "znwft47ubq1px"
+            }
+          },
+          "blocked_id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "agef5rj0xwal0"
+            }
+          },
+          "created_at": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "mm37mc3nlf7c2"
+            }
+          },
+          "updated_at": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "p2hq0v8knlohi"
+            }
+          }
+        },
+        "description": "A model for blocks"
+      },
+      "Report": {
+        "title": "Report",
+        "x-stoplight": {
+          "id": "td73oyeiieshm"
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "reporting_id",
+          "reported_id",
+          "reason",
+          "status",
+          "created_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "2lfq4vmi4ynod"
+            }
+          },
+          "reporting_id": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "1y5k5d3l1ze1x"
+            }
+          },
+          "reported_id": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "7yjlpw89dd2z5"
+            }
+          },
+          "post_id": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "e0369irf35sx1"
+            }
+          },
+          "reason": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "szfvafwbcjcpy"
+            }
+          },
+          "status": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "ogke9ljb803y6"
+            }
+          },
+          "created_at": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "qimt6akirjs3u"
+            }
+          },
+          "updated_at": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "w5400j8kz01st"
+            }
+          }
+        },
+        "description": "A model for reports"
+      },
+      "Watchlist": {
+        "title": "Watchlist",
+        "x-stoplight": {
+          "id": "wun1sceok1qvr"
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "user_id",
+          "movie_id",
+          "created_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "v2oub4n9mqi98"
+            }
+          },
+          "user_id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "l2aljbd7l4947"
+            }
+          },
+          "movie_id": {
+            "type": "integer",
+            "x-stoplight": {
+              "id": "ah49lf3s9h5id"
+            }
+          },
+          "created_at": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "kktmgai1r7y6z"
+            }
+          },
+          "updated_at": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "w3h8p82oqnmff"
+            }
+          }
+        },
+        "description": "A model for watchlists"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Item management",
+      "description": "A route for item management"
+    },
+    {
+      "name": "Travel management",
+      "description": "A route for travel management"
+    },
+    {
+      "name": "User management",
+      "description": "A route for user management"
+    }
+  ]
+}
